@@ -11,9 +11,6 @@
     if limit == 0
         assign limit = number_of_items
     endif
-    if number_of_items > limit
-        assign slider = true
-    endif
 
     case limit
         when 0
@@ -75,6 +72,12 @@
     else
         assign title_size = section.settings.title_size
     endif
+    assign slider = false
+    if section.settings.layout == 'slider'
+        assign slider = true
+    elsif section.settings.layout == 'grid'
+        assign slider = false
+    endif
 -%}
 
 {%- capture image_sizes -%}
@@ -126,9 +129,9 @@
 
 {%- if aside %}<div class="m6ac">{%- endif -%}
     {%- if show_header -%}
-    <header class="{% if section.settings.title_size == 'size-50' %}size-18 mobile-size-14 {% endif %}{% unless aside %}cols{% if link and section.settings.show_link == false %} align-middle{% endif %}{% endunless %}">
+    <header class="{% if section.settings.title_size == 'size-50' %}size-18 mobile-size-14 {% endif %}{% unless aside %}cols{% if link and section.settings.show_link == false %} align-middle{% endif %}{% if section.settings.title == empty and section.settings.text == empty %} text-end{% endif %}{% endunless %}">
     {% if container_div %}<div class="w720 {% if section.settings.text_alignment == 'center' %}text-center align-center{% endif %}">{% endif %}
-            {%- if section.settings.title != empty -%}
+        {%- if section.settings.title != empty -%}
             <{{ title_size }} class="{{ title_classes }}">{{ section.settings.title }}</{{ title_size }}>
         {%- endif -%}
         {%- if section.settings.text != empty -%}
@@ -143,13 +146,13 @@
     </header>
 {%- endif -%}
 {%- if aside %}<div>{%- endif -%}
-    <ul class="l4cl f_c_produts {% if settings.enable_quick_buy and section.settings.hide_quick_buy == false %}with-quick-buy{% endif %} {{ width_class }} {% if slider %}slider{% else %}mobile-compact{% endif %}">
+    <ul class="l4cl {% if settings.enable_quick_buy and section.settings.hide_quick_buy == false %}with-quick-buy{% endif %} {{ width_class }} {% if slider %}slider{% else %}mobile-compact{% endif %}{% if section.settings.mobile_layout == 'grid' %} mobile-scroll w50-mobile{% endif %}">
         {%- liquid
             for product in section.settings.products
                 capture placeholder_int
                     cycle 1, 2, 3, 4, 5, 6
                 endcapture
-                render 'product-item', product: product, placeholder_int: placeholder_int, enable_quick_buy_desktop: section.settings.enable_quick_buy_desktop, enable_quick_buy_mobile: section.settings.enable_quick_buy_mobile, enable_quick_buy_qty_selector: section.settings.enable_quick_buy_qty_selector, quick_buy_compact: section.settings.enable_quick_buy_compact, sizes: image_sizes, enable_quick_buy_drawer: section.settings.enable_quick_buy_drawer
+                render 'product-item', product: product, placeholder_int: placeholder_int, enable_quick_buy_desktop: section.settings.enable_quick_buy_desktop, enable_quick_buy_mobile: section.settings.enable_quick_buy_mobile, enable_quick_buy_qty_selector: section.settings.enable_quick_buy_qty_selector, quick_buy_compact: section.settings.enable_quick_buy_compact, sizes: image_sizes, enable_quick_buy_drawer: section.settings.enable_quick_buy_drawer, enable_color_picker: section.settings.enable_color_picker
             endfor
             if section.settings.products.count == 0
                 for i in (1..section.settings.number_of_items)
@@ -192,15 +195,37 @@
 {
   "name": "t:sections.featured_products.name",
   "tag": "article",
-  "class" : "product_listing",
   "disabled_on": {
-    "templates": ["gift_card", "password"]
+    "templates": [
+      "gift_card",
+      "password"
+    ],
+    "groups": [
+      "header",
+      "footer"
+    ]
   },
   "settings": [
     {
       "id": "products",
       "type": "product_list",
       "label": "t:sections.featured_products.settings.products.label"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "t:sections.featured_products.settings.layout.label",
+      "options": [
+        {
+          "value": "slider",
+          "label": "t:sections.featured_products.settings.layout.options__1.label"
+        },
+        {
+          "value": "grid",
+          "label": "t:sections.featured_products.settings.layout.options__2.label"
+        }
+      ],
+      "default": "slider"
     },
     {
       "type": "range",
@@ -353,10 +378,35 @@
       "default": true
     },
     {
+      "id": "enable_color_picker",
+      "type": "checkbox",
+      "label": "t:sections.featured_products.settings.quick_buy.enable_color_picker.label"
+    },
+    {
       "id": "enable_quick_buy_compact",
       "type": "checkbox",
       "label": "t:sections.featured_products.settings.quick_buy.enable_quick_buy_compact.label",
       "info": "t:sections.featured_products.settings.quick_buy.enable_quick_buy_compact.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.featured_products.settings.mobile.header"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "t:sections.featured_products.settings.layout.label",
+      "options": [
+        {
+          "value": "slider",
+          "label": "t:sections.featured_products.settings.layout.options__1.label"
+        },
+        {
+          "value": "grid",
+          "label": "t:sections.featured_products.settings.layout.options__2.label"
+        }
+      ],
+      "default": "slider"
     },
     {
       "type": "header",

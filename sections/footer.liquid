@@ -7,7 +7,7 @@
     assign split_menu = true
   endif
 -%}
-<nav>
+<nav id="shopify-section-footer">
   {%- for block in section.blocks -%}
     {%- case block.type -%}
       {%- when '@app' -%}
@@ -30,43 +30,16 @@
           {%- if block.settings.title != empty -%}<h3>{{ block.settings.title }}</h3>{%- endif -%}
           {{ block.settings.extra_customer_support }}
           <ul class="l4cn">
-            {% if shop.phone != empty and block.settings.show_phone_link %}
+            {% if shop.phone != empty and shop.phone != blank and block.settings.show_phone_link %}
               <li><a href="tel:{{ shop.phone }}"><i aria-hidden="true" class="icon-phone"></i> {{ shop.phone }}</a></li>
             {% endif %}
-            {% if shop.email != empty and block.settings.show_mail_link %}
+            {% if shop.email != empty and shop.email != blank and block.settings.show_mail_link %}
               <li><a href="mailto:{{ shop.email }}" class="email"><i aria-hidden="true" class="icon-envelope"></i> {{ shop.email }}</a></li>
             {% endif %}
             {% if settings.whatsapp != empty and settings.whatsapp != 0 and block.settings.show_whatsapp_link %}
               <li><a href="https://wa.me/{{ settings.whatsapp }}"><i aria-hidden="true" class="icon-whatsapp-overlay"></i> {{ 'footer.whatsapp_html' | t }}</a></li>
             {% endif %}
           </ul>
-
- {%- capture 'socials' -%}
-            {%- if settings.social_instagram -%}instagram|{{settings.social_instagram}}|{{ settings.social_instagram_name }}->{%- endif -%}
-            {%- if settings.social_pinterest -%}pinterest|{{settings.social_pinterest}}|{{ settings.social_pinterest_name }}->{%- endif -%}
-            {%- if settings.social_youtube -%}youtube|{{settings.social_youtube}}|{{ settings.social_youtube_name }}->{%- endif -%}
-            {%- if settings.social_facebook -%}facebook|{{settings.social_facebook}}|{{ settings.social_facebook_name }}->{%- endif -%}
-            {%- if settings.social_twitter -%}twitter|{{settings.social_twitter}}|{{ settings.social_twitter_name }}->{%- endif -%}
-            {%- if settings.social_tiktok -%}tiktok|{{settings.social_tiktok}}|{{ settings.social_tiktok_name }}->{%- endif -%}
-            {%- if settings.social_tumblr -%}tumblr|{{settings.social_tumblr}}|{{ settings.social_tumblr_name }}->{%- endif -%}
-            {%- if settings.social_snapchat -%}snapchat|{{settings.social_snapchat}}|{{ settings.social_snapchat_name }}{%- endif -%}
-          {%- endcapture -%}
-          {%- assign socials = socials | split: "->" -%}
-            {%- liquid
-              assign first_social_info = socials | first | split: '|'
-              assign first_social_name  = first_social_info[2]
-            -%}
-                  <ul class="footer_social">
-                    {%- for social in socials -%}
-                      {%- liquid
-                        assign social_info = social | split: '|'
-                        assign social_name = social_info[2]
-                        assign social_translation = 'socials.' | append: social_info[0]
-                      -%}
-                      <li><a aria-label="{{ social_translation | t }}" href="{{ social_info[1] }}" rel="external noopener" target="external"><i aria-hidden="true" class="icon-{{ social_info[0] }}"></i>{{ social_name }}</a></li>
-                    {%- endfor -%}
-                  </ul>
-      
           {%- if block.settings.customer_support_img -%}
             {%- assign default_alt = 'footer.customer_service_img_default_alt' | t %}
             <figure>
@@ -122,6 +95,14 @@
                 </ul>
               {%- endif -%}
             {%- endif -%}
+          {%- endif -%}
+          {%- if shop.features.follow_on_shop? and block.settings.enable_follow_on_shop -%}
+            <p class="follow-on-shop">
+              {% comment %} TODO: enable theme-check once `login_button` is accepted as valid filter {% endcomment %}
+              {% # theme-check-disable %}
+              {{ shop | login_button: action: 'follow' }}
+              {% # theme-check-enable %}
+            </p>
           {%- endif -%}
           {%- if block.settings.show_newsletter -%}
             {%- form 'customer', id: 'newsletter-footer' -%}
@@ -198,16 +179,7 @@
               {%- if link.links != blank -%}
                 <ul>
                   {%- for sub in link.links -%}
-                    {% if sub.title == 'Logga in'%}
-                       {% assign customerid = customer.id  %}
-                    {% if customerid != blank %}
-                    <li><a class="caccount" href="/account" title="Konto översikt ">Konto översikt </a></li>
-                        {% else %}
-                           <li><a class="caccount" href="{{ sub.url }}" title="{{ sub.title }}">Logga in</a></li>
-                  {% endif %}
-                      {% else %}
-                       <li><a class="5" href="{{ sub.url }}" title="{{ sub.title }}">{{ sub.title }}</a></li>
-                       {% endif %}
+                    <li><a href="{{ sub.url }}" title="{{ sub.title }}">{{ sub.title }}</a></li>
                     {%- if sub.links != blank -%}
                       <ul>
                         {%- for subsub in sub.links -%}
@@ -295,7 +267,7 @@
 
 <div>
   {%- if section.settings.bottom_svg_img or section.settings.bottom_img -%}
-    {%- if section.settings.bottom_img_link != empty -%}<a href="{% if section.settings.bottom_img_link != blank %}{{ section.settings.bottom_img_link }}{% else %}javascript:void();{% endif %}">{%- endif -%}
+    {%- if section.settings.bottom_img_link != empty -%}<a href="{{ section.settings.bottom_img_link }}">{%- endif -%}
     <figure>
       <img
               src="{{ 'placeholder-pixel.png' | asset_img_url }}"
@@ -328,6 +300,14 @@
       endif
     -%}
   </ul>
+  {%- if shop.features.follow_on_shop? and section.settings.enable_follow_on_shop -%}
+    <p class="follow-on-shop">
+      {% comment %} TODO: enable theme-check once `login_button` is accepted as valid filter {% endcomment %}
+      {% # theme-check-disable %}
+      {{ shop | login_button: action: 'follow' }}
+      {% # theme-check-enable %}
+    </p>
+  {%- endif -%}
   {%- if section.settings.show_payment_methods -%}
     <ul class="l4pm box">
       {%- for payment_method in shop.enabled_payment_types -%}
@@ -387,11 +367,18 @@
     }
     }
   {% endif %}
+  @media only screen and (min-width: 47.5em) {
+    #shopify-section-{{ section.id }} { margin-bottom: {{ section.settings.spacing_desktop }}px; }
+  }
+  @media only screen and (max-width: 47.5em) {
+    #shopify-section-{{ section.id }} { margin-bottom: {{ section.settings.spacing_mobile }}px; }
+  }
 {% endstyle %}
 
 {% schema %}
 {
   "name": "t:static_sections.footer.name",
+  "class": "shopify-section-footer",
   "tag": "footer",
   "settings": [
     {
@@ -520,6 +507,12 @@
       "default": true
     },
     {
+      "type": "checkbox",
+      "id": "enable_follow_on_shop",
+      "label": "t:static_sections.footer.settings.bottom_bar.enable_follow_on_shop.label",
+      "info": "t:static_sections.footer.settings.bottom_bar.enable_follow_on_shop.info"
+    },
+    {
       "type": "header",
       "content": "t:static_sections.footer.settings.payment_methods.header"
     },
@@ -528,6 +521,30 @@
       "id": "show_payment_methods",
       "label": "t:static_sections.footer.settings.payment_methods.show_payment_methods.label",
       "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:static_sections.footer.settings.spacing.header"
+    },
+    {
+      "id": "spacing_desktop",
+      "type": "range",
+      "label": "t:static_sections.footer.settings.spacing.spacing_desktop.label",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "id": "spacing_mobile",
+      "type": "range",
+      "label": "t:static_sections.footer.settings.spacing.spacing_mobile.label",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "default": 0
     }
   ],
   "blocks": [
@@ -696,6 +713,12 @@
           "id": "show_socials",
           "label": "t:static_sections.footer.blocks.socials_newsletter.settings.show_socials.label",
           "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_follow_on_shop",
+          "label": "t:static_sections.footer.blocks.socials_newsletter.settings.enable_follow_on_shop.label",
+          "info": "t:static_sections.footer.blocks.socials_newsletter.settings.enable_follow_on_shop.info"
         },
         {
           "type": "checkbox",

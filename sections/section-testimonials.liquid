@@ -48,7 +48,7 @@
   m6wd
   ">
   {%- if show_header -%}
-    <header class="cols {% if section.settings.title_size == 'size-50' %}size-18 mobile-size-14 {% endif %}">
+    <header class="cols {% if section.settings.title_size == 'size-50' %}size-18 mobile-size-14 {% endif %}{% if section.settings.title == empty and section.settings.text == empty %} text-end{% endif %}">
       {%- if container_div -%}<div class="w720 {% if section.settings.text_alignment == 'center' %}text-center align-center{% endif %}">{%- endif -%}
         {%- if section.settings.title != empty -%}
           <{{ title_size }} class="{{ title_classes }}">{{ section.settings.title }}</{{ title_size }}>
@@ -78,7 +78,7 @@
           assign different_width_class = false
         endif
       -%}
-      <li class="{% if different_width_class %}{{ different_width_class }}{% else %}{{ width_class }}{% endif %}">
+      <li class="{% if different_width_class %}{{ different_width_class }}{% else %}{{ width_class }}{% endif %}" {{ block.shopify_attributes }}>
         {%- if block.settings.text != empty -%}<q>{{ block.settings.text | replace: '</p><p>', '<br>' | remove: '<p>' | remove: '</p>' }}</q>{%- endif -%}
         <span><span class="r6rt" data-val="{{ block.settings.score }}" data-of="5">{{ block.settings.score }}/5</span> {{ block.settings.author }}{% if block.settings.place != empty %}, <span>{{ block.settings.place }}</span>{%- endif %}</span>
       </li>
@@ -101,6 +101,12 @@
 {% schema %}
 {
   "name": "t:sections.testimonials.name",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
   "settings": [
     {
       "type": "select",

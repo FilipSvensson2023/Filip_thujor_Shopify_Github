@@ -68,37 +68,24 @@
   {%- if section.settings.sticky == 'sticky-menu' and section.settings.enable_sticky_header -%}
     document.documentElement.classList.add('t1sn');
   {%- endif -%}
-
-  {%- unless section.settings.show_top_bar -%}
-    document.documentElement.classList.add('t1nt');
-  {%- endunless -%}
-
   {%- if search_compact -%}
     document.documentElement.classList.add('t1sr');
-  {%- elsif template.name == 'product' or section.settings.search_compact_mobile -%}
-    document.documentElement.classList.add('t1sr-mobile');
   {%- endif -%}
-
   {%- unless button_menu -%}
     document.documentElement.classList.add('t1nb');
   {%- endunless -%}
-
-  {%- unless menu_bar -%}
-    document.documentElement.classList.add('t1nn');
-  {%- endunless -%}
-
   {%- if menu_bar == false and button_menu == false -%}
     document.documentElement.classList.add('t1mn');
+  {%- elsif menu_bar == false -%}
+    document.documentElement.classList.add('t1nn');
+  {%- endif -%}
+  {%- if search_centered -%}
+    document.documentElement.classList.add('search-compact-is-centered');
   {%- endif -%}
 </script>
 
 {%- capture logo -%}
-  <p id="logo" class="
-    text-center-mobile
-    {% if logo_centered %}text-center-sticky{% endif %}
-    {% if logo_text_centered %}text-center{% endif %}
-    {% unless section.settings.svg_logo or section.settings.logo %}logo-text{% endunless %}
-    ">
+  <p id="logo">
     <a href="{{ routes.root_url }}">
       {%- if section.settings.svg_logo or section.settings.logo -%}
         <picture>
@@ -144,12 +131,12 @@
     </a>
     {%- if section.settings.svg_logo or section.settings.logo -%}
       {% style %}
-        #logo img {
-          width: {{ section.settings.logo_width }}px;
+        #logo {
+          --logo_w: {{ section.settings.logo_width }}px;
         }
         @media only screen and (max-width: 47.5em) {
-          #logo img {
-            width: {{ section.settings.logo_width_mobile }}px;
+          #logo {
+            --logo_w: {{ section.settings.logo_width_mobile }}px;
           }
         }
       {% endstyle %}
@@ -158,25 +145,17 @@
 {%- endcapture -%}
 
 {%- capture button -%}
-  <p class="link-btn  {% if button_hidden or button_menu == false %}hidden{% endif %}"><a href="{{ routes.root_url }}" {% unless button_block.settings.show_mobile %}class="mobile-hide"{% endunless %} aria-controls="nav">{{ 'header.navigation.view_catalog' | t }} <i aria-hidden="true" class="icon-chevron-down"></i></a></p>
+  <p class="link-btn">
+    <a href="{{ routes.root_url }}" aria-controls="nav">{{ 'header.navigation.view_catalog' | t }} <i aria-hidden="true" class="icon-chevron-down"></i></a>
+    <a class="search-compact" href="#search" aria-controls="search"><i aria-hidden="true" class="icon-zoom"></i> <span class="hidden">{{ 'search.title' | t }}</span></a>
+  </p>
 {%- endcapture -%}
 
 {%- capture searchbar -%}
-  {%- liquid
-    if search_compact
-      if section.settings.search_compact_mobile or template.name == 'product'
-        assign search_class = 'compact'
-      else
-        assign search_class = 'compact compact-desktop'
-      endif
-    elsif section.settings.search_compact_mobile or template.name == 'product'
-      assign search_class = 'compact compact-mobile'
-    endif
-  -%}
   <form action="{{ routes.search_url }}" method="get" id="search" class="
-    {{ search_class }}
+    {% if search_compact %}compact{% endif %}
     {% if search_centered %}text-center-sticky{% endif %}
-    {% unless section.settings.show_overlay %}no-overlay{% endunless %}
+    compact-handle
     ">
     <fieldset>
       <legend>{{ 'search.title' | t }}</legend>
@@ -194,50 +173,45 @@
   </form>
 {%- endcapture -%}
 
-<nav id="skip">
-  <ul>
-    <li><a href="/" accesskey="a" class="link-accessible">{{ 'general.accessibility.toggle_accessibility_mode' | t }} (a)</a></li>
-    <li><a href="/" accesskey="h">{{ 'general.accessibility.go_to_homepage' | t }} (h)</a></li>
-    <li><a href="#nav" accesskey="n">{{ 'general.accessibility.go_to_navigation' | t }} (n)</a></li>
-    <li><a href="{{ routes.search_url }}" aria-controls="search" accesskey="s">{{ 'general.accessibility.go_to_search' | t }} (s)</a></li>
-    <li><a href="#content" accesskey="c">{{ 'general.accessibility.go_to_content' | t }} (c)</a></li>
-    <li><a href="#shopify-section-footer" accesskey="f">{{ 'general.accessibility.go_to_footer' | t }} (f)</a></li>
-  </ul>
-</nav>
-<div id="header-outer">
-  {%- if section.settings.show_top_bar -%}
-    <nav id="nav-top">
-      {%- if usp_blocks -%}
-        <ul class="l4us mobile-text-center{% if usp_blocks.size > 1 %}{% if section.settings.enable_usp_slider %} slider slider-single{% endif %}{% unless section.settings.enable_usp_slider_arrows %} no-arrows{% endunless %}{% endif %}" {% if section.settings.enable_usp_slider_autoplay %}data-autoplay={{ section.settings.usp_slider_autoplay_seconds | times: 1000 }}{% endif %}>
-          {%- for block in usp_blocks limit: 3 -%}
-            {%- if block.settings.usp != empty -%}
-              <li {{ block.shopify_attributes }}>
-                {{ block.settings.usp | replace: '</p><p>', ' ' | remove: '<p>' | remove: '</p>' }}
-              </li>
-            {%- endif -%}
-          {%- endfor -%}
-        </ul>
-      {%- endif -%}
-      <ul data-type="top-nav">
-        {% if section.settings.navbar_menu_item_link != empty %}<li><a href="{{ section.settings.navbar_menu_item_link }}">{{ section.settings.navbar_menu_item_text }}</a></li>{% endif %}
-        {% if settings.show_accessibility and settings.enable_accessibility_default == false %}<li><a href="./" class="link-accessible" aria-label="{{ 'general.accessibility.toggle_accessibility_mode' | t }}"><i aria-hidden="true" class="icon-text-size"></i> <span class="hidden">{{ 'general.accessibility.toggle_accessibility_mode' | t }}</span></a></li>{% endif %}
-        {%- liquid
-          if section.settings.enable_country_selector and localization.available_countries.size > 1
-            render 'language-country-selector', display: 'country'
-          endif
-          if section.settings.enable_language_selector and localization.available_languages.size > 1
-            render 'language-country-selector', display: 'language'
-          endif
-        -%}
+{%- if section.settings.show_top_bar -%}
+  <nav id="nav-top">
+    {%- if usp_blocks -%}
+      <ul class="l4us mobile-text-center{% if usp_blocks.size > 1 %}{% if section.settings.enable_usp_slider %} slider slider-single{% endif %}{% unless section.settings.enable_usp_slider_arrows %} no-arrows{% endunless %}{% endif %}" {% if section.settings.enable_usp_slider_autoplay %}data-autoplay={{ section.settings.usp_slider_autoplay_seconds | times: 1000 }}{% endif %}>
+        {%- for block in usp_blocks limit: 3 -%}
+          {%- if block.settings.usp != empty -%}
+            <li {{ block.shopify_attributes }}>
+              {{ block.settings.usp | replace: '</p><p>', ' ' | remove: '<p>' | remove: '</p>' }}
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
       </ul>
-    </nav>
-  {%- else -%}
-    <nav id="nav-top" class="no-js">
-      <p>{{ 'general.accessibility.enable_javascript_message' | t }}</p>
-    </nav>
-  {%- endif -%}
-  <div id="header"{% unless section.settings.enable_sticky_header %} class="no-sticky"{% endunless %}>
-    <div id="header-inner">
+    {%- endif -%}
+    <ul data-type="top-nav">
+      {% if section.settings.navbar_menu_item_link != empty %}<li><a href="{{ section.settings.navbar_menu_item_link }}">{{ section.settings.navbar_menu_item_text }}</a></li>{% endif %}
+      {% if settings.show_accessibility and settings.enable_accessibility_default == false %}<li><a href="./" class="link-accessible" aria-label="{{ 'general.accessibility.toggle_accessibility_mode' | t }}"><i aria-hidden="true" class="icon-text-size"></i> <span class="hidden">{{ 'general.accessibility.toggle_accessibility_mode' | t }}</span></a></li>{% endif %}
+      {%- liquid
+        if section.settings.enable_country_selector and localization.available_countries.size > 1
+          render 'language-country-selector', display: 'country'
+        endif
+        if section.settings.enable_language_selector and localization.available_languages.size > 1
+          render 'language-country-selector', display: 'language'
+        endif
+      -%}
+    </ul>
+  </nav>
+{%- endif -%}
+<div id="header-outer">
+  <div id="header">
+    <div id="header-inner" class="
+    {% if section.settings.sticky == 'sticky-menu' and section.settings.enable_sticky_header %}sticky-nav{% elsif section.settings.enable_sticky_header == false %}no-sticky{% endif %}
+    {% if button_hidden or button_menu == false %}hide-btn{% endif %}
+    {% unless section.settings.search_compact_mobile or template.name == 'product' %}mobile-visible-search{% endunless %}
+    {% unless button_block.settings.show_mobile %}hide-btn-mobile{% endunless %}
+    text-center-mobile
+    {% if logo_centered %}text-center-sticky text-center-logo{% endif %}
+    {% if logo_text_centered %}text-center-logo{% endif %}
+    {% unless section.settings.svg_logo or section.settings.logo %}logo-text{% endunless %}
+  ">
       {%- for element in elements_order -%}
         {%- case element -%}
           {%- when 'button' -%}
@@ -248,210 +222,205 @@
             {{ searchbar }}
         {%- endcase -%}
       {%- endfor -%}
-    </div>
-    <nav id="nav-user" class="text-end">
-      <ul data-type="user-nav">
-        {%- for block in app_blocks -%}
-          {%- render block -%}
-        {%- endfor -%}
-        {%- if section.settings.extra_image_svg or section.settings.extra_image -%}
-          {%- assign default_alt = 'header.extra_img_default_alt' | t %}
-          <li class="mobile-hide">
-            <a href="{% if section.settings.extra_image_link != blank %}{{ section.settings.extra_image_link }}{% else %}javascript:void();{% endif %}" rel="external noopener" target="external">
-              <img
-                {% if section.settings.extra_image_svg %}
-                  src="{{ section.settings.extra_image_svg }}"
-                {% else	%}
-                  srcset="{%- render 'image-srcset', image: section.settings.extra_image, max_width: 400 -%}"
-                  src="{{ section.settings.extra_image | image_url: width: section.settings.extra_image_width }}"
-                {% endif %}
-                width="{{ section.settings.extra_image_width }}"
-                height="35"
-                alt="{{ section.settings.extra_image.alt | default: default_alt | escape }}"
-              >
-            </a>
-            {% style %}
-              #nav-user > ul > li > a img {
+      <nav id="nav-user">
+        <ul data-type="user-nav">
+          {%- for block in app_blocks -%}
+            {%- render block -%}
+          {%- endfor -%}
+          {%- if section.settings.extra_image_svg or section.settings.extra_image -%}
+            {%- assign default_alt = 'header.extra_img_default_alt' | t %}
+            <li class="mobile-hide">
+              <a href="{{ section.settings.extra_image_link }}" rel="external noopener" target="external">
+                <img
+                        {% if section.settings.extra_image_svg %}
+                          src="{{ section.settings.extra_image_svg }}"
+                        {% else	%}
+                          srcset="{%- render 'image-srcset', image: section.settings.extra_image, max_width: 400 -%}"
+                          src="{{ section.settings.extra_image | image_url: width: section.settings.extra_image_width }}"
+                        {% endif %}
+                        width="{{ section.settings.extra_image_width }}"
+                        height="35"
+                        alt="{{ section.settings.extra_image.alt | default: default_alt | escape }}"
+                >
+              </a>
+              {% style %}
+                #nav-user > ul > li > a img {
                 width: {{ section.settings.extra_image_width }}px!important;
-              }
-            {% endstyle %}
-          </li>
-        <!-- <li class="wishlist_s"><a class="wishlist_link" href="https://thujor.se/pages/page-wishlist"><?xml version="1.0" ?><svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"><rect fill="none" height="256" width="256"/><path d="M133.7,211.9l81-81c19.9-20,22.8-52.7,4-73.6a52,52,0,0,0-75.5-2.1L128,70.5,114.9,57.3c-20-19.9-52.7-22.8-73.6-4a52,52,0,0,0-2.1,75.5l83.1,83.1A8.1,8.1,0,0,0,133.7,211.9Z" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"/></svg> <span>Wishlist</span></span></a></li> -->
-        {%- endif -%}
-        {%- if section.settings.navbar_menu_item_link != empty -%}
-          <li class="mobile-only"><a href="{{ section.settings.navbar_menu_item_link }}">{{ section.settings.navbar_menu_item_text }}</a></li>
-        {%- endif -%}
-        {%- if section.settings.enable_socials -%}
-          {%- capture 'socials' -%}
-            {%- if settings.social_instagram -%}instagram|{{settings.social_instagram}}|{{ settings.social_instagram_name }}->{%- endif -%}
-            {%- if settings.social_pinterest -%}pinterest|{{settings.social_pinterest}}|{{ settings.social_pinterest_name }}->{%- endif -%}
-            {%- if settings.social_youtube -%}youtube|{{settings.social_youtube}}|{{ settings.social_youtube_name }}->{%- endif -%}
-            {%- if settings.social_facebook -%}facebook|{{settings.social_facebook}}|{{ settings.social_facebook_name }}->{%- endif -%}
-            {%- if settings.social_twitter -%}twitter|{{settings.social_twitter}}|{{ settings.social_twitter_name }}->{%- endif -%}
-            {%- if settings.social_tiktok -%}tiktok|{{settings.social_tiktok}}|{{ settings.social_tiktok_name }}->{%- endif -%}
-            {%- if settings.social_tumblr -%}tumblr|{{settings.social_tumblr}}|{{ settings.social_tumblr_name }}->{%- endif -%}
-            {%- if settings.social_snapchat -%}snapchat|{{settings.social_snapchat}}|{{ settings.social_snapchat_name }}{%- endif -%}
-          {%- endcapture -%}
-          {%- assign socials = socials | split: "->" -%}
-          {%- if socials -%}
-            {%- liquid
-              assign first_social_info = socials | first | split: '|'
-              assign first_social_name  = first_social_info[2]
-            -%}
-            {%- if socials.size > 0 -%}
-              <li {% if socials.size > 1 %}class="sub mobile-hide"{% endif %}>
-                {%- if socials.size > 1 -%}
-                  <a href="./" class="toggle" aria-label="{{ 'general.read_more.read_more' | t }}"><i aria-hidden="true" class="icon-{{ first_social_info[0] }}"></i><span>{{ first_social_name }}</span></a>
-                  <ul>
-                    {%- for social in socials -%}
-                      {%- liquid
-                        assign social_info = social | split: '|'
-                        assign social_name = social_info[2]
-                        assign social_translation = 'socials.' | append: social_info[0]
-                      -%}
-                      <li><a aria-label="{{ social_translation | t }}" href="{{ social_info[1] }}" rel="external noopener" target="external"><i aria-hidden="true" class="icon-{{ social_info[0] }}"></i>{{ social_name }}</a></li>
-                    {%- endfor -%}
-                  </ul>
-                {%- else -%}
-                  <a href="{{ first_social_info[1] }}"><i aria-hidden="true" class="icon-{{ first_social_info[0] }}"></i><span>{{ first_social_name }}</span></a>
-                {%- endif -%}
-              </li>
-            {%- else -%}
-              {%- if shop.brand.metafields.social_links.size > 0 -%}
-                {%- liquid
-                  assign first_social = shop.brand.metafields.social_links.first
-                  assign first_social_name = first_social[1] | split: '/' | last
-                  if first_social_name == empty
-                    assign first_social_name = first_social[1] | split: '/'
-                    assign next_to_last = first_social_name.size | minus: 1
-                    assign first_social_name = first_social_name[next_to_last]
-                  endif
-                  assign first_social_name = first_social_name | remove: '.tumblr.com'
-                -%}
-                <li {% if shop.brand.metafields.social_links.size > 1 %}class="sub mobile-hide"{% endif %}>
-                  {%- if shop.brand.metafields.social_links.size.size > 1 -%}
-                    <a href="./" class="toggle" aria-label="{{ 'general.read_more.read_more' | t }}"><i aria-hidden="true" class="icon-{{ first_social[0] }}"></i><span>{{ first_social_name }}</span></a>
+                }
+              {% endstyle %}
+            </li>
+          {%- endif -%}
+          {%- if section.settings.navbar_menu_item_link != empty -%}
+            <li class="mobile-only"><a href="{{ section.settings.navbar_menu_item_link }}">{{ section.settings.navbar_menu_item_text }}</a></li>
+          {%- endif -%}
+          {%- if section.settings.enable_socials -%}
+            {%- capture 'socials' -%}
+              {%- if settings.social_instagram -%}instagram|{{settings.social_instagram}}|{{ settings.social_instagram_name }}->{%- endif -%}
+              {%- if settings.social_pinterest -%}pinterest|{{settings.social_pinterest}}|{{ settings.social_pinterest_name }}->{%- endif -%}
+              {%- if settings.social_youtube -%}youtube|{{settings.social_youtube}}|{{ settings.social_youtube_name }}->{%- endif -%}
+              {%- if settings.social_facebook -%}facebook|{{settings.social_facebook}}|{{ settings.social_facebook_name }}->{%- endif -%}
+              {%- if settings.social_twitter -%}twitter|{{settings.social_twitter}}|{{ settings.social_twitter_name }}->{%- endif -%}
+              {%- if settings.social_tiktok -%}tiktok|{{settings.social_tiktok}}|{{ settings.social_tiktok_name }}->{%- endif -%}
+              {%- if settings.social_tumblr -%}tumblr|{{settings.social_tumblr}}|{{ settings.social_tumblr_name }}->{%- endif -%}
+              {%- if settings.social_snapchat -%}snapchat|{{settings.social_snapchat}}|{{ settings.social_snapchat_name }}{%- endif -%}
+            {%- endcapture -%}
+            {%- assign socials = socials | split: "->" -%}
+            {%- if socials -%}
+              {%- liquid
+                assign first_social_info = socials | first | split: '|'
+                assign first_social_name  = first_social_info[2]
+              -%}
+              {%- if socials.size > 0 -%}
+                <li {% if socials.size > 1 %}class="sub mobile-hide"{% endif %}>
+                  {%- if socials.size > 1 -%}
+                    <a href="./" class="toggle" aria-label="{{ 'general.read_more.read_more' | t }}"><i aria-hidden="true" class="icon-{{ first_social_info[0] }}"></i><span>{{ first_social_name }}</span></a>
                     <ul>
-                      {%- for social in shop.brand.metafields.social_links -%}
+                      {%- for social in socials -%}
                         {%- liquid
-                          assign social_translation = 'socials.' | append: social[0]
-                          assign social_name = social[1] | split: '/' | last
-                          if social_name == empty
-                            assign social_name = social[1] | split: '/'
-                            assign next_to_last = social_name.size | minus: 1
-                            assign social_name = social_name[next_to_last]
-                          endif
-                          assign social_name = social_name | remove: '.tumblr.com'
+                          assign social_info = social | split: '|'
+                          assign social_name = social_info[2]
+                          assign social_translation = 'socials.' | append: social_info[0]
                         -%}
-                        <li><a aria-label="{{ social_translation | t }}" href="{{ social[1] }}" rel="external noopener" target="external"><i aria-hidden="true" class="icon-{{ social[0] }}"></i>{{ social_name }}</a></li>
+                        <li><a aria-label="{{ social_translation | t }}" href="{{ social_info[1] }}" rel="external noopener" target="external"><i aria-hidden="true" class="icon-{{ social_info[0] }}"></i>{{ social_name }}</a></li>
                       {%- endfor -%}
                     </ul>
                   {%- else -%}
-                    <a href="{{ first_social[1] }}"><i aria-hidden="true" class="icon-{{ first_social[0] }}"></i><span>{{ first_social_name }}</span></a>
+                    <a href="{{ first_social_info[1] }}"><i aria-hidden="true" class="icon-{{ first_social_info[0] }}"></i><span>{{ first_social_name }}</span></a>
                   {%- endif -%}
                 </li>
+              {%- else -%}
+                {%- if shop.brand.metafields.social_links.size > 0 -%}
+                  {%- liquid
+                    assign first_social = shop.brand.metafields.social_links.first
+                    assign first_social_name = first_social[1] | split: '/' | last
+                    if first_social_name == empty
+                      assign first_social_name = first_social[1] | split: '/'
+                      assign next_to_last = first_social_name.size | minus: 1
+                      assign first_social_name = first_social_name[next_to_last]
+                    endif
+                    assign first_social_name = first_social_name | remove: '.tumblr.com'
+                  -%}
+                  <li {% if shop.brand.metafields.social_links.size > 1 %}class="sub mobile-hide"{% endif %}>
+                    {%- if shop.brand.metafields.social_links.size.size > 1 -%}
+                      <a href="./" class="toggle" aria-label="{{ 'general.read_more.read_more' | t }}"><i aria-hidden="true" class="icon-{{ first_social[0] }}"></i><span>{{ first_social_name }}</span></a>
+                      <ul>
+                        {%- for social in shop.brand.metafields.social_links -%}
+                          {%- liquid
+                            assign social_translation = 'socials.' | append: social[0]
+                            assign social_name = social[1] | split: '/' | last
+                            if social_name == empty
+                              assign social_name = social[1] | split: '/'
+                              assign next_to_last = social_name.size | minus: 1
+                              assign social_name = social_name[next_to_last]
+                            endif
+                            assign social_name = social_name | remove: '.tumblr.com'
+                          -%}
+                          <li><a aria-label="{{ social_translation | t }}" href="{{ social[1] }}" rel="external noopener" target="external"><i aria-hidden="true" class="icon-{{ social[0] }}"></i>{{ social_name }}</a></li>
+                        {%- endfor -%}
+                      </ul>
+                    {%- else -%}
+                      <a href="{{ first_social[1] }}"><i aria-hidden="true" class="icon-{{ first_social[0] }}"></i><span>{{ first_social_name }}</span></a>
+                    {%- endif -%}
+                  </li>
+                {%- endif -%}
               {%- endif -%}
             {%- endif -%}
           {%- endif -%}
-        {%- endif -%}
-        {%- if shop.customer_accounts_enabled and section.settings.disable_online_store == false -%}
-          <li class="sub{% unless customer %} user-login menu-hide{% endunless %}">
-            {%- if customer -%}
-              <a href="{{ routes.account_url }}" class="toggle"><i aria-hidden="true" aria-label="{{ 'header.account.my_account' | t }}" class="icon-user"></i> <span class="desktop-hide">{{ 'header.account.welcome_user_html' | t: name: customer.first_name }}</span></a>
-              <ul>
-                <li><a href="{{ routes.account_url }}"><i aria-hidden="true" class="icon-user"></i> {{ 'header.account.overview' | t }}</a></li>
-                <li><a href="{{ routes.account_url }}"><i aria-hidden="true" class="icon-box"></i> {{ 'header.account.orders' | t }}</a></li>
-                <li><a href="{{ routes.account_addresses_url }}"><i aria-hidden="true" class="icon-edit-off"></i> {{ 'header.account.info' | t }}</a></li>
-                <li><a href="{{ routes.account_logout_url }}"><i aria-hidden="true" class="icon-logout"></i> {{ 'header.account.logout' | t }}</a></li>
-              </ul>
-            {%- else -%}
-              <a href="{{ routes.account_login_url }}" class="toggle mobile-hide"><i aria-hidden="true" aria-label="{{ 'header.account.login' | t }}" class="icon-user"></i> <span class="desktop-hide">{{ 'header.account.login' | t }}</span></a>
-  						<a href="{{ routes.account_login_url }}" class="mobile-only" data-panel="login" aria-label="{{ 'header.account.login' | t }}"><i aria-hidden="true" class="icon-user"></i> <span class="desktop-hide">{{ 'header.account.login' | t }}</span></a>
-              {%- form 'customer_login', class: 'f8vl' -%}
-                <fieldset>
-                  <legend>{{ 'customer.login.title' | t }}</legend>
-                  <p class="strong">{{ 'customer.login.title' | t }}</p>
-                  <p>
-                    <label for="login_email_address">{{ 'customer.login.email' | t }}<span class="overlay-theme">*</span></label>
-                    <input type="email" id="login_email_address" name="customer[email]" placeholder="{{ 'customer.login.email' | t }}" required>
-                  </p>
-                  <p>
-                    <label for="login_password">{{ 'customer.login.password' | t }}<span class="overlay-theme">*</span> <a href="./" class="show"><span>Toon</span> <span class="hidden">Hide</span></a></label>
-                    <input type="password" id="login_password" name="customer[password]" placeholder="{{ 'customer.login.password' | t }}" required>
-                    <a href="{{ routes.account_login_url }}#recover" class="size-12">{{ 'customer.login.forgot_password' | t }}</a>
-                  </p>
-                  <p class="submit">
-                    <button type="submit">{{ 'customer.login.submit' | t }}</button>
-                    {{ 'customer.register.title' | t }}<br> <a href="{{ routes.account_register_url }}" class="overlay-content">{{ 'customer.register.create_account_info' | t }}</a>
-                  </p>
-                </fieldset>
-              {%- endform -%}
-            {%- endif -%}
-          </li>
-        {%- endif -%}
-        {% unless section.settings.disable_online_store %}
-          <li class="cart">
-            <a href="{{ routes.cart_url }}" {% if settings.enable_cart_drawer %}data-panel="cart"{% endif %} aria-label="Winkelwagen"><i aria-hidden="true" class="icon-{{ section.settings.cart_icon | split: '|' | first }}"><span id="cart-count">{{ cart.item_count }}</span></i> <span class="hidden">{{ 'header.cart' | t }}</span></a>
-          </li>
-        {% endunless %}
-      </ul>
-    </nav>
-  </div>
-
-
-{%- if menu_bar or button_menu -%}
-  {%- if navbar_menu -%}
-    {%- liquid
-      assign has_images = false
-      if section.settings.show_dropdown_images
-        for link in linklists[navbar_menu].links
-          if link.object.featured_image
-            assign has_images = true
-            break
-          endif
-        endfor
-      endif
-    -%}
-    <nav id="nav-bar" aria-label="Back" class="{% if section.settings.menubar_divide_evenly and section.settings.header_width == 'boxed' %}text-justify{% elsif section.settings.menubar_center %}text-center{% endif %}{% if menu_bar %} has-menu-bar{% endif %}{% if section.settings.menu_font == 'title' %} s1hd{% endif %}">
-	      <ul data-type="horizontal-nav">
-            {%- render 'header-menu', menu: navbar_menu, show_dropdown_images: section.settings.show_dropdown_images, show_dropdown_images_autofill: section.settings.show_dropdown_images_autofill, has_images: has_images, layout: menu_layout, main_menu_items_clickable: section.settings.main_menu_items_clickable, menubar_caps: section.settings.menubar_caps, sale_highlight: section.settings.sale_highlight, manual_collapse: false, menu_items_limit: section.settings.menu_items_limit -%}
+          {%- if shop.customer_accounts_enabled and section.settings.disable_online_store == false -%}
+            <li class="sub{% unless customer %} user-login menu-hide{% endunless %}">
+              {%- if customer -%}
+                <a href="{{ routes.account_url }}" class="toggle"><i aria-hidden="true" aria-label="{{ 'header.account.my_account' | t }}" class="icon-user"></i> <span class="desktop-hide">{{ 'header.account.welcome_user_html' | t: name: customer.first_name }}</span></a>
+                <ul>
+                  <li><a href="{{ routes.account_url }}"><i aria-hidden="true" class="icon-user"></i> {{ 'header.account.overview' | t }}</a></li>
+                  <li><a href="{{ routes.account_url }}"><i aria-hidden="true" class="icon-box"></i> {{ 'header.account.orders' | t }}</a></li>
+                  <li><a href="{{ routes.account_addresses_url }}"><i aria-hidden="true" class="icon-edit-off"></i> {{ 'header.account.info' | t }}</a></li>
+                  <li><a href="{{ routes.account_logout_url }}"><i aria-hidden="true" class="icon-logout"></i> {{ 'header.account.logout' | t }}</a></li>
+                </ul>
+              {%- else -%}
+                <a href="{{ routes.account_login_url }}" class="toggle mobile-hide"><i aria-hidden="true" aria-label="{{ 'header.account.login' | t }}" class="icon-user"></i> <span class="desktop-hide">{{ 'header.account.login' | t }}</span></a>
+                <a href="{{ routes.account_login_url }}" class="mobile-only" data-panel="login" aria-label="{{ 'header.account.login' | t }}"><i aria-hidden="true" class="icon-user"></i> <span class="desktop-hide">{{ 'header.account.login' | t }}</span></a>
+                {%- form 'customer_login', class: 'f8vl' -%}
+                  <fieldset>
+                    <legend>{{ 'customer.login.title' | t }}</legend>
+                    <p class="strong">{{ 'customer.login.title' | t }}</p>
+                    <p>
+                      <label for="login_email_address">{{ 'customer.login.email' | t }}<span class="overlay-theme">*</span></label>
+                      <input type="email" id="login_email_address" name="customer[email]" placeholder="{{ 'customer.login.email' | t }}" required>
+                    </p>
+                    <p>
+                      <label for="login_password">{{ 'customer.login.password' | t }}<span class="overlay-theme">*</span> <a href="./" class="show"><span>Toon</span> <span class="hidden">Hide</span></a></label>
+                      <input type="password" id="login_password" name="customer[password]" placeholder="{{ 'customer.login.password' | t }}" required>
+                      <a href="{{ routes.account_login_url }}#recover" class="size-12">{{ 'customer.login.forgot_password' | t }}</a>
+                    </p>
+                    <p class="submit">
+                      <button type="submit">{{ 'customer.login.submit' | t }}</button>
+                      {{ 'customer.register.title' | t }}<br> <a href="{{ routes.account_register_url }}" class="overlay-content">{{ 'customer.register.create_account_info' | t }}</a>
+                    </p>
+                  </fieldset>
+                {%- endform -%}
+              {%- endif -%}
+            </li>
+          {%- endif -%}
+          {% unless section.settings.disable_online_store %}
+            <li class="cart">
+              <a href="{{ routes.cart_url }}" {% if settings.enable_cart_drawer %}data-panel="cart"{% endif %} aria-label="Winkelwagen"><i aria-hidden="true" class="icon-{{ section.settings.cart_icon | split: '|' | first }}"><span id="cart-count"{% if settings.button_style != 'solid' %} class="plain"{% endif %}>{{ cart.item_count }}</span></i> <span class="hidden">{{ 'header.cart' | t }}</span></a>
+            </li>
+          {% endunless %}
         </ul>
+      </nav>
+    </div>
+  </div>
+ {%- if menu_bar or button_menu -%}
+    {%- if navbar_menu -%}
+      {%- liquid
+        assign has_images = false
+        if section.settings.show_dropdown_images
+          for link in linklists[navbar_menu].links
+            if link.object.featured_image
+              assign has_images = true
+              break
+            endif
+          endfor
+        endif
+      -%}
+      <nav id="nav-bar" aria-label="Back" class="{% if section.settings.menubar_divide_evenly and section.settings.header_width == 'boxed' %}text-justify{% elsif section.settings.menubar_center %}text-center{% endif %}{% if menu_bar %} has-menu-bar{% endif %}{% if section.settings.menu_font == 'title' %} s1hd{% endif %}">
+        <ul data-type="horizontal-nav">
+          {%- render 'header-menu', menu: navbar_menu, show_dropdown_images: section.settings.show_dropdown_images, show_dropdown_images_autofill: section.settings.show_dropdown_images_autofill, has_images: has_images, layout: menu_layout, main_menu_items_clickable: section.settings.main_menu_items_clickable, menubar_caps: section.settings.menubar_caps, sale_highlight: section.settings.sale_highlight, manual_collapse: false, menu_items_limit: section.settings.menu_items_limit -%}
+        </ul>
+      </nav>
+    {%- endif -%}
+    <nav id="nav" aria-label="{{ 'general.accessibility.menu' | t }}" class="{% if has_images %}category-img {% endif %}{% if section.settings.menubar_divide_evenly and section.settings.header_width == 'boxed' %} text-justify {% elsif section.settings.menubar_center %} text-center {% endif %}{% if section.settings.sticky == 'sticky-menu' and section.settings.enable_sticky_header %} sticky-menu {% endif %}{% if menu_bar %} has-menu-bar {% endif %}{% if section.settings.menu_font == 'title' %} s1hd {% endif %}{% if settings.dropdown_color != 'white' -%} no-border{% endif %}">
+      <ul data-type="main-nav" {% if has_images %}class="category-img"{% endif %}>
+        {%- if nav_menu == button_menu -%}
+          {%- assign menu_layout = false -%}
+        {%- endif -%}
+        {%- render 'header-menu', menu: nav_menu, show_dropdown_images: section.settings.show_dropdown_images, show_dropdown_images_autofill: section.settings.show_dropdown_images_autofill, has_images: has_images, layout: menu_layout, main_menu_items_clickable: section.settings.main_menu_items_clickable, menubar_caps: section.settings.menubar_caps, sale_highlight: section.settings.sale_highlight, manual_collapse: false, menu_items_limit: section.settings.menu_items_limit -%}
+      </ul>
+      {% unless section.settings.show_top_bar %}
+        <ul data-type="top-nav" class="nav-top">
+          {% if section.settings.navbar_menu_item_link != empty %}<li><a href="{{ section.settings.navbar_menu_item_link }}">{{ section.settings.navbar_menu_item_text }}</a></li>{% endif %}
+          {% if settings.show_accessibility and settings.enable_accessibility_default == false %}<li><a href="./" class="link-accessible" aria-label="{{ 'general.accessibility.toggle_accessibility_mode' | t }}"><i aria-hidden="true" class="icon-text-size"></i> <span class="hidden">{{ 'general.accessibility.toggle_accessibility_mode' | t }}</span></a></li>{% endif %}
+          {%- liquid
+            if section.settings.enable_country_selector and localization.available_countries.size > 1
+              render 'language-country-selector', display: 'country'
+            endif
+            if section.settings.enable_language_selector and localization.available_languages.size > 1
+              render 'language-country-selector', display: 'language'
+            endif
+          -%}
+        </ul>
+      {% endunless %}
     </nav>
   {%- endif -%}
-  
-  <nav id="nav" aria-label="Menu" class="{% if has_images %}category-img {% endif %}{% if section.settings.menubar_divide_evenly and section.settings.header_width == 'boxed' %} text-justify {% elsif section.settings.menubar_center %} text-center {% endif %}{% if section.settings.sticky == 'sticky-menu' and section.settings.enable_sticky_header %} sticky-menu {% endif %}{% if menu_bar %} has-menu-bar {% endif %}{% if section.settings.menu_font == 'title' %} s1hd {% endif %}{% if section.settings.dropdown_color != 'white' -%} no-border{% endif %}">
-    <ul data-type="main-nav" {% if has_images %}class="category-img"{% endif %}>
-      {%- if nav_menu == button_menu -%}
-        {%- assign menu_layout = false -%}
-      {%- endif -%}
-      {%- render 'header-menu', menu: nav_menu, show_dropdown_images: section.settings.show_dropdown_images, show_dropdown_images_autofill: section.settings.show_dropdown_images_autofill, has_images: has_images, layout: menu_layout, main_menu_items_clickable: section.settings.main_menu_items_clickable, menubar_caps: section.settings.menubar_caps, sale_highlight: section.settings.sale_highlight, manual_collapse: false, menu_items_limit: section.settings.menu_items_limit -%}
-    </ul>
-  
-    {% unless section.settings.show_top_bar %}
-      <ul data-type="top-nav" class="nav-top">
-        {% if section.settings.navbar_menu_item_link != empty %}<li><a href="{{ section.settings.navbar_menu_item_link }}">{{ section.settings.navbar_menu_item_text }}</a></li>{% endif %}
-        {% if settings.show_accessibility and settings.enable_accessibility_default == false %}<li><a href="./" class="link-accessible" aria-label="{{ 'general.accessibility.toggle_accessibility_mode' | t }}"><i aria-hidden="true" class="icon-text-size"></i> <span class="hidden">{{ 'general.accessibility.toggle_accessibility_mode' | t }}</span></a></li>{% endif %}
-        {%- liquid
-          if section.settings.enable_country_selector and localization.available_countries.size > 1
-            render 'language-country-selector', display: 'country'
-          endif
-          if section.settings.enable_language_selector and localization.available_languages.size > 1
-            render 'language-country-selector', display: 'language'
-          endif
-        -%}
-      </ul>
-    {% endunless %}
-  </nav>
-{%- endif -%}
 </div>
 
-{%- style- %}
+{%- style -%}
   :root {
     {% comment %} header width {% endcomment %}
     {%- if section.settings.header_width == 'boxed' -%}
       --ghw:  1280px;
     {%- else -%}
-      --ghw:  none;
+      --ghw:  10000px;
     {%- endif -%}
     {% comment %} top bar {% endcomment %}
     --custom_top_up_bg:           var(--{{ section.settings.top_bar_color }}_bg);
@@ -471,12 +440,12 @@
     --custom_top_nav_fg:          var(--{{ section.settings.menubar_color | remove: '_gradient' }}_fg);
     --custom_top_nav_fg_hover:    var(--{{ section.settings.menubar_color | remove: '_gradient' }}_btn_bg);
     {% comment %} dropdown {% endcomment %}
-    --custom_drop_nav_bg:         var(--{{ section.settings.dropdown_color }}_bg);
-    --custom_drop_nav_fg:         var(--{{ section.settings.dropdown_color }}_fg);
-    --custom_drop_nav_fg_text:    var(--{{ section.settings.dropdown_color }}_fg);
-    --custom_drop_nav_fg_hover:   var(--{{ section.settings.dropdown_color }}_btn_bg);
-    --custom_drop_nav_head_bg:    var(--{{ section.settings.dropdown_color }}_bg);
-    --custom_drop_nav_head_fg:    var(--{{ section.settings.dropdown_color }}_fg);
+    --custom_drop_nav_bg:         var(--{{ settings.dropdown_color }}_bg);
+    --custom_drop_nav_fg:         var(--{{ settings.dropdown_color }}_fg);
+    --custom_drop_nav_fg_text:    var(--{{ settings.dropdown_color }}_fg);
+    --custom_drop_nav_fg_hover:   var(--{{ settings.dropdown_color }}_btn_bg);
+    --custom_drop_nav_head_bg:    var(--{{ settings.dropdown_color }}_bg);
+    --custom_drop_nav_head_fg:    var(--{{ settings.dropdown_color }}_fg);
     {% comment %} searchbar {% endcomment %}
     {%- if section.settings.header_color == section.settings.search_color -%}
       --custom_top_search_bd:     var(--{{ section.settings.header_color | remove: '_gradient' }}_bg_dark);
@@ -489,18 +458,18 @@
   }
   @media only screen and (max-width: 62.5em ) {
     #root #header .f8vl *, #root .m6pn.f8vl * {
-      --secondary_btn_text:             var(--{{ section.settings.dropdown_color }}_btn_fg);
-      --secondary_bg_btn:               var(--{{ section.settings.dropdown_color }}_btn_bg);
-      --secondary_bg_btn_dark:          var(--{{ section.settings.dropdown_color }}_btn_bg_dark);
-      --secondary_bg_btn_fade:          var(--{{ section.settings.dropdown_color }}_btn_bg_dark);
-      --white:                      var(--{{ section.settings.dropdown_color }}_btn_fg);
+      --secondary_btn_text:             var(--{{ settings.dropdown_color }}_btn_fg);
+      --secondary_bg_btn:               var(--{{ settings.dropdown_color }}_btn_bg);
+      --secondary_bg_btn_dark:          var(--{{ settings.dropdown_color }}_btn_bg_dark);
+      --secondary_bg_btn_fade:          var(--{{ settings.dropdown_color }}_btn_bg_dark);
+      --white:                      var(--{{ settings.dropdown_color }}_btn_fg);
     }
   }
   #root #header .f8vl .submit, #root .m6pn.f8vl .submit {
-    --secondary_btn_text:             var(--{{ section.settings.dropdown_color }}_btn_fg);
-    --secondary_bg_btn:               var(--{{ section.settings.dropdown_color }}_btn_bg);
-    --secondary_bg_btn_dark:          var(--{{ section.settings.dropdown_color }}_btn_bg_dark);
-    --secondary_bg_btn_fade:          var(--{{ section.settings.dropdown_color }}_btn_bg_dark);
+    --secondary_btn_text:             var(--{{ settings.dropdown_color }}_btn_fg);
+    --secondary_bg_btn:               var(--{{ settings.dropdown_color }}_btn_bg);
+    --secondary_bg_btn_dark:          var(--{{ settings.dropdown_color }}_btn_bg_dark);
+    --secondary_bg_btn_fade:          var(--{{ settings.dropdown_color }}_btn_bg_dark);
     --secondary_bg_fade:          var(--secondary_bg_btn_fade);
   }
 
@@ -512,14 +481,14 @@
     --custom_top_main_link_text:  var(--{{ section.settings.cart_icon_color | remove: '_gradient' }}_fg);
   }
   #shopify-section-{{ section.id }} #nav {
-    --custom_drop_nav_head_bg:    var(--{{ section.settings.dropdown_color }}_bg_var);
+    --custom_drop_nav_head_bg:    var(--{{ settings.dropdown_color }}_bg_var);
   }
 {%- endstyle -%}
-
 
 {% schema %}
 {
   "name": "Header",
+  "class": "shopify-section-header",
   "settings": [
     {
       "type": "select",
@@ -725,39 +694,6 @@
         }
       ],
       "default": "light"
-    },
-    {
-      "type": "select",
-      "id": "dropdown_color",
-      "label": "t:static_sections.header.settings.colors.dropdown_color.label",
-      "info": "t:static_sections.header.settings.colors.dropdown_color.info",
-      "options": [
-        {
-          "value": "white",
-          "label": "t:static_sections.header.settings.colors.dropdown_color.options__1.label"
-        },
-        {
-          "value": "black",
-          "label": "t:static_sections.header.settings.colors.dropdown_color.options__2.label"
-        },
-        {
-          "value": "light",
-          "label": "t:static_sections.header.settings.colors.dropdown_color.options__3.label"
-        },
-        {
-          "value": "dark",
-          "label": "t:static_sections.header.settings.colors.dropdown_color.options__4.label"
-        },
-        {
-          "value": "accent",
-          "label": "t:static_sections.header.settings.colors.dropdown_color.options__5.label"
-        },
-        {
-          "value": "light_2",
-          "label": "t:static_sections.header.settings.colors.dropdown_color.options__6.label"
-        }
-      ],
-      "default": "white"
     },
     {
       "type": "header",
@@ -1065,7 +1001,7 @@
       "type": "range",
       "label": "t:static_sections.header.settings.trustmark.extra_image_width.label",
       "min": 50,
-      "max": 150,
+      "max": 300,
       "step": 5,
       "unit": "px",
       "default": 130

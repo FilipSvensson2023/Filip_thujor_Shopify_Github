@@ -48,8 +48,8 @@
 <meta property="og:url" content="{{ og_url }}">
 {% if request.page_type == 'product' %}
   {% assign current_variant = product.selected_or_first_available_variant %}
-  <meta property="product:price:amount" content="{{ current_variant.price | money | strip_html | replace: ',', '.' }}">
-  <meta property="og:price:amount" content="{{ current_variant.price | money | strip_html | replace: ',', '.' }}">
+  <meta property="product:price:amount" content="{{ current_variant.price | money | strip_html }}">
+  <meta property="og:price:amount" content="{{ current_variant.price | money | strip_html }}">
   <meta property="og:price:currency" content="{{ cart.currency.iso_code }}">
   <meta property="og:availability" content="{% if product.available %}instock{% else %}out of stock{% endif %}" />
 {% endif %}
@@ -65,103 +65,28 @@
 <script type="application/ld+json">
   [
     {%- if request.page_type == 'product' -%}
-       {
-    "@context": "http://schema.org",
-    "@type": "Product",
-   "review": {
-        "@type": "Review",
-          "reviewRating": {
-          "@type": "Rating",
-          "ratingValue": "4",
-          "bestRating": "5"
-        },
-        "author": {
-          "@type": "Person",
-          "name": {{ product.vendor | json }}
-        }
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.4",
-        "reviewCount": "5"
-      },
- 
-  "offers": [
-      {%- for variant in product.variants -%}
-        {
+      {
+        "@context": "http://schema.org",
+        "@type": "Product",
+        "name": "{{ product.title }}",
+        "url": "{{ shop.url }}{{ product.url }}",
+        {%- if product.vendor != "" and product.vendor != "vendor-unknown" -%}"brand": { "@type": "Brand", "name": "{{ product.vendor }}" },{%- endif -%}
+        {%- if product.description != "" or product.descripton != blank or product.descripton != null -%}"description": {{ product.description | strip_html | json }},{%- endif -%}
+        {%- if product.featured_image -%}"image": "{{ product.featured_image | image_url: width: 600, height: 500 }}",{%- endif -%}
+        {%- if current_variant.barcode != "" -%}"gtin8": "{{ current_variant.barcode }}",{%- endif -%}
+        {%- if current_variant.sku != "" -%}"sku": "{{ current_variant.sku }}",{%- endif -%}
+        "offers": {
           "@type": "Offer",
-        "url": {{ shop.url | append: variant.url | json }},
-        "itemCondition": "https://schema.org/NewCondition",
-        "availability": "http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}",
-     "priceValidUntil": "{{ 'now' | date: '%s' | plus: days_product_price_valid_until | date: '%Y-%m-%d'}}",
-        "priceSpecification": {
-          "@type": "PriceSpecification",
-          "price": {{ variant.price | divided_by: 100.00 | json }},
-          "priceCurrency": {{ cart.currency.iso_code | json }}        
-        },
-      "shippingDetails": {
-          "@type": "OfferShippingDetails",
-          "shippingRate": {
-            "@type": "MonetaryAmount",
-            "value":  {{ variant.price | divided_by: 100.00 | json }},
-            "currency": {{ cart.currency.iso_code | json }}
-          },
-          "shippingDestination": {
-            "@type": "DefinedRegion",
-            "addressCountry": "IN"
-          },
-          "deliveryTime": {
-            "@type": "ShippingDeliveryTime",
-            "handlingTime": {
-              "@type": "QuantitativeValue",
-              "minValue": 0,
-              "maxValue": 1,
-              "unitCode": "DAY"
-            },
-            "transitTime": {
-              "@type": "QuantitativeValue",
-              "minValue": 1,
-              "maxValue": 5,
-              "unitCode": "DAY"
-            }
-          }
-        },
-        "hasMerchantReturnPolicy": {
-          "@type": "MerchantReturnPolicy",
-          "applicableCountry": "IN",
-          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-          "merchantReturnDays": 60,
-          "returnMethod": "https://schema.org/ReturnByMail",
-          "returnFees": "https://schema.org/FreeReturn"
+          "price": "{{ current_variant.price | divided_by: 100.00 }}",
+          "url": "{{ shop.url }}{{ product.url }}",
+          {%- assign date = 'now' | date: "%s" | plus : 31556926 %}
+          "priceValidUntil": "{{ date | date: '%Y-%m-%d' }}",
+          "priceCurrency": "{{ cart.currency.iso_code }}"{%- if current_variant.inventory_quantity > 0 and current_variant.available -%},
+            "availability": "https://schema.org/InStock",
+            "inventoryLevel": "{{ current_variant.inventory_quantity }}"
+          {%- endif -%}
         }
-        }{% unless forloop.last %},{% endunless %}
-      {%- endfor -%}
-    ],
-       "brand": {
-        "@type": "Brand",
-        "name": {{ product.vendor | json }}
       },
-    "sku": {{ current_variant.sku | json }},
-    "name": {{ product.title | json }},
-    "description": {{ product.description | strip_html | json }},
-    "category": "",
-    "url": "{{ shop.url }}{{ product.url }}",
-    {%- if is_barcode_available and is_valid_gtin_length %}
-      "{{gtin_option}}": {{ current_variant.barcode | json }},
-      "productId": {{ current_variant.barcode | json }},
-    {%- elsif is_barcode_available %}
-      "mpn": {{ current_variant.barcode | json }},
-      "productId": {{ current_variant.barcode | json }},
-    {%- endif -%}
-    "image": {
-      "@type": "ImageObject",
-      "url": "https:{{ product.featured_media.preview_image | img_url: '1024x1024' }}",
-      "image": "https:{{ product.featured_media.preview_image | img_url: '1024x1024' }}",
-      "name": {{ product.title | json }},
-      "width": 1024,
-      "height": 1024
-    }
-  },
     {%- endif -%}
     {
       "@context": "http://schema.org/",
@@ -169,6 +94,11 @@
       "url": "{{ og_url }}",
       "name": "{{ shop.name }}",
       "legalName": "{{ shop.name }}",
+      "description": "{{ og_description }}",
+      {%- if settings.logo -%}
+        "logo": "{{ settings.logo | image_url }}",
+        "image": "{{ settings.logo | image_url }}",
+      {%- endif -%}
       "contactPoint": {
         "@type": "ContactPoint",
         "contactType": "Customer service",
@@ -176,7 +106,7 @@
       },
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "{{ shop.address.street | escape }}",
+        "streetAddress": "{{ shop.address.street }}",
         "addressLocality": "{{ shop.address.city }}",
         "postalCode": "{{ shop.address.zip }}",
         "addressCountry": "{{ shop.address.country | upcase }}"
@@ -187,6 +117,7 @@
       "@type": "WebSite",
       "url": "{{ og_url }}",
       "name": "{{ shop.name }}",
+      "description": "{{ og_description }}",
       "author": [
         {
           "@type": "Organization",

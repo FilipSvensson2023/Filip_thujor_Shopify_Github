@@ -65,7 +65,7 @@
 .swiper-pagination-bullet.swiper-pagination-bullet-active:before { background: var(--secondary_bg); }
 #nav-top > ul > li > a i.icon-moon:before { content: "\e94d"; }
 .m6fr figure .img-overlay, .m6fr figure .background, #background .img-overlay, .m6wd .background:before, .l4ft li:before, .l4ft .background, .l4ft .img-overlay, figure .img-overlay, .m6fr article:before, .f8nw:before { background-color: var(--white); }
-#shopify-section-footer input { background-color: var(--custom_footer_bg); }
+.shopify-section-footer input { background-color: var(--custom_footer_bg); }
 #search input { background-color: var(--custom_top_main_bg); }
 .l4ft, .m6fr, .link-btn a.overlay-tertiary, #root .link-btn a.overlay-tertiary, button.overlay-tertiary, .s1rt .title, .l4pr .swiper-pagination-bullets .swiper-pagination-bullet i, .l4pr .swiper-pagination-bullets .swiper-pagination-bullet span span, .l4pr .swiper-pagination-bullets .swiper-pagination-bullet span a.more, .l4ft li.overlay-theme, .l4ft li.bg-light, .l4ft li.overlay-content, .m6fr .swiper-button-next, .m6fr .swiper-button-prev, .m6fr.overlay-theme, .m6fr article.overlay-theme, .f8nw { color: var(--black); }
 	#root form.processing .submit [type="button"]:after, #root form.processing .submit [type="submit"]:after, #search.processing button:after, #root form.processing .submit .overlay-content[type="button"]:after, #root form.processing .submit .overlay-content[type="submit"]:after { border-color: var(--black); }

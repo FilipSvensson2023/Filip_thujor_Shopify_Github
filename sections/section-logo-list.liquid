@@ -55,7 +55,7 @@
 {%- endif -%}
 
 {%- if show_header -%}
-  <header class="cols{% if link and section.settings.show_link == false %} align-middle{% endif %}">
+  <header class="cols{% if link and section.settings.show_link == false %} align-middle{% endif %}{% if section.settings.title == empty %} text-end{% endif %}">
     {%- if section.settings.title != empty -%}
       <{{ title_size }} class="{{ title_classes }}">{{ section.settings.title }}</{{ title_size }}>
     {%- endif -%}
@@ -81,22 +81,26 @@
       {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}">{%- endif -%}
         {%- if block.settings.image_svg or block.settings.image -%}
         <img
-          src="{{ 'placeholder-pixel.png' | asset_img_url }}"
           {% if block.settings.image_svg %}
-            data-src="{{ block.settings.image_svg }}"
-          {% else	%}
-            data-src="{{ block.settings.image | image_url: width: 150 }}"
-            data-srcset="{% render 'image-srcset', image: block.settings.image, max_width: 350 %}"
+            src="{{ block.settings.image_svg }}"
+          {% else %}
+            src="{{ block.settings.image | image_url: width: 150 }}"
+            srcset="{% render 'image-srcset', image: block.settings.image, max_width: 350 %}"
             sizes="
               150px
             "
           {% endif %}
           width="120"
-          height="75"
+          height="20"
+          loading="lazy"
           alt="{{ block.settings.image.alt | default: block.settings.title | escape }}"
+          {{ block.shopify_attributes }}
+          data-slide-index={{ forloop.index0 }}
         >
         {%- else -%}
-          {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+          <span {{ block.shopify_attributes }} data-slide-index={{ forloop.index0 }}>
+            {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+          </span>
         {%- endif %}
       {%- if block.settings.link != blank -%}</a>{%- endif -%}
     </li>
@@ -129,6 +133,11 @@
 {
   "name": "t:sections.logo_list.name",
   "tag": "article",
+  "disabled_on": {
+    "groups": [
+      "header"
+    ]
+  },
   "settings": [
     {
       "type": "range",

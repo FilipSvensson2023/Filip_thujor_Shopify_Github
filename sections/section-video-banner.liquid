@@ -84,14 +84,13 @@
             {%- liquid
               if block.settings.title_size == 'size-50'
                 assign title_classes = block.settings.title_size | append: ' mobile-size-' | append: settings.mobile_font_size | remove: 'px'
-                assign title_size = 'h2'
+                assign title_size = 'h1'
               else
                 assign title_classes = false
                 assign title_size = block.settings.title_size
               endif
             -%}
-             <!-- <{{ title_size }} class="m20 {{ title_classes }}" {{ block.shopify_attributes }}>{{ block.settings.title }}</{{ title_size }}> -->
-             <h1 class="m20 {{ title_classes }}" {{ block.shopify_attributes }}>{{ block.settings.title }}</h1>
+            <{{ title_size }} class="m20 {{ title_classes }}" {{ block.shopify_attributes }}>{{ block.settings.title }}</{{ title_size }}>
           {% endif %}
         {% when 'text' -%}
           {% if block.settings.text != empty %}<span {{ block.shopify_attributes }}>{{ block.settings.text }}<span>{% endif %}
@@ -133,6 +132,12 @@
 {% schema %}
 {
   "name": "t:sections.video_with_text.name",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
   "settings": [
     {
       "id": "image",
@@ -257,7 +262,10 @@
     {
       "id": "video_url",
       "type": "video_url",
-      "accept": ["vimeo", "youtube"],
+      "accept": [
+        "vimeo",
+        "youtube"
+      ],
       "label": "t:sections.video_with_text.settings.video_url.label",
       "info": "t:sections.video_with_text.settings.video_url.info"
     },
@@ -333,15 +341,15 @@
           "label": "t:sections.video_with_text.blocks.title.settings.title_size.label",
           "options": [
             {
-              "value": "h4",
+              "value": "h3",
               "label": "t:sections.video_with_text.blocks.title.settings.title_size.options__1.label"
             },
             {
-              "value": "h3",
+              "value": "h2",
               "label": "t:sections.video_with_text.blocks.title.settings.title_size.options__2.label"
             },
             {
-              "value": "h2",
+              "value": "h1",
               "label": "t:sections.video_with_text.blocks.title.settings.title_size.options__3.label"
             },
             {
@@ -349,7 +357,7 @@
               "label": "t:sections.video_with_text.blocks.title.settings.title_size.options__4.label"
             }
           ],
-          "default": "h2"
+          "default": "h1"
         }
       ]
     },

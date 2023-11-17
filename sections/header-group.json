@@ -1,0 +1,98 @@
+{
+  "type": "header",
+  "name": "t:static_sections.header.name",
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "settings": {
+        "color_palette": "dark",
+        "text": "<p><strong>Vi levererar till hela Skandinavien <\/strong>🇸🇪  🇩🇰  🇳🇴  🇫🇮<\/p>"
+      }
+    },
+    "header": {
+      "type": "header",
+      "blocks": {
+        "header-block-button-1": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "show_mobile": true,
+            "button_menu": "kundservice",
+            "button_color": "light"
+          }
+        },
+        "header-block-usp-1": {
+          "type": "usp",
+          "settings": {
+            "usp": "<p><strong>Växel:<\/strong> 08-533 323 23 • <strong>Skåne:<\/strong> 042-533 15 • <strong>Göteborg:<\/strong> 031-10 58 56 • <strong>Mån-Fre:<\/strong> 09:00-15:00<\/p>"
+          }
+        },
+        "8a42768e-1596-4cb5-9fa9-9b6e73299876": {
+          "type": "usp",
+          "settings": {
+            "usp": "<p><strong>E-post: <\/strong>info@thujor.se<\/p>"
+          }
+        },
+        "1866eb9b-4cb7-4ce1-973f-072ec676ccb4": {
+          "type": "usp",
+          "disabled": true,
+          "settings": {
+            "usp": "<p><strong>Fler än 54.000 nöjda kunder sedan 2008 <\/strong>★★★★★<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "header-block-button-1",
+        "header-block-usp-1",
+        "8a42768e-1596-4cb5-9fa9-9b6e73299876",
+        "1866eb9b-4cb7-4ce1-973f-072ec676ccb4"
+      ],
+      "settings": {
+        "layout": "layout_1",
+        "top_bar_color": "light",
+        "header_color": "white",
+        "search_color": "white",
+        "menubar_color": "dark",
+        "logo": "shopify:\/\/shop_images\/Thujor_loggo_2023.png",
+        "logo_width": 300,
+        "svg_logo": "",
+        "show_top_bar": true,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "navbar_menu_item_text": "",
+        "navbar_menu_item_link": "shopify:\/\/pages\/kundservice",
+        "enable_usp_slider": false,
+        "enable_usp_slider_arrows": true,
+        "enable_usp_slider_autoplay": true,
+        "usp_slider_autoplay_seconds": 5,
+        "enable_sticky_header": true,
+        "sticky": "sticky-menu",
+        "cart_icon": "cart|e903",
+        "cart_icon_color": "dark",
+        "menubar_menu": "main-meny-2023",
+        "menu_layout": "mega",
+        "show_dropdown_images": true,
+        "show_dropdown_images_autofill": true,
+        "menubar_center": true,
+        "main_menu_items_clickable": false,
+        "menubar_caps": false,
+        "sale_highlight": false,
+        "menu_font": "title",
+        "menu_items_limit": 15,
+        "enable_socials": true,
+        "extra_image": "shopify:\/\/shop_images\/Jordbruksverket_RGB.jpg",
+        "extra_image_width": 150,
+        "extra_image_svg": "",
+        "extra_image_link": "",
+        "disable_online_store": false,
+        "logo_width_mobile": 140,
+        "mobile_svg_logo": "",
+        "search_compact_mobile": false
+      }
+    }
+  },
+  "order": [
+    "announcement",
+    "header"
+  ]
+}

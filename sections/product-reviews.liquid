@@ -33,7 +33,7 @@
   endif
 -%}
 
-<div class="m6tb static reviews_s">
+<div class="m6tb static">
   <nav class="hidden">
     <ul>
       <li class="active"><a href="#section-reviews">{%- if section.settings.title != empty -%}{{ section.settings.title }}{%- else -%}{{ 'product.reviews.title' | t }}{%- endif -%}</a></li>
@@ -49,8 +49,6 @@
         </header>
         <div class="m6rv">
           <header class="m6pe">
-<!--               <span class="label"><span class="overlay-sale">&nbsp;10%</span></span> -->
-            {%- render 'product-labels', product: product, origin: 'productitem' -%}
             <figure>
               <picture {% if settings.multiply_product_images %}class="img-multiply"{% endif %}>
                 {%- if product.featured_image == blank -%}

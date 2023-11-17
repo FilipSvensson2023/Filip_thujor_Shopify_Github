@@ -42,7 +42,9 @@
       "product": "Producto",
       "products": "Products",
       "qty": "Cantidad",
-      "remove": "Retire"
+      "remove": "Retire",
+      "product_removed": "{{ product_title }} ha sido eliminado de su carrito",
+      "product_removed_undo": "Deshacer"
     },
     "giftcard_or_discount_code": {
       "title": "Tarjeta de regalo o código de descuento",
@@ -53,12 +55,12 @@
     "total": "Total",
     "checkout": "Tramitar compra",
     "total_products": "Total de productos",
+    "upsell_title": "También te puede interesar",
     "total_including_tax": "Total con IVA incluido",
     "total_excluding_tax": "Total sin IVA",
-    "empty_title_short": "Su carro está vacío...",
     "empty_title": "Estamos buscando sus productos, pero parece que su carrito está vacío...",
     "empty_subtitle": "Haga clic en seguir comprando y consulte nuestro catálogo",
-    "to_cart": "Ver mi cesta",
+    "to_cart": "Ver cesta",
     "add_note": "Instrucciones especiales para el vendedor",
     "add_note_placeholder": "¿Tiene alguna nota para nosotros?",
     "button_processing": "Procesamiento de datos...",
@@ -176,6 +178,8 @@
       "date": "Date",
       "payment_status": "Estado del pago",
       "fulfillment_status": "Estado de cumplimiento",
+      "track_shipment": "Rastrear envio",
+      "fulfilled_at_html": "Enviado el {{ date }}",
       "total": "Total",
       "view_order": "Ver pedido",
       "seen_number_of_orders_html": "<span class='strong'>{{ number1 }}<\/span> de <span class='strong'>{{ number2 }}<\/span> pedidos"
@@ -311,7 +315,17 @@
       "shipped_today": "¿Enviado hoy?",
       "you_have_left_html": "Pide dentro: {{ time }}"
     },
-    "choose_option": "Elige una opción"
+    "choose_option": "Elige una opción",
+    "countdown": {
+      "days": "Días",
+      "day": "Día",
+      "hours": "Horas",
+      "hour": "Hora",
+      "minutes": "Minutos",
+      "minute": "Minuto",
+      "seconds": "Segundos",
+      "second": "Segundo"
+    }
   },
   "gift_cards": {
     "issued": {
@@ -329,6 +343,21 @@
       "copied_code": "¡Copiado!",
       "print_page": "Imprimir",
       "shop_link": "Empieza a comprar."
+    },
+    "recipient": {
+      "form": {
+        "checkbox": "Quiero enviar esto como un regalo.",
+        "email_label": "Correo electrónico de la persona destinataria",
+        "email": "Correo electrónico",
+        "name_label": "Nombre de la persona destinataria (opcional)",
+        "name": "Nombre",
+        "message_label": "Mensaje (opcional)",
+        "message": "Mensaje",
+        "max_characters": "{{ max_chars }} caracteres máx.",
+        "email_label_optional_for_no_js_behavior": "Correo electrónico de la persona destinataria (opcional)",
+        "send_on": "AAAA-MM-DD",
+        "send_on_label": "Enviar el (opcional)"
+      }
     }
   },
   "header": {
@@ -423,7 +452,9 @@
       "choose_option": "Elige una opción",
       "purchase_options_title": "Entregar cada",
       "purchase_options_subtitle": "Puede cancelar su suscripción mensualmente",
-      "one_time_purchase": "Compra única"
+      "one_time_purchase": "Compra única",
+      "pre_order": "Pre-order",
+      "pre_order_info": "Pre-order info"
     },
     "including_tax": "IVA incluido",
     "excluding_tax": "Sin IVA",
@@ -449,6 +480,7 @@
     "results": "Resultados de la búsqueda",
     "results_plus_term": "Resultados de la búsqueda de \"{{ term }}\"",
     "questions_and_advice": "Páginas y entradas de blog",
+    "suggestions": "Sugerencias",
     "amount_of_results": {
       "zero": "No hay resultados",
       "one": "{{ amount }} resultado",

@@ -31,61 +31,60 @@
             capture placeholder_int
               cycle 1, 2, 3, 4, 5, 6
             endcapture
-            render 'product-item', product: product, placeholder_int: placeholder_int, enable_quick_buy_desktop: section.settings.enable_quick_buy_desktop, enable_quick_buy_mobile: section.settings.enable_quick_buy_mobile, enable_quick_buy_qty_selector: section.settings.enable_quick_buy_qty_selector, quick_buy_compact: section.settings.enable_quick_buy_compact, enable_quick_buy_drawer: section.settings.enable_quick_buy_drawer, layout: 'list'
+            render 'product-item', product: product, placeholder_int: placeholder_int, enable_quick_buy_desktop: section.settings.enable_quick_buy_desktop, enable_quick_buy_mobile: section.settings.enable_quick_buy_mobile, enable_quick_buy_qty_selector: section.settings.enable_quick_buy_qty_selector, quick_buy_compact: section.settings.enable_quick_buy_compact, enable_quick_buy_drawer: section.settings.enable_quick_buy_drawer, enable_color_picker: section.settings.enable_color_picker, layout: 'list'
           endfor
         -%}
       </ul>
     </div>
     <div class="w66">
-      <ul class="
-        l4ft
-        {% if section.settings.width_mobile == 'boxed' %}mobile-box{% endif %}
-      ">
-        <li class="palette-{{ section.settings.color_palette }}
-        module-color-palette
-        w100
-        {{ section.settings.text_position }}
-        {{ section.settings.mobile_height }}-mobile
+      <ul class="l4ft{% if section.settings.width_mobile == 'boxed' %} mobile-box{% endif %}">
+        <li class="w100
+          {{ section.settings.text_position }}
+          {{ section.settings.mobile_height }}-mobile
         ">
-          <figure>
-            <span class="img-overlay" style="opacity:{{ section.settings.overlay_opacity | divided_by: 100.0 }}"></span>
-            {%- if section.settings.image -%}
-              <picture>
-                  <img
-                    src="{{ 'placeholder-pixel.png' | asset_img_url }}"
-                    data-src="{{ section.settings.image | image_url: width: 640 }}"
-                    data-srcset="{% render 'image-srcset', image: section.settings.image %}"
-                    sizes="
-                      (min-width: 1280px) calc({% if settings.body_width == 'boxed' %}1280px{% else %}100vw{% endif %} / 2),
-                      100vw
-                    "
-                    width="640"
-                    height="385"
-                    alt="{{ section.settings.image.alt | default: section.settings.title | escape }}"
-                    style="object-position: {{ section.settings.image.presentation.focal_point }}"
-                  >
-              </picture>
-            {% else %}
-              {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}z
-            {% endif %}
-          </figure>
-          <div {% if section.settings.title_size == 'size-50' %}class="size-18 mobile-size-14"{% endif %}>
-            {%- if section.settings.title -%}
-              <{{ title_size }} class="{% if title_classes %}{{ title_classes }} {% endif %} {{ section.settings.title_size_mobile }}">
-                {{ section.settings.title }}
-              </{{ title_size }}>
-            {%- endif -%}
-            {%- if section.settings.text -%}{{ section.settings.text }}{%- endif -%}
-            {%- if section.settings.link_text != empty and section.settings.link_url != blank -%}
-              <p class="button-palette-{{ section.settings.button_color_palette }} {% unless section.settings.show_link %}link-btn{% endunless %}">
-                <a href="{{ section.settings.link_url }}"{% if section.settings.show_link %} class="strong"{% endif %}>
-                  {% if section.settings.show_link %}<span>{% endif %}{{ section.settings.link_text }}{% if section.settings.show_link %}</span>&nbsp;<i aria-hidden="true" class="icon-chevron-right"></i>{% endif %}
-                </a>
-              </p>
-            {%- endif -%}
-            {%- if settings.banners_clickable and section.settings.link_url != blank -%}
-              <a class="link-overlay" aria-label="{{ section.settings.link_url }}" href="{{ section.settings.link_url }}"></a>
-            {%- endif -%}
+          <div class="palette-{{ section.settings.color_palette }}
+               module-color-palette
+               main">
+            <figure>
+              <span class="img-overlay" style="opacity:{{ section.settings.overlay_opacity | divided_by: 100.0 }}"></span>
+              {%- if section.settings.image -%}
+                <picture>
+                    <img
+                      src="{{ 'placeholder-pixel.png' | asset_img_url }}"
+                      data-src="{{ section.settings.image | image_url: width: 640 }}"
+                      data-srcset="{% render 'image-srcset', image: section.settings.image %}"
+                      sizes="
+                        (min-width: 1280px) calc({% if settings.body_width == 'boxed' %}1280px{% else %}100vw{% endif %} / 2),
+                        100vw
+                      "
+                      width="640"
+                      height="385"
+                      alt="{{ section.settings.image.alt | default: section.settings.title | escape }}"
+                      style="object-position: {{ section.settings.image.presentation.focal_point }}"
+                    >
+                </picture>
+              {% else %}
+                {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}z
+              {% endif %}
+            </figure>
+            <div {% if section.settings.title_size == 'size-50' %}class="size-18 mobile-size-14"{% endif %}>
+              {%- if section.settings.title -%}
+                <{{ title_size }} class="{% if title_classes %}{{ title_classes }} {% endif %} {{ section.settings.title_size_mobile }}">
+                  {{ section.settings.title }}
+                </{{ title_size }}>
+              {%- endif -%}
+              {%- if section.settings.text -%}{{ section.settings.text }}{%- endif -%}
+              {%- if section.settings.link_text != empty and section.settings.link_url != blank -%}
+                <p class="button-palette-{{ section.settings.button_color_palette }} {% unless section.settings.show_link %}link-btn{% endunless %}">
+                  <a href="{{ section.settings.link_url }}"{% if section.settings.show_link %} class="strong"{% endif %}>
+                    {% if section.settings.show_link %}<span>{% endif %}{{ section.settings.link_text }}{% if section.settings.show_link %}</span>&nbsp;<i aria-hidden="true" class="icon-chevron-right"></i>{% endif %}
+                  </a>
+                </p>
+              {%- endif -%}
+              {%- if settings.banners_clickable and section.settings.link_url != blank -%}
+                <a class="link-overlay" href="{{ section.settings.link_url }}"></a>
+              {%- endif -%}
+            </div>
           </div>
         </li>
       </ul>
@@ -106,7 +105,14 @@
 {
   "name": "t:sections.image_with_products.name",
   "disabled_on": {
-    "templates": ["gift_card", "password"]
+    "templates": [
+      "gift_card",
+      "password"
+    ],
+    "groups": [
+      "header",
+      "footer"
+    ]
   },
   "settings": [
     {
@@ -213,6 +219,12 @@
       "default": "image-left"
     },
     {
+      "id": "products",
+      "type": "product_list",
+      "label": "t:sections.image_with_products.settings.products.label",
+      "limit": 6
+    },
+    {
       "id": "text_position",
       "type": "select",
       "label": "t:sections.image_with_products.settings.text_position.label",
@@ -310,12 +322,6 @@
       "label": "t:sections.image_with_products.settings.show_link.label"
     },
     {
-      "id": "products",
-      "type": "product_list",
-      "label": "t:sections.image_with_products.settings.products.label",
-      "limit": 6
-    },
-    {
       "type": "header",
       "content": "t:sections.image_with_products.settings.quick_buy.header"
     },
@@ -347,6 +353,11 @@
       "label": "t:sections.image_with_products.settings.quick_buy.enable_quick_buy_qty_selector.label",
       "info": "t:sections.image_with_products.settings.quick_buy.enable_quick_buy_qty_selector.info",
       "default": true
+    },
+    {
+      "id": "enable_color_picker",
+      "type": "checkbox",
+      "label": "t:sections.image_with_products.settings.quick_buy.enable_color_picker.label"
     },
     {
       "id": "enable_quick_buy_compact",

@@ -9,6 +9,7 @@
   {% unless section.settings.enable_controls %}no-controls{% endunless %}
   "
   {% if section.settings.autoplay %}data-autoplay={{ section.settings.autoplay_seconds | times: 1000 }}{% endif %}
+  data-active-content="palette-{{ section.blocks[0].settings.color_palette }}"
   >
   {%- for block in section.blocks -%}
     {%- liquid
@@ -25,7 +26,7 @@
 
       if block.settings.title_size == 'size-50'
         assign title_classes = block.settings.title_size
-        assign title_size = 'h2'
+        assign title_size = 'h1'
       else
         assign title_classes = false
         assign title_size = block.settings.title_size
@@ -44,7 +45,7 @@
       module-color-palette
       {% if block.settings.title_size == 'size-50' %}size-18 mobile-size-14{% endif %}
       "
-      data-slide-index={{ forloop.index }}
+      data-slide-index={{ forloop.index0 }}
       {{ block.shopify_attributes }}
     >
       <figure>
@@ -52,7 +53,24 @@
         {%- if block.settings.video -%}
           {{ block.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false }}
         {%- elsif block.settings.image -%}
-          <picture>
+          {% if block.settings.image_mobile %}
+            <picture class="mobile-only">
+              {% capture srcset %}
+                {% render 'image-srcset', image: block.settings.image_mobile, max_width: 940 %}
+              {% endcapture %}
+              {% capture sizes %}
+                (min-width: 768px) 0,
+                100vw
+              {% endcapture %}
+              {% assign alt = block.settings.image_mobile.alt | default: block.settings.title | escape %}
+              {%- if forloop.first -%}
+                {{ block.settings.image_mobile | image_url: width: 700, height: 530, crop: 'center' | image_tag: srcset: srcset, sizes: sizes, preload: true, alt: alt }}
+              {%- else %}
+                {{ block.settings.image_mobile | image_url: width: 700, height: 530, crop: 'center' | image_tag: srcset: srcset, sizes: sizes, loading: 'lazy', alt: alt }}
+              {%- endif -%}
+            </picture>
+          {% endif %}
+          <picture{% if block.settings.image_mobile %} class="mobile-hide"{% endif %}>
             {% capture srcset %}
               {% render 'image-srcset', image: block.settings.image, max_width: 2900 %}
             {% endcapture %}
@@ -63,7 +81,7 @@
                 {% else %}
                   {% if block.settings.layout == 'background' %}100vw{% else %}calc(100vw / 2),{% endif %}
                 {% endif %}
-              100vw
+            {% if block.settings.image_mobile %}0{% else %}100vw{% endif %}
             {% endcapture %}
             {% assign alt = block.settings.image.alt | default: block.settings.title | escape %}
             {%- if forloop.first -%}
@@ -79,9 +97,9 @@
         {% endif %}
       </figure>
       {%- if block.settings.title -%}
-        <h1 class="{% if title_classes %}{{ title_classes }} {% endif %} {{ block.settings.title_size_mobile }}">
+        <{{ title_size }} class="{% if title_classes %}{{ title_classes }} {% endif %} {{ block.settings.title_size_mobile }}">
           {{ block.settings.title }}
-        </h1>
+        </{{ title_size }}>
       {% endif %}
       {%- if block.settings.text -%}{{ block.settings.text }}{%- endif -%}
       {%- if block.settings.link_text != empty and block.settings.link_url != blank -%}
@@ -90,14 +108,14 @@
         </p>
       {%- endif -%}
       {%- if settings.banners_clickable and block.settings.link_url != blank -%}
-        <a class="link-overlay" aria-label="{{ block.settings.link_url }}" href="{{ block.settings.link_url }}"></a>
+        <a class="link-overlay" href="{{ block.settings.link_url }}"></a>
       {%- endif -%}
     </article>
   {%- endfor -%}
 </div>
 
 <style>
-  #shopify-section-{{ section.id }} .m6fr { margin-bottom: {{ section.settings.spacing_desktop }}px; }
+  #shopify-section-{{ section.id }} .m6fr { margin-bottom: {{ section.settings.spacing_desktop | minus: 20 }}px; }
   @media only screen and (max-width: 47.5em) {
     #shopify-section-{{ section.id }} .m6fr > article { margin-bottom: 0; }
     #shopify-section-{{ section.id }} .m6fr { margin-bottom: {{ section.settings.spacing_mobile }}px; }
@@ -107,6 +125,12 @@
 {% schema %}
 {
   "name": "t:sections.slideshow.name",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
   "settings": [
     {
       "type": "select",
@@ -391,15 +415,15 @@
           "label": "t:sections.slideshow.blocks.slide.settings.title_size.label",
           "options": [
             {
-              "value": "h4",
+              "value": "h3",
               "label": "t:sections.slideshow.blocks.slide.settings.title_size.options__1.label"
             },
             {
-              "value": "h3",
+              "value": "h2",
               "label": "t:sections.slideshow.blocks.slide.settings.title_size.options__2.label"
             },
             {
-              "value": "h2",
+              "value": "h1",
               "label": "t:sections.slideshow.blocks.slide.settings.title_size.options__3.label"
             },
             {
@@ -407,7 +431,7 @@
               "label": "t:sections.slideshow.blocks.slide.settings.title_size.options__4.label"
             }
           ],
-          "default": "h2"
+          "default": "h1"
         },
         {
           "id": "title",
@@ -442,6 +466,11 @@
         {
           "type": "header",
           "content": "t:sections.slideshow.blocks.slide.settings.mobile.header"
+        },
+        {
+          "id": "image_mobile",
+          "type": "image_picker",
+          "label": "t:sections.slideshow.blocks.slide.settings.mobile.image_mobile.label"
         },
         {
           "type": "select",

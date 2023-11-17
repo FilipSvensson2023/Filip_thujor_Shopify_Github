@@ -1,16 +1,3 @@
-{% comment %} Meter Code {% endcomment %}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-{% for tag in product.tags %}
-  {% assign new_tag = tag | split:'####' %}
-  {% if new_tag[0] == 'step' %}
-    {% assign step = new_tag[1] %}
-  {% endif %}
-            
-  {% if new_tag[0] == 'stepcomplete' %}
-    {% assign stepcomplete = new_tag[1] %}
-  {% endif %}            
-{% endfor %}
-
 {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
 {%- liquid
     assign product_image_ratio = settings.product_image_ratio
@@ -79,8 +66,8 @@
 
 {%- capture header -%}
     <header {{ title_block.shopify_attributes }} class="class-x">
-        <h1 class="m5{% if settings.product_titles_caps %} text-uppercase{% endif %}{% if title_classes %} {{ title_classes }}{% endif %}">{{ product.title }}</h1>
-        <ul class="l4dr m15 reviewvendorsocialbox">
+        <{{ title_size }} class="m5{% if settings.product_titles_caps %} text-uppercase{% endif %}{% if title_classes %} {{ title_classes }}{% endif %}">{{ product.title }}</{{ title_size }}>
+        <ul class="l4dr m15">
             {%- if product.metafields.reviews.rating and title_block.settings.show_product_rating -%}
                 <li class="overlay-gray">
                     <a href="#section-reviews" class="r6rt" data-val="{{ product.metafields.reviews.rating.value }}" data-of="5">
@@ -124,7 +111,6 @@
       {% if section.settings.show_thumbs_desktop == false %}no-thumbs-desktop{% endif %}{% if section.settings.show_thumbs_mobile == false %} no-thumbs-mobile{% endif %}
       {% if section.settings.images_layout == 'aside' %}aside-pager{% endif %}
       no-scrollbar
-          productmainslider
       "
             data-featured_media_position={{ featured_media_position }}>
             {%- if product.media.size == 0 -%}
@@ -197,7 +183,6 @@
                             {%- elsif media.media_type == 'model' -%}
                                 <span id="model-3d-{{ forloop.index }}" class="model-3d">
                   {{ media | model_viewer_tag: shadow-intensity: "1" }}
-                              
                   <button
                           data-shopify-xr
                           data-shopify-model3d-id="{{ media.id }}"
@@ -626,202 +611,6 @@
                             <span class="small">{{ 'product.unit_price_label' | t }}{{ current_variant.unit_price | money }}&nbsp;{{ 'product.unit_price_separator' | t }} {{ unit_price_base_unit }}</span>
                         {%- endif -%}
                     </p>
-
-                   {% assign meter = 0 %}
-
-                               {% for tag in product.tags %}
-
-                            {% if tag == 'custom_meter' %}
-{% assign meter = 1 %}
-{% endif %}
-      {% endfor %}
-                  
-{% comment %}          MY CODE ASR (Custom Meter)          {% endcomment %}
-
- 
-
-  <script>
- setTimeout(function(){
- $(document).ready(function() {
-      const quantityInput = $('#quantity');
-      const meterInput = $('#meter');
-
-      quantityInput.on('change', updateMeter);
-      meterInput.on('input', updateQuantity);
-     var abhi = $('.input-container').find('#meter').val();
-     console.log(abhi)
-
-      function updateMeter() {
-        const quantity = parseInt(quantityInput.val());
-        const meter = (quantity * abhi).toFixed(2);
-        meterInput.val(meter);
-      }
-
-      function updateQuantity() {
-        let meter = parseFloat(meterInput.val());
-
-        if (meter < 0.1) {
-          meter = 0.1;
-          meterInput.val(meter.toFixed(2));
-        }
-
-        const quantity = Math.floor((meter - 0.1) / abhi) + 1;
-        quantityInput.val(quantity);
-      }
-    });
-
-}, 2000)
-
-      //  document.querySelectorAll('.cart').forEach(function(element) {
-      //   element.addEventListener('click', function() {
-      //    setTimeout(function(){
-      //     removeAnchorElements();
-      //    }, 1000)
-            
-      //   });
-      // });
-   
-
-    // $(document).ready(function() {
-    //   const quantityInput = $('#quantity2');
-    //   const meterInput = $('#meter');
-
-    //   quantityInput.on('input', updateMeter);
-    //   meterInput.on('input', updateQuantity);
-    //  var abhi = $('.input-container').find('#meter').val();
-    //  console.log(abhi)
-
-    //   function updateMeter() {
-    //     const quantity = parseInt(quantityInput.val());
-    //     const meter = (quantity * abhi).toFixed(2);
-    //     meterInput.val(meter);
-    //   }
-
-    //   function updateQuantity() {
-    //     let meter = parseFloat(meterInput.val());
-
-    //     if (meter < 0.1) {
-    //       meter = 0.1;
-    //       meterInput.val(meter.toFixed(2));
-    //     }
-
-    //     const quantity = Math.floor((meter - 0.1) / abhi) + 1;
-    //     quantityInput.val(quantity);
-    //   }
-    // });
-                 
-  </script> 
-{% comment %}          MY CODE ASR (Custom Meter)          {% endcomment %}
-
-{% comment %} 
-{% if meter == 1 %}
-
-                      <!--************ Start: custom functionality ************** -->
-            
-            {% for tag in product.tags %}
-              {% assign new_tag = tag | split:'####' %}
-              {% if new_tag[0] == 'step' %}
-              {% assign step = new_tag[1] %}
-              {% endif %}
-            
-              {% if new_tag[0] == 'stepcomplete' %}
-              {% assign stepcomplete = new_tag[1] %}
-              {% endif %}            
-            {% endfor %}            
-
-                     
- <div class="testing amount__box" data-added-to-cart="">
-  {% comment %}
-  <div class="message_addedtocart u-hidden--sm"><i class="fal fa-check"></i><span>Added to the basket.</span></div>
-  {% endcomment %}
-  <div class="cf"></div>
-  <div class="inner">
-    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-5 meter_S">
-
-      <div class="amount" step="{{ step }}" min="{{ step }}" data-steps-amount="{{ stepcomplete }}">
-        {% comment %}
-        <span class='amount-value'>{{ stepcomplete }}</span>
-        {% endcomment %}
-        <div class="meter_con">
-          <input type="text" class='amount-value' value="{{ stepcomplete }}" data-product-price="{{ product.price  }}"
-            step="{{ step }}" data-steps-amount="{{ stepcomplete }}" data-steps-increment="{{ stepcomplete }}" readonly>
-          <span class="plus sign" data-product-price="{{ product.price  }}" step="{{ step }}"
-            data-steps-amount="{{ stepcomplete }}" data-steps-increment="{{ stepcomplete }}" >
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#"
-              xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-              xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-              xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg"
-              enable-background="new 0 0 32 32" height="32px" id="svg2" version="1.1" viewBox="0 0 32 32" width="32px"
-              xml:space="preserve">
-              <g id="backbord">
-                <rect fill="none" height="32" width="32" />
-              </g>
-              <g id="arrow_x5F_up">
-                <polygon points="30,22 16.001,8 2.001,22  " />
-              </g>
-            </svg>
-          </span>
-          <span class="minus sign" data-product-price="{{ product.price  }}" step="{{ step }}"
-            data-steps-amount="{{ stepcomplete }}" data-steps-decrement="0">
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#"
-              xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-              xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-              xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg"
-              enable-background="new 0 0 32 32" height="32px" id="svg2" version="1.1" viewBox="0 0 32 32" width="32px"
-              xml:space="preserve">
-              <g id="background">
-                <rect fill="none" height="32" width="32" />
-              </g>
-              <g id="arrow_x5F_down">
-                <polygon points="2.002,10 16.001,24 30.002,10  " />
-              </g>
-            </svg>
-          </span>
-        </div>
-        <label>Meter </label>
-      </div>
-
-
-      <input type="hidden" id="meter" name="properties['meter']" value="{{ stepcomplete }}">
-
-    </div>
-    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-7 quantity">
-      <div class="meter_con">
-        <span class="increment_decrement qplus" onclick="plus()">
-          <?xml version="1.0" ?>
-         <!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'><svg
-            height="512px" id="Layer_1" style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512"
-            width="512px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink">
-            <polygon
-              points="448,224 288,224 288,64 224,64 224,224 64,224 64,288 224,288 224,448 288,448 288,288 448,288 " />
-          </svg> 
-        </span>
-        <input type="number" id="quantity_box" name="quantity" class="amount quantity_amount" value="1"
-          data-product-price="{{ product.price  }}" data-min-amount="{{ stepcomplete }}">
-        <span class="increment_decrement qminus" onclick="minus()">
-          <?xml version="1.0" ?>
-        <!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'><svg
-            height="512px" id="Layer_1" style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512"
-            width="512px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink">
-            <rect height="64" width="384" x="64" y="224" />
-          </svg> 
-        </span>
-      </div>
-      <label>Quantity</label>
-    </div>
-
-   
-  </div><!-- /.inner -->
-</div>
-                  
-            <!--************ End: custom functionality ************** -->
-
-                     {% endif %}
-{% endcomment %}
-                      
-                  
                     {%- assign product_form_installment_id = 'product-form-installment-' | append: section.id -%}
                     {%- form 'product', product, id: product_form_installment_id, class: 'f8pr-product-form-installment' -%}
                         <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
@@ -855,78 +644,35 @@
                     {%- form 'product', product, id: form_id, class: form_class, autocomplete: "off" -%}
                         {%- if gift_card_recipient_feature_active -%}
                             {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
-                        {%- endif -%} 
-                        {% comment %}<p class="submit  m10 {% unless current_variant.available %}unavailable{% endunless %}" {{ block.shopify_attributes }}> {% endcomment %}
+                        {%- endif -%}
+                        <p class="submit m10 {% unless current_variant.available %}unavailable{% endunless %}" {{ block.shopify_attributes }}>
                             {%- if block.settings.show_amount_selection -%}
-                                <div class="quantitywithmeterbox submit">
-                               {% for tag in product.tags %}
-                              {% assign new_tag = tag | split:'####' %}
-                              {% if new_tag[0] == 'stepcomplete' %}
-                                <div class="meterbox">
-                                  <div class="input-container">
-                                    <label for="meter">Meter:</label>
-                                    <div class='meter-btns'>
-                                      <button id="minus-mtr-box" type="button"><svg xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg" enable-background="new 0 0 32 32" height="32px" id="svg2" version="1.1" viewBox="0 0 32 32" width="32px" xml:space="preserve">
-                                        <g id="background">
-                                          <rect fill="none" height="32" width="32"></rect>
-                                        </g>
-                                        <g id="arrow_x5F_down">
-                                          <polygon points="2.002,10 16.001,24 30.002,10  "></polygon>
-                                        </g>
-                                      </svg></button>
-                                      <input type="number" id="meter" step="{{ new_tag[1] }}" min="{{ new_tag[1] }}" value="{{ new_tag[1] }}" onchange="updateCartMeter()" readonly>
-                                       <button id="plus-mtr-box" type="button"><svg xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg" enable-background="new 0 0 32 32" height="32px" id="svg2" version="1.1" viewBox="0 0 32 32" width="32px" xml:space="preserve">
-                                        <g id="backbord">
-                                          <rect fill="none" height="32" width="32"></rect>
-                                        </g>
-                                        <g id="arrow_x5F_up">
-                                          <polygon points="30,22 16.001,8 2.001,22  "></polygon>
-                                        </g>
-                                      </svg></button>
-                                    </div>
-                                    
-                                  </div>
-                                </div>
-                              {% endif %}
-                            {% endfor %}
-                                <div class="inputquantityfield">
-                                  <label for="quantity" >{{ 'product.form.quantity' | t }}</label>
-                                  <span class="input-amount">
-                                  <label for="quantity" class="hidden" >{{ 'product.form.quantity' | t }}</label>
-                                    <input type="number" id="quantity" name="quantity" onchange="updateCartQuantity()" data-link="#product_qty_sticky" value="1" variant = "{{ product.first_available_variant.id }}"
-                                       min="{{ current_variant.quantity_rule.min }}"
-                                       {% if current_variant.inventory_management == 'shopify' and current_variant.inventory_policy == 'deny' -%}
-                                       max="{{ current_variant.inventory_quantity }}"
-                                       {% elsif current_variant.quantity_rule.max %}
-                                         max="{{ current_variant.quantity_rule.max }}"
-                                       {% endif %}
-                                       {% if current_variant.quantity_rule.step %}step="{{ current_variant.quantity_rule.step }}"{% endif %}
-                                       required>  {{ variant.id }}
-                                       <input type="hidden" id="cart-meter" name="properties[Meter]" value="">
-                                  </span>
-                                </div>
-                            
-                              </div>
-                     
-                               {%- endif -%}
+                                <span class="input-amount">
+                        <label for="quantity" class="hidden">{{ 'product.form.quantity' | t }}</label>
+                        <input type="number" id="quantity" name="quantity" data-link="#product_qty_sticky" value="1"
+                               min="{{ current_variant.quantity_rule.min }}"
+                               {% if current_variant.inventory_management == 'shopify' and current_variant.inventory_policy == 'deny' -%}
+                                   max="{{ current_variant.inventory_quantity }}"
+                               {% elsif current_variant.quantity_rule.max %}
+                                   max="{{ current_variant.quantity_rule.max }}"
+                               {% endif %}
+                               {% if current_variant.quantity_rule.step %}step="{{ current_variant.quantity_rule.step }}"{% endif %}
+                               required>
+                      </span>
+                            {%- endif -%}
                             {%- if preorder -%}
                                 <button type="submit" class="preorder-button">{{ block.settings.preorder_button_text }}</button>
                             {%- elsif current_variant.available -%}
-                                <button type="submit" class="overlay-tertiary" onclick="addItemToCart()">{{ 'product.form.add_to_cart' | t }}</button>
-                                <span id="inventory_quantity" style="display: none;">{{ current_variant.inventory_quantity }}</span>
-
-                                 
+                                <button type="submit" class="overlay-tertiary">{{ 'product.form.add_to_cart' | t }}</button>
                             {%- else -%}
                                 <button type="submit" class="disabled overlay-tertiary">{{ 'product.form.not_in_stock' | t }}</button>
                             {%- endif -%}
-                      {% comment %}  </p> {% endcomment %}
-                       
+                        </p>
                         {%- if show_dynamic_buybutton -%}
                             <div class="overlay-quaternary {{ settings.button_height }} {% unless settings.button_style == 'inv' %}{{ settings.button_style }}{% endunless %} {% unless settings.button_rounded == 'slightly-rounded' %}{{ settings.button_rounded }}{% endunless %}">
                                 {{ form | payment_button }}
                             </div>
-                        {%- endif -%}  
-                      {% comment %}
+                        {%- endif -%}
                         <ul class="f8pr-preorder l4al inline{% unless preorder and preorder_label %} m0{% endunless %}">
                             {%- if preorder and preorder_label -%}
                                 <li class="{% if preorder_label_color_palette == 'regular_button' %}overlay-secondary
@@ -939,7 +685,7 @@
                                 </li>
                                 <input class="hidden" id="{{ input_label | handleize }}" type="text" name="properties[{{ input_label }}]" value="{{ preorder_label | strip_html }}">
                             {%- endif -%}
-                        </ul> {% endcomment %}
+                        </ul>
                 {%- endform -%}
                 {%- when 'usp' -%}
                     <ul class="l4ch" {{ block.shopify_attributes }}>
@@ -2278,338 +2024,3 @@
   ]
 }
 {% endschema %}
-
-
-  <script>
-
-
-// Risheeks's Code from here 
-
-// $('.amount__box .amount .plus').on('click', function(){
-//     var product_price     = $(this).attr('data-product-price') / 100;   
-    
-//     var step              = $(this).attr('step');
-//     var data_steps_amount = $(this).attr('data-steps-amount');
-//     var amount_value      = $(this).parents().find('.amount-value').val();
-//     var new_step          = parseFloat(step) + parseFloat(amount_value);
-//     var new_step2         = new_step.toFixed(1)
-//     $(this).parents().find('.amount-value').val(new_step2);
-
-//     //$(this).parents().find('.amount-value').val(new_step2);
-//     $('.amount__box #meter').val(new_step2);
-//     var quantity_amount = parseInt($('.amount__box .quantity_amount').val()); 
-//     var new_quantity_amount = parseInt(quantity_amount) * parseFloat(data_steps_amount);
-//     var new_quantity_amount = new_quantity_amount.toFixed(1);
-//     if(new_step2 > new_quantity_amount){
-//       var quantity_amount = $('.amount__box .quantity_amount').val(); 
-//       var new_quantity_amount = parseInt(quantity_amount) + 1;
-//       var new_price           = parseFloat(product_price) * parseInt(new_quantity_amount);
-//       //console.log(new_price+'new_price');
-//       $('#ProductPrice-nov-product-template-custom').html(new_price.toFixed(1) +' kr');
-//       $('.amount__box .quantity_amount').val(new_quantity_amount); 
-//     }  
-//   });
-
-
-//   $('.amount__box .amount .minus').on('click', function(){
-//     var product_price     = $(this).attr('data-product-price') / 100;
-//     var step              = $(this).attr('step');
-//     var data_steps_amount = $(this).attr('data-steps-amount');
-//     var amount_value  = $(this).parents().find('.amount-value').val();
-//     var new_step      = parseFloat(amount_value) - parseFloat(step);
-//     var new_step2      = new_step.toFixed(1)
-//     if(new_step2 >= step){
-//       $(this).parents().find('.amount-value').val(new_step2);
-//       $('.amount__box #meter').val(new_step2);  
-//     }
-//     var quantity_amount = parseInt($('.amount__box .quantity_amount').val()) - 1; 
-//     var new_quantity_amount = parseInt(quantity_amount) * parseFloat(data_steps_amount);
-//     var new_quantity_amount = new_quantity_amount.toFixed(1);
-//     if(new_quantity_amount == new_step2){
-//       if(new_step2 >= step){
-//         var quantity_amount = $('.amount__box .quantity_amount').val(); 
-//         var new_quantity_amount = parseInt(quantity_amount) - 1;
-//         var new_price           = parseFloat(product_price) * parseInt(new_quantity_amount);
-//         $('#ProductPrice-nov-product-template-custom').html(new_price.toFixed(1) +' kr');
-// //         var kk = $('#ProductPrice-nov-product-template .money').html();
-// //         alert(kk);
-
-//         $('.amount__box .quantity_amount').val(new_quantity_amount); 
-//       }
-//     }
-//   }); 
-
-                              
-// Till here Risheek's code 
-
-
-
-
-
-   // MY Code(Abhishek) Start from here 
-
-
-// $('.amount__box .amount .plus').on('click', function(){
-//   var product_price = parseFloat($(this).attr('data-product-price')) / 100;   
-//   var step = parseFloat($(this).attr('step'));
-//   var data_steps_amount = parseFloat($(this).attr('data-steps-amount'));
-//   var amount_value = parseFloat($(this).parents().find('.amount-value').val());
-//   var new_step = parseFloat(amount_value) + parseFloat(data_steps_amount);
-//   var new_step2 = Math.round(new_step / data_steps_amount) * data_steps_amount;
-
-//   $(this).parents().find('.amount-value').val(new_step2.toFixed(2));
-//   $('.amount__box #meter').val(new_step2.toFixed(2));
-
-//   var quantity_amount = parseInt($('.amount__box .quantity_amount').val()); 
-//   var new_quantity_amount = quantity_amount + 1;
-//   var new_price = parseFloat(product_price) * parseFloat(new_quantity_amount);
-
-//   $('#ProductPrice-nov-product-template-custom').html(new_price.toFixed(2) + ' kr');
-//   $('.amount__box .quantity_amount').val(new_quantity_amount);
-// });
-
-
-// $('.amount__box .amount .minus').on('click', function(){
-//   var product_price = parseFloat($(this).attr('data-product-price')) / 100;
-//   var step = parseFloat($(this).attr('step'));
-//   var data_steps_amount = parseFloat($(this).attr('data-steps-amount'));
-//   var amount_value = parseFloat($(this).parents().find('.amount-value').val());
-//   var new_step = parseFloat(amount_value) - parseFloat(data_steps_amount);
-//   var new_step2 = Math.floor(new_step / data_steps_amount) * data_steps_amount;
-
-//   if (new_step2 >= step) {
-//     $(this).parents().find('.amount-value').val(new_step2.toFixed(2));
-//     $('.amount__box #meter').val(new_step2.toFixed(2));
-//   }
-
-//   var quantity_amount = parseInt($('.amount__box .quantity_amount').val());
-//   var new_quantity_amount = quantity_amount - 1;
-//   var new_price = parseFloat(product_price) * parseFloat(new_quantity_amount);
-
-//   if (new_quantity_amount >= 1) {
-//     $('#ProductPrice-nov-product-template-custom').html(new_price.toFixed(2) + ' kr');
-//     $('.amount__box .quantity_amount').val(new_quantity_amount);
-//   }
-// });
-
-
-
-//   $('.increment_decrement').on('click', function(){
-
-
-    
-//     var data_min_amount = $('#quantity_box').attr('data-min-amount');
-//     var quantity        = $('#quantity_box').val();
-     
-//     if(quantity > 0){
-//       var data_product_price = $('#quantity_box').attr('data-product-price') / 100; 
-//       var new_data_step   = parseFloat(data_min_amount) * parseInt(quantity);
-//       var new_price           = parseFloat(data_product_price) * parseInt(quantity);
-//       $('#ProductPrice-nov-product-template-custom').html(new_price.toFixed(1) +' kr');
-//       $('.amount__box .amount-value').val(new_data_step.toFixed(1));
-//     }else if(quantity < 1){
-//       $('#quantity_box').val(1);
-//     }
-
-//   });
-
-//     $('#quantity_box').on('keyup', function(){
-
-
-//       // $('.increment_decrement').trigger('click');
-
-//           var data_min_amount = $('#quantity_box').attr('data-min-amount');
-//     var quantity        = $('#quantity_box').val();
-     
-//     if(quantity > 0){
-//       var data_product_price = $('#quantity_box').attr('data-product-price') / 100; 
-//       var new_data_step   = parseFloat(data_min_amount) * parseInt(quantity);
-//       var new_price           = parseFloat(data_product_price) * parseInt(quantity);
-//       $('#ProductPrice-nov-product-template-custom').html(new_price.toFixed(1) +' kr');
-//       $('.amount__box .amount-value').val(new_data_step.toFixed(1));
-//     }else if(quantity < 1){
-//       $('#quantity_box').val(1);
-//     }
-
-// });
-
-
-//       function addItemToCart (data_type=null) {
-//     data = {
-//       "quantity":  $('.amount__box .quantity_amount').val(),
-//       "id": '{{ product.selected_or_first_available_variant.id }}',
-//       "properties": {
-//  "meter": $('.amount-value').val(),
-//       }
-//     }
-// console.log(data)
-//     jQuery.ajax({
-//       type: 'POST',
-//       url: '/cart/add.js',
-//       data: data,
-//       dataType: 'json',
-//       success: function() { 
-//         if(data_type == 'buy-now'){
-//           $('.qv-sucess-msg').show().html(`<span>Item added to cart!</span>`); 
-//            window.location.href="/checkout";
-//         }else{
-//          $('.qv-sucess-msg').show().html(`<span>Item added to cart! 
-//         <a href="/cart" class="sca-qv-msg-cart-link">View Cart</a>
-//         </span>`); 
-//         }
-
-// {% comment %}         window.location.reload(); {% endcomment %}
-
-//         /*setTimeout(function(){
-//           $('.qv-sucess-msg').hide();
-//         },10000);*/
-//       }
-//     });
-//   }
-
-//   var current_quantity = parseInt($('#quantity_box').val());
-
-// $('.increment_decrement').on('click', function(){
-
-//  current_quantity = parseInt($('#quantity_box').val());
-
-// });
-
-//   function plus(){
-
-   
-// current_quantity++;
-
-// $('#quantity_box').val(current_quantity)
-    
-//   }
-
-//                               function minus(){
-
-//                               if(current_quantity > 1){
-
-//                                                   current_quantity--;
-
-//                   $('#quantity_box').val(current_quantity)
-                              
-//                               }
-
-              
-//                               }
-
-    function updateCartMeter() {
-     setTimeout(function(){
-       
-    var meterValue = document.getElementById('meter').value;
-   document.getElementById('cart-meter').value = meterValue;
-       
-}, 1000)
-    
-}
-
-
-//       function addItemToCart(data_type = null) {
-//    setTimeout(function(){
-//  var variantId =$('#quantity').attr('variant');
-
-//     var data = {
-//         "quantity": parseInt($('#quantity').val()),
-//         "id": variantId,
-//         "properties": {
-//             "meter": parseFloat($('#meter').val()),
-//         }
-//     };
-
-//     jQuery.ajax({
-//         type: 'POST',
-//         url: '/cart/add.js',
-//         data: data,
-//         dataType: 'json',
-//         success: function() {
-//             console.log("Item added to cart!");
-//             console.log(data);
-//         }
-//     });
-// }, 1000)
-// }
-   setTimeout(function(){
- $(document).ready(function() {
-   const quantityInput = $('#quantity');
-      const meterInput = $('#cart-meter');
-        quantityInput.on('change', meterUpdate);
-
-      var abhi = $('.input-container').find('#meter').val();
-      function meterUpdate() {
-        const quantity = parseInt(quantityInput.val());
-        const meter = (quantity * abhi).toFixed(2);
-        meterInput.val(meter);
-      }
-})
-}, 2000)
-
-
-    
-
-// Buy Now button disabled 
-setTimeout(function(){
-        var firstButton = document.querySelector('.disabled.overlay-tertiary');
-  var secondButton = document.querySelector('.shopify-payment-button__button');
-
-  // Check if the first button has the 'disabled' class
-  if (firstButton.classList.contains('disabled')) {
-    // If it does, disable the second button
-    secondButton.disabled = true;
-  }
-}, 2000)
-    // Buy Now button disabled 
-
-
-setTimeout(function(){
-const minusMeterButton = document.getElementById("minus-mtr-box");
-const plusMeterButton = document.getElementById("plus-mtr-box");
-const meterInput = document.getElementById("meter");
-const quantityInput = document.getElementById("quantity");
-const meterValue = parseInt($('.input-container').find('#meter').val());
-console.log(meterValue +"This is met Tagy")
-  
-// Get the minimum value from the min attribute of the meter input
-const minMeterValue = parseFloat(meterInput.getAttribute("min"));
-console.log('Min meter value '+minMeterValue)
-
-minusMeterButton.addEventListener("click", decreaseMeterValue);
-plusMeterButton.addEventListener("click", increaseMeterValue);
-
-function decreaseMeterValue() {
-    let currentValue = parseFloat(meterInput.value);
-    console.log('current Value is '+currentValue)
-    if (currentValue > 0) {
-        currentValue -= minMeterValue;
-        if (currentValue < minMeterValue) {
-            currentValue = minMeterValue;
-        }
-        meterInput.value = currentValue.toFixed(2);
-        updateCartMeter();
-        updateCartQuantity();
-    }
-}
-
-function increaseMeterValue() {
-    let currentValue = parseFloat(meterInput.value);
-     console.log('currentValue is '+currentValue)
-    currentValue +=minMeterValue;
-    meterInput.value = currentValue.toFixed(2);
-    updateCartMeter();
-    updateCartQuantity();
-}
-
-function updateCartQuantity() {
-    const currentValue = parseFloat(meterInput.value);
-    const quantityValue = Math.ceil(currentValue / minMeterValue);
-    quantityInput.value = quantityValue;
-}
-
-}, 1000)
- 
-</script>
-        
-        

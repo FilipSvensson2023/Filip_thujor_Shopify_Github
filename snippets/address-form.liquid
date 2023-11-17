@@ -9,7 +9,7 @@
     assign title = 'customer.addresses.add_address_title' | t
     assign button = 'customer.addresses.add' | t
   endif
-  assign address_form_class = 'f8lg hidden'
+  assign address_form_class = 'address-form f8lg hidden'
   assign address_form_data_element = 'address-' | append: form_id | append: '-form'
 -%}
 {%- form 'customer_address', address, class: address_form_class, data-element: address_form_data_element, data-address-form: '' -%}
@@ -32,9 +32,15 @@
     </p>
     <p>
       <label for="country_{{ form.id }}">{{ 'customer.addresses.country' | t }}<span class="overlay-theme">*</span></label>
-      <select id="country_{{ form.id }}" name="address[country]" class="address-country-option" data-search-placeholder="{{ 'customer.addresses.search_country' | t }}" data-form-id="{{ form.id }}" data-default="{{ form.country }}" required>
+      <select id="country_{{ form.id }}" name="address[country]" class="address-country-option" data-search-placeholder="{{ 'customer.addresses.search_country' | t }}" data-form-id="{{ form.id }}" data-default="{{ form.country }}">
         <option value="" selected disabled>{{ 'customer.addresses.country' | t }}</option>
         {{ all_country_option_tags }}
+      </select>
+    </p>
+    <p class="address-provinces" style="display: none">
+      <label for="province_{{ form.id }}">{{ 'customer.addresses.province' | t }}</label>
+      <select id="province_{{ form.id }}" name="address[province]" class="address-province-option" data-form-id="{{ form.id }}" data-default="{{ form.province }}">
+        <option value="" selected disabled>{{ 'customer.addresses.province' | t }}</option>
       </select>
     </p>
     <p>
@@ -60,7 +66,7 @@
     <p class="check">
       <span>{{ form.set_as_default_checkbox }} <label for="address_default_address_{{ form.id }}"> {{ 'customer.addresses.set_default' | t }}</label></span>
     </p>
-    <p class="submit 5">
+    <p class="submit">
       <button type="submit">{{ button }}</button>
       <button type="reset" class="inline" data-disable="{{ address_form_data_element }}">{{ 'customer.addresses.cancel' | t }}</button>
     </p>

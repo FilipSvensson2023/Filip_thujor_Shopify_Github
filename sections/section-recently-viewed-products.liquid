@@ -27,6 +27,7 @@
     {% if section.settings.enable_quick_buy_qty_selector %}data-enable_quick_buy_qty_selector{% endif %}
     {% if section.settings.enable_quick_buy_compact %}data-enable_quick_buy_compact{% endif %}
     {% if section.settings.enable_quick_buy_drawer %}data-enable_quick_buy_drawer{% endif %}
+    {% if section.settings.enable_color_picker %}data-enable_color_picker{% endif %}
 >
 </ul>
 
@@ -43,7 +44,13 @@
   "tag": "article",
   "class": "recently-viewed-products",
   "disabled_on": {
-    "templates": ["gift_card", "password"]
+    "templates": [
+      "gift_card",
+      "password"
+    ],
+    "groups": [
+      "header"
+    ]
   },
   "settings": [
     {
@@ -134,6 +141,11 @@
       "label": "t:sections.recently_viewed_products.settings.quick_buy.enable_quick_buy_qty_selector.label",
       "info": "t:sections.recently_viewed_products.settings.quick_buy.enable_quick_buy_qty_selector.info",
       "default": true
+    },
+    {
+      "id": "enable_color_picker",
+      "type": "checkbox",
+      "label": "t:sections.recently_viewed_products.settings.quick_buy.enable_color_picker.label"
     },
     {
       "id": "enable_quick_buy_compact",

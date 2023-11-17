@@ -152,6 +152,34 @@
           },
           "dynamic_buy_button_text_color": {
             "label": "Dynamic buy button label"
+          },
+          "preorder_button_color": {
+            "label": "Pre-order button"
+          },
+          "preorder_button_text_color": {
+            "label": "Pre-order button label"
+          }
+        },
+        "dropdown_color": {
+          "label": "Menus and drawers",
+          "info": "This is the color scheme of your mega menu or dropdown menu. Mobile menu, search drawer, side cart, filters, quickshop cart, other drawers and dropdowns will automatically use this color scheme.",
+          "options__1": {
+            "label": "Lightest"
+          },
+          "options__2": {
+            "label": "Darkest"
+          },
+          "options__3": {
+            "label": "Light"
+          },
+          "options__4": {
+            "label": "Dark"
+          },
+          "options__5": {
+            "label": "Accent"
+          },
+          "options__6": {
+            "label": "Accent light"
           }
         },
         "product_prices": {
@@ -312,17 +340,135 @@
       }
     },
     "cart": {
-      "name": "Cart",
+      "name": "Cart drawer",
       "settings": {
         "enable_cart_drawer": {
           "label": "Enable cart drawer",
           "info": "When adding products to the cart or when clicking the cart icon in the header, this will open a cart side drawer instead of redirecting to the cart page."
+        },
+        "empty_cart_text": {
+          "label": "Empty cart text"
+        },
+        "cart_drawer_undo": {
+          "header": "Undo deleted products",
+          "enable_cart_drawer_undo_remove": {
+            "label": "Enable undo deleted products",
+            "info": "Enable this if you want to give a visitor the option if a product is removed, it can be undone."
+          },
+          "enable_cart_drawer_undo_remove_delay": {
+            "label": "Enable timer for undo deleted products",
+            "info": "This will show the undo feature for a certain amount of seconds."
+          },
+          "cart_drawer_undo_remove_delay": {
+            "label": "Timer undo deleted products"
+          }
+        },
+        "cart_drawer_checkout_button": {
+          "label": "Show checkout button"
+        },
+        "cart_drawer_checkout_button_color_palette": {
+          "label": "Checkout button color scheme",
+          "options__1": {
+            "label": "Lightest"
+          },
+          "options__2": {
+            "label": "Darkest"
+          },
+          "options__3": {
+            "label": "Light"
+          },
+          "options__4": {
+            "label": "Dark"
+          },
+          "options__5": {
+            "label": "Accent"
+          },
+          "options__6": {
+            "label": "Accent light"
+          },
+          "options__7": {
+            "label": "Regular button"
+          },
+          "options__8": {
+            "label": "Buy button"
+          },
+          "options__9": {
+            "label": "Dynamic buy button"
+          }
+        },
+        "upsell": {
+          "header": "Cart upsell",
+          "enable_cart_drawer_upsell_complementary": {
+            "label": "Show cart complementary products",
+            "info": "Products can be selected in Shopify's Search & Discovery app."
+          },
+          "enable_cart_drawer_upsell_related": {
+            "label": "Show cart related products"
+          },
+          "enable_cart_drawer_upsell_variants": {
+            "label": "Show variant picker"
+          }
         }
       }
     },
-    "search_drawer": {
-      "name": "Search drawer",
+    "trustbadge": {
+      "name": "Trustbadge",
       "settings": {
+        "show_trustbadge": {
+          "label": "Show secure and safe checkout trustbadge",
+          "info": "It will be shown automatically in the cart drawer, cart page and it can also be added as a block on the productpage and on the featured product section."
+        },
+        "trustbadge_image": {
+          "label": "Payment gateway providers",
+          "options__1": {
+            "label": "None"
+          },
+          "options__2": {
+            "label": "Amazon Pay"
+          },
+          "options__3": {
+            "label": "Authorize.net"
+          },
+          "options__4": {
+            "label": "Klarna"
+          },
+          "options__5": {
+            "label": "Opayo"
+          },
+          "options__6": {
+            "label": "PayPal"
+          },
+          "options__7": {
+            "label": "Shop Pay"
+          },
+          "options__8": {
+            "label": "Skrill"
+          },
+          "options__9": {
+            "label": "Stripe"
+          }
+        },
+        "trustbadge_custom_image": {
+          "label": "Custom image",
+          "info": "Upload your own custom secure image to show next to the secure & safe checkout text. .png or .svg file recommended."
+        },
+        "trustbadge_text": {
+          "label": "Secure & safe checkout text"
+        }
+      }
+    },
+    "search_behaviour": {
+      "name": "Search behaviour",
+      "settings": {
+        "search_drawer_enable_suggestions": {
+          "label": "Enable search suggestions"
+        },
+        "search_drawer_show_price": {
+          "label": "Show price"
+        },
+        "search_drawer_show_vendor": {
+          "label": "Show vendor"
+        },
         "resources": {
           "header": "Search for:",
           "search_drawer_enable_collections": {
@@ -1112,6 +1258,9 @@
             },
             "mobile": {
               "header": "Mobile layout",
+              "image_mobile": {
+                "label": "Mobile image (optional)"
+              },
               "title_size_mobile": {
                 "label": "Heading size",
                 "options__1": {
@@ -1444,6 +1593,9 @@
           "enable_quick_buy_qty_selector": {
             "label": "Show amount selector",
             "info": "Not applicable when quick shop drawer is enabled."
+          },
+          "enable_color_picker": {
+            "label": "Show color picker"
           },
           "enable_quick_buy_compact": {
             "label": "Enable compact button",
@@ -2069,9 +2221,18 @@
         "fill_images": {
           "label": "Fill images"
         },
+        "layout": {
+          "label": "Layout",
+          "info": "Swipe is automatically activated on mobile. [Learn more](https:\/\/intercom.help\/xtra-for-shopify\/en\/articles\/6208057-section-collection-list)",
+          "options__1": {
+            "label": "Slider"
+          },
+          "options__2": {
+            "label": "Grid"
+          }
+        },
         "number_of_items": {
-          "label": "Collections per row",
-          "info": "If list includes more collections than shown, it will be a slider automatically. Swipe is automatically activated on mobile. [Learn more](https:\/\/intercom.help\/xtra-for-shopify\/en\/articles\/6208057-section-collection-list)"
+          "label": "Collections per row"
         },
         "text_alignment": {
           "label": "Heading position",
@@ -2149,6 +2310,9 @@
             "label": "Extra large"
           }
         },
+        "mobile": {
+          "header": "Mobile layout"
+        },
         "spacing": {
           "header": "Spacing",
           "spacing_desktop": {
@@ -2184,7 +2348,7 @@
         "width": {
           "label": "Width",
           "options__1": {
-            "label": "Regular width"
+            "label": "Boxed width"
           },
           "options__2": {
             "label": "Full width"
@@ -2366,6 +2530,9 @@
             },
             "mobile": {
               "header": "Mobile layout",
+              "image_mobile": {
+                "label": "Mobile image (optional)"
+              },
               "title_size_mobile": {
                 "label": "Heading size",
                 "options__1": {
@@ -2387,6 +2554,310 @@
       },
       "presets": {
         "name": "Slideshow"
+      }
+    },
+    "image_hotspots": {
+      "name": "Image hotspot banner",
+      "settings": {
+        "image": {
+          "label": "Image"
+        },
+        "overlay_opacity": {
+          "label": "Image overlay opacity"
+        },
+        "color_palette": {
+          "label": "Color scheme",
+          "options__1": {
+            "label": "Lightest"
+          },
+          "options__2": {
+            "label": "Darkest"
+          },
+          "options__3": {
+            "label": "Light"
+          },
+          "options__4": {
+            "label": "Dark"
+          },
+          "options__5": {
+            "label": "Accent"
+          },
+          "options__6": {
+            "label": "Accent light"
+          },
+          "options__7": {
+            "label": "Gradient light"
+          },
+          "options__8": {
+            "label": "Gradient dark"
+          }
+        },
+        "button_color_palette": {
+          "label": "Button color scheme",
+          "options__1": {
+            "label": "Lightest"
+          },
+          "options__2": {
+            "label": "Darkest"
+          },
+          "options__3": {
+            "label": "Light"
+          },
+          "options__4": {
+            "label": "Dark"
+          },
+          "options__5": {
+            "label": "Accent"
+          },
+          "options__6": {
+            "label": "Accent light"
+          }
+        },
+        "hotspot_height": {
+          "label": "Hotspot height"
+        },
+        "hotspot_color_palette": {
+          "label": "Hotspot color scheme",
+          "options__1": {
+            "label": "Lightest"
+          },
+          "options__2": {
+            "label": "Darkest"
+          },
+          "options__3": {
+            "label": "Light"
+          },
+          "options__4": {
+            "label": "Dark"
+          },
+          "options__5": {
+            "label": "Accent"
+          },
+          "options__6": {
+            "label": "Accent light"
+          }
+        },
+        "hotspot_hover_color_palette": {
+          "label": "Hotspot active color scheme",
+          "options__1": {
+            "label": "Lightest"
+          },
+          "options__2": {
+            "label": "Darkest"
+          },
+          "options__3": {
+            "label": "Light"
+          },
+          "options__4": {
+            "label": "Dark"
+          },
+          "options__5": {
+            "label": "Accent"
+          },
+          "options__6": {
+            "label": "Accent light"
+          }
+        },
+        "layout": {
+          "label": "Layout",
+          "options__1": {
+            "label": "Image left, content right"
+          },
+          "options__2": {
+            "label": "Image right, content left"
+          }
+        },
+        "height": {
+          "label": "Height",
+          "options__1": {
+            "label": "Extra small"
+          },
+          "options__2": {
+            "label": "Small"
+          },
+          "options__3": {
+            "label": "Medium"
+          },
+          "options__4": {
+            "label": "Large"
+          }
+        },
+        "width": {
+          "label": "Width",
+          "options__1": {
+            "label": "Boxed width"
+          },
+          "options__2": {
+            "label": "Full width"
+          }
+        },
+        "enable_custom_height": {
+          "label": "Enable custom minimal height"
+        },
+        "custom_height": {
+          "label": "Custom minimal height",
+          "info": "Only applicable when 'custom minimal height' is enabled."
+        },
+        "content": {
+          "header": "Content"
+        },
+        "text_position": {
+          "label": "Content position",
+          "options__1": {
+            "label": "Top left"
+          },
+          "options__2": {
+            "label": "Top center"
+          },
+          "options__3": {
+            "label": "Top right"
+          },
+          "options__4": {
+            "label": "Center left"
+          },
+          "options__5": {
+            "label": "Center center"
+          },
+          "options__6": {
+            "label": "Center right"
+          },
+          "options__7": {
+            "label": "Bottom left"
+          },
+          "options__8": {
+            "label": "Bottom center"
+          },
+          "options__9": {
+            "label": "Bottom right"
+          }
+        },
+        "title_size": {
+          "label": "Heading size",
+          "options__1": {
+            "label": "Small"
+          },
+          "options__2": {
+            "label": "Medium"
+          },
+          "options__3": {
+            "label": "Large"
+          },
+          "options__4": {
+            "label": "Extra large"
+          }
+        },
+        "title": {
+          "label": "Heading"
+        },
+        "text": {
+          "label": "Text"
+        },
+        "link_text": {
+          "label": "Button label",
+          "info": "Leave the label blank to hide the button. Only applicable when ‘clickable images’ setting is enabled in theme settings - accessibility."
+        },
+        "link_url": {
+          "label": "Link"
+        },
+        "show_link": {
+          "label": "Show link instead of button"
+        },
+        "mobile": {
+          "header": "Mobile layout",
+          "image_mobile": {
+            "label": "Mobile image (optional)"
+          },
+          "height_mobile": {
+            "label": "Height",
+            "options__1": {
+              "label": "Extra small"
+            },
+            "options__2": {
+              "label": "Small"
+            },
+            "options__3": {
+              "label": "Medium"
+            },
+            "options__4": {
+              "label": "Large"
+            }
+          },
+          "title_size_mobile": {
+            "label": "Heading size",
+            "options__1": {
+              "label": "Small"
+            },
+            "options__2": {
+              "label": "Medium"
+            },
+            "options__3": {
+              "label": "Large"
+            },
+            "options__4": {
+              "label": "Extra large"
+            }
+          }
+        },
+        "spacing": {
+          "header": "Spacing",
+          "spacing_desktop": {
+            "label": "Bottom spacing desktop"
+          },
+          "spacing_mobile": {
+            "label": "Bottom spacing mobile"
+          }
+        }
+      },
+      "blocks": {
+        "hotspot": {
+          "name": "Hotspot",
+          "settings": {
+            "product": {
+              "label": "Product (optional)",
+              "info": "Select a product or the content can be filled below."
+            },
+            "content": {
+              "header": "Content",
+              "paragraph": "Only applicable when there is no product selected.",
+              "text_position": {
+                "label": "Content position",
+                "options__1": {
+                  "label": "Left"
+                },
+                "options__2": {
+                  "label": "Center"
+                },
+                "options__3": {
+                  "label": "Right"
+                }
+              },
+              "title": {
+                "label": "Heading"
+              },
+              "text": {
+                "label": "Text"
+              }
+            },
+            "position": {
+              "header": "Position",
+              "position_left": {
+                "label": "Horizontal position"
+              },
+              "position_top": {
+                "label": "Vertical position"
+              },
+              "position_left_mobile": {
+                "label": "Horizontal position mobile"
+              },
+              "position_top_mobile": {
+                "label": "Vertical position mobile"
+              }
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Image hotspot banner"
       }
     },
     "contact_form": {
@@ -2724,6 +3195,190 @@
         "name": "Counters"
       }
     },
+    "countdown": {
+      "name": "Countdown",
+      "settings": {
+        "image": {
+          "label": "Image"
+        },
+        "video": {
+          "label": "Video"
+        },
+        "overlay_opacity": {
+          "label": "Image\/video overlay opacity"
+        },
+        "height": {
+          "label": "Height",
+          "options__1": {
+            "label": "Extra small"
+          },
+          "options__2": {
+            "label": "Small"
+          },
+          "options__3": {
+            "label": "Medium"
+          },
+          "options__4": {
+            "label": "Large"
+          }
+        },
+        "width": {
+          "label": "Width",
+          "options__1": {
+            "label": "Boxed width"
+          },
+          "options__2": {
+            "label": "Full width"
+          }
+        },
+        "colors": {
+          "header": "Colors",
+          "countdown_bg_color": {
+            "label": "Timer"
+          },
+          "countdown_text_color": {
+            "label": "Timer digit"
+          },
+          "color_palette": {
+            "label": "Color scheme",
+            "options__1": {
+              "label": "Lightest"
+            },
+            "options__2": {
+              "label": "Darkest"
+            },
+            "options__3": {
+              "label": "Light"
+            },
+            "options__4": {
+              "label": "Dark"
+            },
+            "options__5": {
+              "label": "Accent"
+            },
+            "options__6": {
+              "label": "Accent light"
+            },
+            "options__7": {
+              "label": "Gradient light"
+            },
+            "options__8": {
+              "label": "Gradient dark"
+            }
+          },
+          "button_color_palette": {
+            "label": "Button color scheme",
+            "options__1": {
+              "label": "Lightest"
+            },
+            "options__2": {
+              "label": "Darkest"
+            },
+            "options__3": {
+              "label": "Light"
+            },
+            "options__4": {
+              "label": "Dark"
+            },
+            "options__5": {
+              "label": "Accent"
+            },
+            "options__6": {
+              "label": "Accent light"
+            }
+          }
+        },
+        "content": {
+          "header": "Content",
+          "text_position": {
+            "label": "Content position",
+            "options__1": {
+              "label": "Left"
+            },
+            "options__2": {
+              "label": "Center"
+            }
+          },
+          "title_size": {
+            "label": "Heading size",
+            "options__1": {
+              "label": "Small"
+            },
+            "options__2": {
+              "label": "Medium"
+            },
+            "options__3": {
+              "label": "Large"
+            },
+            "options__4": {
+              "label": "Extra large"
+            }
+          },
+          "title": {
+            "label": "Heading"
+          },
+          "text": {
+            "label": "Description"
+          },
+          "link_text": {
+            "label": "Button label",
+            "info": "Leave the label blank to hide the button."
+          },
+          "link_url": {
+            "label": "Link"
+          },
+          "show_link": {
+            "label": "Show link instead of button"
+          }
+        },
+        "countdown": {
+          "header": "Countdown timer",
+          "countdown_start": {
+            "label": "Start date + time",
+            "info": "When do you want the countdown timer to start? Before this time, the banner will not be shown."
+          },
+          "countdown_end": {
+            "label": "End date + time"
+          },
+          "hide_banner_after_countdown": {
+            "label": "Hide banner after timer ends"
+          },
+          "ended_title": {
+            "label": "Heading after timer ends"
+          },
+          "ended_text": {
+            "label": "Description after timer ends"
+          }
+        },
+        "mobile": {
+          "header": "Mobile layout",
+          "title_size": {
+            "label": "Heading size",
+            "options__1": {
+              "label": "Small"
+            },
+            "options__2": {
+              "label": "Medium"
+            },
+            "options__3": {
+              "label": "Large"
+            }
+          }
+        },
+        "spacing": {
+          "header": "Spacing",
+          "spacing_desktop": {
+            "label": "Bottom spacing desktop"
+          },
+          "spacing_mobile": {
+            "label": "Bottom spacing mobile"
+          }
+        }
+      },
+      "presets": {
+        "name": "Countdown"
+      }
+    },
     "logo_list": {
       "name": "Brand logo slider",
       "settings": {
@@ -2882,7 +3537,7 @@
         "width": {
           "label": "Width",
           "options__1": {
-            "label": "Regular width"
+            "label": "Boxed width"
           },
           "options__2": {
             "label": "Full width"
@@ -2986,6 +3641,9 @@
           "enable_quick_buy_qty_selector": {
             "label": "Show amount selector",
             "info": "Not applicable when quick shop drawer is enabled."
+          },
+          "enable_color_picker": {
+            "label": "Show color picker"
           },
           "enable_quick_buy_compact": {
             "label": "Enable compact button",
@@ -3157,7 +3815,7 @@
         "width": {
           "label": "Banner width",
           "options__1": {
-            "label": "Regular width"
+            "label": "Boxed width"
           },
           "options__2": {
             "label": "Full width"
@@ -3653,6 +4311,15 @@
         "collection": {
           "label": "Collection"
         },
+        "layout": {
+          "label": "Layout",
+          "options__1": {
+            "label": "Slider"
+          },
+          "options__2": {
+            "label": "Grid"
+          }
+        },
         "limit": {
           "label": "Maximum products to show"
         },
@@ -3739,10 +4406,16 @@
             "label": "Show amount selector",
             "info": "Not applicable when quick shop drawer is enabled."
           },
+          "enable_color_picker": {
+            "label": "Show color picker"
+          },
           "enable_quick_buy_compact": {
             "label": "Enable compact button",
             "info": "This will show a shopping cart icon instead 'Add to cart', or just 'Options' instead of 'View options'."
           }
+        },
+        "mobile": {
+          "header": "Mobile layout"
         },
         "spacing": {
           "header": "Spacing",
@@ -3763,6 +4436,15 @@
       "settings": {
         "products": {
           "label": "Products"
+        },
+        "layout": {
+          "label": "Layout",
+          "options__1": {
+            "label": "Slider"
+          },
+          "options__2": {
+            "label": "Grid"
+          }
         },
         "number_of_items": {
           "label": "Products per row",
@@ -3850,10 +4532,16 @@
             "label": "Show amount selector",
             "info": "Not applicable when quick shop drawer is enabled."
           },
+          "enable_color_picker": {
+            "label": "Show color picker"
+          },
           "enable_quick_buy_compact": {
             "label": "Enable compact button",
             "info": "This will show a shopping cart icon instead 'Add to cart', or just 'Options' instead of 'View options'."
           }
+        },
+        "mobile": {
+          "header": "Mobile layout"
         },
         "spacing": {
           "header": "Spacing",
@@ -4392,10 +5080,7 @@
     "announcement_bar": {
       "name": "Announcement bar",
       "settings": {
-        "enable": {
-          "label": "Enable announcement bar",
-          "info": "The announcement bar will remain visible in the theme editor after clicking the 'close' icon. [Read more](https:\/\/intercom.help\/xtra-for-shopify\/en\/articles\/6208055-header-settings)"
-        },
+        "paragraph": "The announcement bar will remain visible in the theme editor after clicking the 'close' icon. [Read more](https:\/\/intercom.help\/xtra-for-shopify\/en\/articles\/6208055-header-settings)",
         "color_palette": {
           "label": "Color scheme",
           "options__1": {
@@ -4565,28 +5250,6 @@
             "options__8": {
               "label": "Gradient dark"
             }
-          },
-          "dropdown_color": {
-            "label": "Dropdown menu color scheme",
-            "info": "This is the color scheme of your mega menu or dropdown menu. Mobile menu, search drawer, side cart, filters, other drawers and dropdowns will automatically use this color scheme.",
-            "options__1": {
-              "label": "Lightest"
-            },
-            "options__2": {
-              "label": "Darkest"
-            },
-            "options__3": {
-              "label": "Light"
-            },
-            "options__4": {
-              "label": "Dark"
-            },
-            "options__5": {
-              "label": "Accent"
-            },
-            "options__6": {
-              "label": "Accent light"
-            }
           }
         },
         "logo": {
@@ -4596,7 +5259,7 @@
           },
           "logo_width": {
             "label": "Logo width",
-            "info": "To keep the header layout as optimized as possible, the logo has a maximum height of 45px."
+            "info": "To keep the header layout as optimized as possible, the logo has a maximum height of 130px."
           },
           "svg_logo": {
             "label": "Use .svg format",
@@ -4721,7 +5384,7 @@
           },
           "menubar_divide_evenly": {
             "label": "Divide menubar items evenly",
-            "info": "This will override 'Align menubar in the center'. Only applicable for full width header."
+            "info": "This will override 'Align menubar in the center'. Only applicable for boxed width header."
           },
           "main_menu_items_clickable": {
             "label": "Main menu items clickable"
@@ -4784,7 +5447,7 @@
           },
           "logo_width_mobile": {
             "label": "Mobile logo width",
-            "info": "To keep the header layout as optimized as possible, the logo has a maximum height of 32px."
+            "info": "To keep the header layout as optimized as possible, the logo has a maximum height of 88px."
           },
           "mobile_svg_logo": {
             "label": "Use .svg format",
@@ -4925,12 +5588,25 @@
           "enable_language_selector": {
             "label": "Show language selector",
             "info": "Make sure 'show language selector' is enabled in the header settings."
+          },
+          "enable_follow_on_shop": {
+            "label": "Enable Follow on Shop",
+            "info": "To allow customers to follow your store on the Shop app from your storefront, Shop Pay must be enabled. [Learn more](https:\/\/help.shopify.com\/manual\/online-store\/themes\/customizing-themes\/follow-on-shop)"
           }
         },
         "payment_methods": {
           "header": "Payment methods",
           "show_payment_methods": {
             "label": "Show payment methods"
+          }
+        },
+        "spacing": {
+          "header": "Spacing",
+          "spacing_desktop": {
+            "label": "Bottom spacing desktop"
+          },
+          "spacing_mobile": {
+            "label": "Bottom spacing mobile"
           }
         }
       },
@@ -4974,6 +5650,10 @@
             },
             "show_socials": {
               "label": "Show social media icons"
+            },
+            "enable_follow_on_shop": {
+              "label": "Enable Follow on Shop",
+              "info": "To allow customers to follow your store on the Shop app from your storefront, Shop Pay must be enabled. [Learn more](https:\/\/help.shopify.com\/manual\/online-store\/themes\/customizing-themes\/follow-on-shop)"
             },
             "show_newsletter": {
               "label": "Show newsletter"
@@ -5117,6 +5797,9 @@
           "enable_quick_buy_qty_selector": {
             "label": "Show amount selector",
             "info": "Not applicable when quick shop drawer is enabled."
+          },
+          "enable_color_picker": {
+            "label": "Show color picker"
           },
           "enable_quick_buy_compact": {
             "label": "Enable compact button",
@@ -5280,6 +5963,47 @@
           },
           "spacing_mobile": {
             "label": "Bottom spacing mobile"
+          }
+        }
+      }
+    },
+    "sticky_add_to_cart": {
+      "name": "Sticky add to cart bar",
+      "settings": {
+        "enable": {
+          "label": "Enable sticky add to cart bar"
+        },
+        "position": {
+          "label": "Position",
+          "options__1": {
+            "label": "Top"
+          },
+          "options__2": {
+            "label": "Bottom"
+          }
+        },
+        "show_variant_picker": {
+          "label": "Show variant picker"
+        },
+        "show_unavailable_variants": {
+          "label": "Show unavailable variants"
+        },
+        "show_amount_selection": {
+          "label": "Show amount selection"
+        },
+        "show_tax": {
+          "label": "Show 'incl.- or excl. tax' text"
+        },
+        "preorder": {
+          "label": "Show pre-order button"
+        },
+        "hide_in_theme_editor": {
+          "label": "Hide sticky add to cart bar in the theme editor"
+        },
+        "mobile": {
+          "header": "Mobile layout",
+          "show_mobile": {
+            "label": "Show on mobile"
           }
         }
       }
@@ -5512,6 +6236,10 @@
             "show_unavailable_variants": {
               "label": "Show unavailable variants",
               "info": "Unavailable variants can only be hidden when separate option pickers are not applicable for the product."
+            },
+            "enable_selling_plans": {
+              "label": "Enable subscriptions",
+              "info": "For more information on how to set up subscriptions [click here](https:\/\/help.shopify.com\/en\/manual\/products\/purchase-options\/subscriptions)."
             }
           }
         },
@@ -5521,6 +6249,12 @@
             "usp": {
               "label": "Information"
             }
+          }
+        },
+        "trustbadge": {
+          "name": "Trustbadge",
+          "settings": {
+            "paragraph": "You can find the settings in the general theme settings under the tab named 'Trustbadge'."
           }
         },
         "shipping_timer": {
@@ -5807,6 +6541,9 @@
                 "label": "Show amount selector",
                 "info": "Not applicable when quick shop drawer is enabled."
               },
+              "enable_color_picker": {
+                "label": "Show color picker"
+              },
               "enable_quick_buy_compact": {
                 "label": "Enable compact button",
                 "info": "This will show a shopping cart icon instead 'Add to cart', or just 'Options' instead of 'View options'."
@@ -5848,6 +6585,60 @@
             "show_dynamic_buybutton": {
               "label": "Show dynamic buy button",
               "info": "Customers will see their preferred payment method, like PayPal or Apple Pay. [Learn more](https:\/\/help.shopify.com\/en\/manual\/online-store\/themes\/dynamic-checkout)"
+            },
+            "preorder": {
+              "header": "Pre-order button",
+              "preorder": {
+                "label": "Show pre-order button",
+                "info": "This shows a pre-order button as buy button. Only applicable when product has 'continue selling when out of stock' setting active."
+              },
+              "preorder_button_text": {
+                "label": "Button label"
+              },
+              "preorder_label": {
+                "label": "Delivery label",
+                "info": "Add a delivery message to the pre-order button with metafields or general text content. If you want to show this information in your order mails, click [here](https:\/\/community.shopify.com\/c\/shopify-design\/product-pages-get-customization-information-for-products\/td-p\/616503) for documentation."
+              },
+              "preorder_label_color_palette": {
+                "label": "Delivery label color scheme",
+                "options__1": {
+                  "label": "Lightest"
+                },
+                "options__2": {
+                  "label": "Darkest"
+                },
+                "options__3": {
+                  "label": "Light"
+                },
+                "options__4": {
+                  "label": "Dark"
+                },
+                "options__5": {
+                  "label": "Accent"
+                },
+                "options__6": {
+                  "label": "Accent light"
+                },
+                "options__7": {
+                  "label": "Regular button"
+                },
+                "options__8": {
+                  "label": "Buy button"
+                },
+                "options__9": {
+                  "label": "Dynamic buy button"
+                }
+              },
+              "preorder_show_dynamic_buybutton": {
+                "label": "Show dynamic buy button for pre-orders"
+              }
+            },
+            "gift_card": {
+              "header": "Gift card",
+              "show_gift_card_recipient": {
+                "label": "Show recipient information form for gift card products",
+                "info": "Gift card products can optionally be sent direct to a recipient on a scheduled date along with a personal message. [Learn more](https:\/\/help.shopify.com\/manual\/online-store\/themes\/customizing-themes\/add-gift-card-recipient-fields)"
+              }
             }
           }
         }
@@ -5934,6 +6725,9 @@
           "enable_quick_buy_qty_selector": {
             "label": "Show amount selector",
             "info": "Not applicable when quick shop drawer is enabled."
+          },
+          "enable_color_picker": {
+            "label": "Show color picker"
           },
           "enable_quick_buy_compact": {
             "label": "Enable compact button",
@@ -6083,6 +6877,9 @@
           "enable_quick_buy_qty_selector": {
             "label": "Show amount selector",
             "info": "Not applicable when quick shop drawer is enabled."
+          },
+          "enable_color_picker": {
+            "label": "Show color picker"
           },
           "enable_quick_buy_compact": {
             "label": "Enable compact button",

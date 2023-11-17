@@ -5,8 +5,8 @@
   {% if section.settings.layout == 'slider' %}slider{% endif %}
   {% unless section.settings.show_arrows %}no-nav{% endunless %}
   "
-  {% if section.settings.layout == 'slider' and section.settings.autoplay %}data-autoplay={{ section.settings.autoplay_seconds | times: 1000 }}{% endif %}
-  >
+    {% if section.settings.layout == 'slider' and section.settings.autoplay %}data-autoplay={{ section.settings.autoplay_seconds | times: 1000 }}{% endif %}
+>
   {%- for block in section.blocks -%}
     {%- if block.settings.usp != empty -%}
       <li {{ block.shopify_attributes }}>
@@ -26,6 +26,11 @@
 {% schema %}
 {
   "name": "t:sections.usp_bar.name",
+  "disabled_on": {
+    "groups": [
+      "header"
+    ]
+  },
   "settings": [
     {
       "type": "select",

@@ -82,8 +82,8 @@
     "blogs_row": {
       "type": "section-blog-posts",
       "settings": {
-        "blog": "nyheter",
-        "number_of_items": 4,
+        "blog": "",
+        "number_of_items": 3,
         "text_alignment": "start",
         "title_size": "h1",
         "title": "Blog posts",
@@ -95,9 +95,7 @@
         "show_date": true,
         "show_author": true,
         "show_excerpt": false,
-        "button_color_palette_post": "accent",
-        "show_link_post": true,
-        "spacing_desktop": 30,
+        "spacing_desktop": 50,
         "spacing_mobile": 30
       }
     }

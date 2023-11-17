@@ -36,7 +36,6 @@
   "cart": {
     "total_including_tax": "Total incluant la T.V.A.",
     "total_excluding_tax": "Total hors T.V.A.",
-    "empty_title_short": "Votre panier est vide...",
     "empty_title": "Nous recherchons vos produits, mais il semble que votre panier soit vide...",
     "empty_subtitle": "Cliquez sur continuer les achats et consultez notre catalogue",
     "to_cart": "Au panier",
@@ -48,6 +47,7 @@
     "title": "Panier",
     "total": "Total",
     "total_products": "Produits totaux",
+    "upsell_title": "Tu pourrais aussi aimer",
     "checkout": "Vérifier",
     "free_shipping": "Livraison gratuite",
     "free_shipping_long_html": "Votre commande sera <span class='strong'>shipped for free<\/span>!",
@@ -57,7 +57,9 @@
       "product": "Produit",
       "products": "Des produits",
       "qty": "Quantité",
-      "remove": "Retirer"
+      "remove": "Retirer",
+      "product_removed": "{{ product_title }} a été supprimé de votre panier",
+      "product_removed_undo": "Annuler"
     },
     "giftcard_or_discount_code": {
       "title": "Chèque cadeau ou code de réduction",
@@ -155,6 +157,8 @@
       "date": "Date",
       "payment_status": "État des paiements",
       "fulfillment_status": "État d'avancement de l'exécution",
+      "track_shipment": "Suivi de livraison",
+      "fulfilled_at_html": "Expédié le {{ date }}",
       "total": "Total",
       "view_order": "Voir la commande",
       "seen_number_of_orders_html": "<span class='strong'>{{ number1 }}<\/span> hors de <span class='strong'>{{ number2 }}<\/span> commandes"
@@ -311,6 +315,16 @@
     "shipping_timer": {
       "shipped_today": "Expédié aujourd'hui ?",
       "you_have_left_html": "Commandez dans : {{ time }}"
+    },
+    "countdown": {
+      "days": "Jours",
+      "day": "Jour",
+      "hours": "Heures",
+      "hour": "Heure",
+      "minutes": "Minutes",
+      "minute": "Minute",
+      "seconds": "Secondes",
+      "second": "Seconde"
     }
   },
   "gift_cards": {
@@ -329,6 +343,21 @@
       "disabled": "Cette carte-cadeau n'est pas active",
       "expired": "Cette carte-cadeau a expiré le {{ expiry }}",
       "active": "Expire le {{ expiry }}"
+    },
+    "recipient": {
+      "form": {
+        "checkbox": "Je veux envoyer ce produit comme cadeau",
+        "email_label": "E‑mail du destinataire",
+        "email": "E‑mail",
+        "name_label": "Nom du destinataire (facultatif)",
+        "name": "Nom",
+        "message_label": "Message (facultatif)",
+        "message": "Message",
+        "max_characters": "{{ max_chars }} caractères au maximum",
+        "email_label_optional_for_no_js_behavior": "E‑mail du destinataire (facultatif)",
+        "send_on": "AAAA-MM-JJ",
+        "send_on_label": "Envoyer le (facultatif)"
+      }
     }
   },
   "header": {
@@ -436,7 +465,9 @@
       "choose_option": "Fais un choix",
       "purchase_options_title": "Livrer chaque",
       "purchase_options_subtitle": "You can cancel your subscription monthly",
-      "one_time_purchase": "Achat en un click"
+      "one_time_purchase": "Achat en un click",
+      "pre_order": "Pre-order",
+      "pre_order_info": "Pre-order info"
     },
     "including_tax": "Incl. T.V.A.",
     "excluding_tax": "Excl. T.V.A.",
@@ -449,6 +480,7 @@
     "results": "Résultats de la recherche",
     "results_plus_term": "Résultats de la recherche pour \"{{ term }}\"",
     "questions_and_advice": "Pages et articles de blog",
+    "suggestions": "Suggestions",
     "amount_of_results": {
       "zero": "Aucun résultat",
       "one": "{{ amount }} résultat",

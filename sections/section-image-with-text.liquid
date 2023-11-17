@@ -101,7 +101,12 @@
 {% schema %}
 {
   "name": "t:sections.image_with_text.name",
-   "class" : "img_w_txt",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
   "settings": [
     {
       "id": "image",

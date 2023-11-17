@@ -1,15 +1,5 @@
 {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
 {%- liquid
-  assign product_image_ratio = settings.product_image_ratio
-  case product_image_ratio
-    when '310x430'
-      assign image_ratio =  "portrait"
-    when '430x310'
-      assign image_ratio =  "landscape"
-    else
-      assign image_ratio =  "square"
-  endcase
-
   assign free_shipping_amount = settings.free_shipping_amount | replace: ',', '.' | times: 1
   assign has_free_shipping_amount = false
   if settings.enable_free_shipping
@@ -42,7 +32,7 @@
             </p>
           {% endif %}
           <p class="link-btn m10 cols submit mobile-only">
-            <span>{{ 'cart.total' | t }}: <span class="strong">{{ cart.total_price | money }}</span></span>
+            <span>{% if cart.taxes_included %}{{ 'cart.total_including_tax' | t }}{% else %}{{ 'cart.total_excluding_tax' | t }}{% endif %}: <span class="strong">{{ cart.total_price | money }}</span></span>
             <button type="submit" class="overlay-tertiary" name="checkout">
               <span class="processing">{{ 'cart.button_processing' | t }}</span>
               <span class="processed">{{ 'cart.button_proceed' | t }}</span>
@@ -59,9 +49,9 @@
               {%- endif -%}
             </ul>
           {%- endif -%}
-          <ul class="l4ca" data-handel>
+          <ul class="l4ca">
             {%- for line_item in cart.items -%}
-              <li class="{{ image_ratio }}{% if settings.fill_product_images %} cover{% endif %}{% unless line_item.image %} no-image{% endunless %}{% if line_item.original_line_price > line_item.final_line_price %} has-discount{% endif %}">
+              <li class="{% if settings.fill_product_images %} cover{% endif %}{% unless line_item.image %} no-image{% endunless %}{% if line_item.original_line_price > line_item.final_line_price %} has-discount{% endif %}">
                 {%- if line_item.image -%}
                   <figure {% if settings.multiply_product_images %}class="img-multiply"{% endif %}>
                     <picture>
@@ -80,17 +70,15 @@
                     </picture>
                   </figure>
                 {%- endif -%}
-                <section class="java-script" lineItem="{{ line_item.id  }}">
+                <section>
                   <header>
                     <h2><a href="{{ line_item.url }}" {% if settings.product_titles_caps %}class="text-uppercase"{% endif %}>{{ line_item.product.title }} </a></h2>
-                        
                     <p class="price mobile-only">
                       {%- if line_item.variant.compare_at_price > line_item.variant.price -%}<span class="old-price">{{ line_item.variant.compare_at_price | times: line_item.quantity | money }}</span>{%- endif -%}
                       {{ line_item.final_line_price | money }}
                     </p>
-
                   </header>
-                  {%- if line_item.unit_price_measurement or line_item.options_with_values or line_item.selling_plan_allocation -%}
+                  {%- if line_item.unit_price_measurement or line_item.options_with_values or line_item.selling_plan_allocation or line_item.properties -%}
                     <ul>
                       {% if line_item.unit_price_measurement %}
                         {%- capture unit_price_base_unit -%}
@@ -111,6 +99,12 @@
                       {%- if line_item.selling_plan_allocation -%}
                         <li>{{ line_item.selling_plan_allocation.selling_plan.name }}</li>
                       {%- endif -%}
+                      {%- for property in line_item.properties -%}
+                        {%- if property.first.first == '_' or property.last == blank -%}{%- continue -%}{%- endif -%}
+                        <li>
+                          {{ property.first }}:&nbsp;{% if property.last contains '/uploads/' %}<a href="{{ property.last }}">{{ property.last | split: '/' | last }}</a>{% else %}{{ property.last }}{% endif %}
+                        </li>
+                      {%- endfor -%}
                     </ul>
                   {%- endif -%}
                   {%- render 'product-deliverytime',
@@ -121,62 +115,27 @@
                   {%- for discount_allocation in line_item.line_level_discount_allocations -%}
                     <p class="overlay-gray"><i aria-hidden="true" class="icon-label"></i> <span class="text-uppercase">{{ discount_allocation.discount_application.title }}&nbsp;(-{{ discount_allocation.amount | money }})</p>
                   {%- endfor -%}
-               <div class="item-properties">    
-    {% assign propertySize = line_item.properties | size %}
-          {% if propertySize > 0 %}
-            <div class="product_details">
-              {% for property in line_item.properties %}
-                <span  class="properties_items">{% unless property.last == blank or property.first == '_preorder_locale' %}<span class="key">{% unless property.first == '_is_preorder' %}{{ property.first }}{% endunless %}</span>: <span class="value">{{ property.last }}</span>{% endunless %}</span> 
-              {% endfor %}
-            </div>
-          {% endif %}
-           </div>
                 </section>
                 <p class="price mobile-hide">
                   {%- if line_item.variant.compare_at_price > line_item.variant.price -%}<span class="old-price">{{ line_item.variant.compare_at_price | times: line_item.quantity | money }}</span>{%- endif -%}
                   {{ line_item.final_line_price | money }}
                 </p>
                 <footer>
-                  {% comment %} Custom Cart Quantity Input {% endcomment %}
-                {% if line_item.product.tags contains 'custom_meter' %}
-    <div class="custom-quantity-input">
-      <input
-        type="number"
-        name="updates[]"
-        id="qty-{{ line_item.index | plus: 1 }}"
-        value="{{ line_item.quantity }}"
-        data-line="{{ forloop.index }}"
-        aria-label="quantity"
-        autocomplete="off"
-        readonly
-        {% if line_item.variant.inventory_management == 'shopify' and line_item.variant.inventory_policy == 'deny' -%}
-        max="{{ line_item.variant.inventory_quantity }}"
-        {% endif %}
-        inputmode="numeric"
-      >
-    </div>
-  
-  {% else %}
-    
-    <p class="input-amount">
-      <label for="qty-{{ line_item.index | plus: 1 }}" class="hidden">{{ 'cart.product.qty' | t }}</label>
-      <input
-        type="number"
-        name="updates[]"
-        id="qty-{{ line_item.index | plus: 1 }}"
-        value="{{ line_item.quantity }}"
-        data-line="{{ forloop.index }}"
-        aria-label="quantity"
-        autocomplete="off"
-        {% if line_item.variant.inventory_management == 'shopify' and line_item.variant.inventory_policy == 'deny' -%}
-        max="{{ line_item.variant.inventory_quantity }}"
-        {% endif %}
-      >
-    </p>
-  {% endif %}
-  <p><a class="remove-from-cart-link" href="{{ line_item.url_to_remove }}" data-line="{{ forloop.index }}"><i aria-hidden="true" class="icon-trash"></i> <span class="mobile-hide">{{ 'cart.product.remove' | t }}</span></a></p>
-</footer>
-{% comment %} Custom Cart Quantity Input {% endcomment %}
+                  <p class="input-amount">
+                    <label for="qty-{{ line_item.index | plus: 1 }}" class="hidden">{{ 'cart.product.qty' | t }}</label>
+                    <input
+                      type="number"
+                      name="updates[]"
+                      id="qty-{{ line_item.index | plus: 1 }}"
+                      value="{{ line_item.quantity }}"
+                      data-line="{{ forloop.index }}"
+                      aria-label="quantity"
+                      autocomplete="off"
+                      {% if line_item.variant.inventory_management == 'shopify' and line_item.variant.inventory_policy == 'deny' -%}max="{{ line_item.variant.inventory_quantity }}"{% endif %}
+                    >
+                  </p>
+                  <p><a class="remove-from-cart-link" href="{{ line_item.url_to_remove }}" data-line="{{ forloop.index }}"><i aria-hidden="true" class="icon-trash"></i> <span class="hidden">{{ 'cart.product.remove' | t }}</span></a></p>
+                </footer>
               </li>
             {%- endfor -%}
           </ul>
@@ -200,7 +159,7 @@
           {%- if section.blocks.size > 0 -%}
             <ul class="l4ch">
               {%- for block in section.blocks -%}
-                {%- if block.type == 'shipping_timer' and cart.requires_shipping %}
+                {%- if block.type == 'shipping_timer' and cart.requires_shipping -%}
                   {%- render 'shipping-timer' -%}
                 {%- else -%}
                   {%- if block.settings.usp != empty -%}<li {{ block.shopify_attributes }}>{{ block.settings.usp | replace: '</p><p>', '<br>' | remove: '<p>' | remove: '</p>' }}</li>{%- endif -%}
@@ -210,7 +169,7 @@
             <hr>
           {%- endif -%}
           <ul class="l4tt m15">
-            <li><span>{{ 'cart.total_products' | t }} ({{ cart.item_count }})</span><span class="theme-money">{{ cart.items_subtotal_price | money }}</span></li>
+            <li><span>{{ 'cart.total_products' | t }} ({{ cart.item_count }})</span> {{ cart.items_subtotal_price | money }}</li>
             {%- if cart.cart_level_discount_applications.size > 0 -%}
               {%- for discount in cart.cart_level_discount_applications -%}
                 <li class="overlay-gray"><span class="text-uppercase"><i aria-hidden="true" class="icon-label"></i> {{ discount.title }}</span> (-{{ discount.total_allocated_amount | money }})</li>
@@ -221,7 +180,7 @@
             {%- endif -%}
             <li class="strong mobile-hide">
               <span>{% if cart.taxes_included %}{{ 'cart.total_including_tax' | t }}{% else %}{{ 'cart.total_excluding_tax' | t }}{% endif %}</span>
-              <span class="theme-money">{{ cart.total_price | money }}</span>
+              {{ cart.total_price | money }}
             </li>
           </ul>
           {% if section.settings.enable_terms_checkbox and section.settings.terms_text != empty %}
@@ -231,7 +190,7 @@
             </p>
           {% endif %}
           <p class="link-btn wide cols m10 submit">
-            <span class="mobile-only">{{ 'cart.total' | t }}: <span class="strong">{{ cart.total_price | money }}</span></span>
+            <span class="mobile-only">{% if cart.taxes_included %}{{ 'cart.total_including_tax' | t }}{% else %}{{ 'cart.total_excluding_tax' | t }}{% endif %}: <span class="strong">{{ cart.total_price | money }}</span></span>
             <button type="submit" class="overlay-tertiary" name="checkout">
               <span class="processing">{{ 'cart.button_processing' | t }}</span>
               <span class="processed">{{ 'cart.button_proceed' | t }}</span>
@@ -242,6 +201,9 @@
             <div class="m20 overlay-quaternary {{ settings.button_height }} {% unless settings.button_style == 'inv' %}{{ settings.button_style }}{% endunless %} {% unless settings.button_rounded == 'slightly-rounded' %}{{ settings.button_rounded }}{% endunless %}">
               {{ content_for_additional_checkout_buttons }}
             </div>
+          {%- endif -%}
+          {%- if settings.show_trustbadge -%}
+            {%- render 'trustbadge' -%}
           {%- endif -%}
           {%- if section.settings.show_payment_methods -%}
             <ul class="l4pm text-center">
@@ -261,39 +223,7 @@
     </fieldset>
   </form>
 {%- endif -%}
-<script>
-  setTimeout(()=>{
-        $('[dpo_cart_id]').each(function(){
-      var  $getVal = $(this).attr('dpo_cart_id')
-        console.log($getVal)
- $(this).children().find('ul.form-group li').text(`(D#${$getVal})`)  
-    })
 
-    $('.btn.btn--small.dpo_cart_edit').on('click',function(){
-var id_base =    $(this).parents('.java-script').attr('lineitem')
-localStorage.setItem('id_base',id_base)
-    // update class
-       setTimeout(()=>{
-      $('#itoris_dynamicoptions_add_to_cart').on('click',function(){
-       var update_rice =  $(this).parents('.add-to-cart').siblings('#itoris_dynamicproductoptions_popup_price').children('.product-price').text().trim()
-        console.log(update_rice)
-localStorage.setItem('data_price',update_rice)
-       
-          $('[active-price="active"]').attr('active-price',flase)    
-        
-    })
-    },2000)
-})
-
-
-  },7000)
-// window.addEventListener("load", () => {
-// var getdataid =  localStorage.getItem('id_base')
-//   var getdata_price =  localStorage.getItem('data_price')
-// $(`[lineitem="${getdataid}"]`).siblings('.price').text(getdata_price) 
-// });
-  
-</script>
 {% schema %}
 {
   "name": "t:main.cart.name",
@@ -382,40 +312,3 @@ localStorage.setItem('data_price',update_rice)
   ]
 }
 {% endschema %}
-
-<!-- GPO installed -->
-
-<!-- Dynamic Product Options -->
-<script type="text/javascript" src="https://node1.itoris.com/dpo/storefront/include.js?shop=thujor-se.myshopify.com"></script>
-<script>
-setTimeout(function(){
-console.log('hello you !')
-if (window.location.href.includes('cart')) {
-  // Get all elements with class 'incr'
-  const incrLinks = document.querySelectorAll('.incr');
-
-  // Get all elements with class 'decr'
-  const decrLinks = document.querySelectorAll('.decr');
-
-  // Disable each 'incr' link
-  incrLinks.forEach((link) => {
-    link.addEventListener('click', (event) => {
-      event.preventDefault(); // Prevent the default link behavior
-    });
-    link.classList.add('disabled'); // Optionally, you can add a 'disabled' class for styling purposes
-    link.setAttribute('aria-disabled', 'true'); // Optionally, set aria-disabled for accessibility
-  });
-
-  // Disable each 'decr' link
-  decrLinks.forEach((link) => {
-    link.addEventListener('click', (event) => {
-      event.preventDefault(); // Prevent the default link behavior
-    });
-    link.classList.add('disabled'); // Optionally, you can add a 'disabled' class for styling purposes
-    link.setAttribute('aria-disabled', 'true'); // Optionally, set aria-disabled for accessibility
-  });
-}
-
-}, 2000)
-
-</script>

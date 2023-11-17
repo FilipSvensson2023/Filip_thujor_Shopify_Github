@@ -100,12 +100,9 @@
       "price-descending": "Pris, högt till lågt ",
       "sort_by": "Sortera ",
       "title-ascending": "Alfabet, a-z ",
-      "title-descending": "Alfabet, z-a"
+      "title-descending": "Alfabet, z-a "
     },
-    "view_all_collections": "Se alla samlingar ",
-    "seen_number_of_products_html": "",
-    "show_more_products": "",
-    "show_previous_products": ""
+    "view_all_collections": "Se alla samlingar "
   },
   "cookiebanner": {
     "accept": "Acceptera ",
@@ -129,7 +126,7 @@
       "subtitle_html": "",
       "title": "Mitt konto ",
       "view_orders": "Visa beställningar ",
-      "welcome": ""
+      "welcome": "Välkommen tillbaka "
     },
     "activate_account": {
       "decline": "Nedgång ",
@@ -208,13 +205,13 @@
       "total": "Totalt ",
       "track_shipment": "Spåra försändelsen ",
       "tracking_company": "Spårningsföretag",
-      "tracking_number": "Spårningsnummer",
+      "tracking_number": "Spårningsnummer ",
       "tracking_url": "Spårningsadress "
     },
     "orders": {
       "date": "Datum ",
       "fulfillment_status": "Uppfyllningsstatus ",
-      "order_number": "Beställning",
+      "order_number": "Beställning ",
       "payment_status": "Betalningsstatus ",
       "seen_number_of_orders_html": "",
       "total": "Totalt ",
@@ -285,7 +282,7 @@
     },
     "breadcrumbs": {
       "back": "Tillbaka ",
-      "home": " Hem"
+      "home": "Hemsida "
     },
     "choose_option": "Gör ett val ",
     "color_palette": {
@@ -382,7 +379,7 @@
     "or_sign_up": "Bli medlem för att få nyhetsbrev ",
     "password_form": {
       "button_text": "Skriv in ",
-      "password": "Lösenord",
+      "password": "Lösenord ",
       "title": "Ange lösenordet för att komma in i butiken "
     },
     "title": "Öppnar snart! "
@@ -409,7 +406,7 @@
     "including_tax": "inkl moms",
     "one_time_purchase": "Engångsköp ",
     "pickup_availability": {
-      "free_pickup": "Hämta själv hos oss i Allerum eller Mjölby",
+      "free_pickup": "Gratis hämtning i",
       "our_stores": "",
       "pick_up_available": "I lager ",
       "pick_up_unavailable": "Slut i lager ",
@@ -429,17 +426,17 @@
         "zero": "Denna produkten har inga recensioner ännu "
       },
       "rating": "",
-      "title": "Recensioner",
+      "title": "Recensioner ",
       "write_a_review": "Skriv en recension "
     },
     "sale_tag": "",
-    "save": "",
+    "save": "Spara ",
     "sku": "Art",
     "specifications": "Specifikation",
     "stock_tag": "Sista lager! ",
     "unit_price_label": "st",
     "unit_price_separator": "\/",
-    "vendor": "Kvalité:",
+    "vendor": "Säljare ",
     "view_in_your_space": "Se i ditt utrymme "
   },
   "search": {
@@ -458,10 +455,7 @@
       "submit": "Skicka"
     },
     "title": "Sök ",
-    "view_all_results": "Visa alla resultat ",
-    "seen_number_of_results_html": "",
-    "show_more_results": "",
-    "show_previous_results": ""
+    "view_all_results": "Visa alla resultat "
   },
   "service": {
     "contact_form": {

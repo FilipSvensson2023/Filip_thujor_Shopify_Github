@@ -34,9 +34,9 @@
   endif
 -%}
 
-<span class="label">
+<span class="s1lb label{% if settings.button_style != 'solid' %} plain{% endif %}">
   {%- if show_sale_label -%}
-    <span class="overlay-sale">{{ 'product.sale_tag' | t }}{% if settings.sale_label_price == 'percentage' %}&nbsp;{{ discount }}%{% elsif settings.sale_label_price == 'amount' %}&nbsp;-{{ discount }}{% endif %}</span>
+    <span class="overlay-sale">{{ 'product.sale_tag' | t }}{% if settings.sale_label_price == 'percentage' %}&nbsp;-{{ discount }}%{% elsif settings.sale_label_price == 'amount' %}&nbsp;-{{ discount }}{% endif %}</span>
   {%- endif -%}
   {%- if settings.show_stock_label and total_stock > 0 and total_stock <= settings.stock_label_qty -%}
     <span>{{ 'product.stock_tag' | t }}</span>

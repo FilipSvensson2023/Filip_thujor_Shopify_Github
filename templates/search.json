@@ -33,10 +33,9 @@
       ],
       "settings": {
         "pagination_qty": 12,
-        "pagination_type": "pages",
         "show_amount_of_search_results": true,
         "productview_type": "grid",
-        "products_per_row": 4,
+        "products_per_row": 3,
         "enable_filters": true,
         "enable_menu": true,
         "filters_menu_alignment": "left",
@@ -45,15 +44,7 @@
         "filters_show_more_limit": 7,
         "enable_quick_buy_desktop": true,
         "enable_quick_buy_mobile": true,
-        "enable_quick_buy_drawer": false,
-        "enable_quick_buy_qty_selector": true,
-        "enable_quick_buy_compact": true,
-        "show_image": true,
-        "show_date": true,
-        "show_author": true,
-        "show_excerpt": true,
-        "button_color_palette_post": "accent",
-        "show_link_post": true,
+        "enable_quick_buy_qty_selector": false,
         "products_per_row_mobile": "2",
         "filter_mobile_sticky": false
       }

@@ -71,7 +71,7 @@
         <span {% if bold %}class="strong"{% endif %}>
           {% unless list_layout %}<i aria-hidden="true" class="icon-check"></i>{% endunless %}
           {{ deliverytime_in_stock }}
-          {%- if deliverytime_info != empty -%}<span class="s1tt{% if origin == 'productitem' %} mobile-hide{% endif %}"><span>{{ deliverytime_info | replace: '</p><p>', '<br>' | remove: '<p>' | remove: '</p>' }}</span></span>{%- endif -%}
+          {%- if deliverytime_info != empty -%}&nbsp;<span class="s1tt{% if origin == 'productitem' %} mobile-hide{% endif %}"><span>{{ deliverytime_info | replace: '</p><p>', '<br>' | remove: '<p>' | remove: '</p>' }}</span></span>{%- endif -%}
         </span>
       {%- endif -%}
     </{{ container }}>
@@ -81,7 +81,7 @@
       {%- if deliverytime_not_in_stock != empty -%}
         <span {% if bold %}class="strong"{% endif %}>
           {{ deliverytime_not_in_stock }}
-          {%- if deliverytime_info != empty -%}<span class="s1tt{% if origin == 'productitem' %} mobile-hide{% endif %}"><span>{{ deliverytime_info | replace: '</p><p>', '<br>' | remove: '<p>' | remove: '</p>' }}</span></span>{%- endif -%}
+          {%- if deliverytime_info != empty -%}&nbsp;<span class="s1tt{% if origin == 'productitem' %} mobile-hide{% endif %}"><span>{{ deliverytime_info | replace: '</p><p>', '<br>' | remove: '<p>' | remove: '</p>' }}</span></span>{%- endif -%}
         </span>
       {%- endif -%}
     </{{ container }}>

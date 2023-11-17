@@ -9,15 +9,15 @@
 */
 class BVSelect {
 	constructor({
-		selector = "defaultId",
-		width = "100%",
-		searchbox = false,
-		search_autofocus = false,
-		offset = true,
-		search_placeholder = "Search...",
-		placeholder = "Select Option",
-		breakpoint = "0"
-	}) {
+					selector = "defaultId",
+					width = "100%",
+					searchbox = false,
+					search_autofocus = false,
+					offset = true,
+					search_placeholder = "Search...",
+					placeholder = "Select Option",
+					breakpoint = "0"
+				}) {
 		var randomID = Math.floor(Math.random() * (9999 - 0 + 1)) + 0;
 		var SearchPlaceholder = search_placeholder;
 		var MainPlaceholder = placeholder;
@@ -47,6 +47,9 @@ class BVSelect {
 				var optionColor = x[i].getAttribute("data-color");
 				var optionColorClass = x[i].getAttribute("data-color-class");
 				var optionChangeIndex = x[i].getAttribute("data-l4pr-index");
+				var optionChangeIndex2 = x[i].getAttribute("data-slide-to");
+				var optionChangeIndex3 = x[i].getAttribute("data-l4pr-target");
+				var optionScroll = x[i].getAttribute("data-scroll");
 				var optionImg = x[i].getAttribute("data-img");
 				var optionIcon = x[i].getAttribute("data-icon");
 				if (optionDisabled == true) {
@@ -75,14 +78,31 @@ class BVSelect {
 					var is_color_class = ""
 				}
 				if (optionColor) {
-					var is_color = '<i class="icon-circle '+ is_color_class +'" style="background-color: '+ x[i].getAttribute("data-color") + ';"></i>'
+					var is_color = '<i class="icon-circle ' + is_color_class + '" style="background-color: ' + x[i].getAttribute("data-color") + ';"></i>'
 				} else {
 					var is_color = ""
 				}
 				if (optionChangeIndex) {
-					var is_change_index = 'data-l4pr-index="'+ x[i].getAttribute("data-l4pr-index") +'"'
+					var is_change_index = 'data-l4pr-index="' + x[i].getAttribute("data-l4pr-index") + '"'
 				} else {
 					var is_change_index = ""
+				}
+				if (optionChangeIndex2) {
+					var is_change_index2 = 'data-slide-to="' + x[i].getAttribute("data-slide-to") + '"'
+				} else {
+					var is_change_index2 = ""
+				}
+				if (optionChangeIndex3) {
+					var is_change_index3 = 'data-l4pr-target="' + x[i].getAttribute("data-l4pr-target") + '"'
+				} else {
+					var is_change_index3 = ""
+				}
+				if (optionScroll) {
+					var is_scroll_to = x[i].getAttribute("data-scroll");
+					var is_scroll_to_class = 'has-scroll';
+				} else {
+					var is_scroll_to = "./";
+					var is_scroll_to_class = '';
 				}
 				if (optionImg) {
 					var has_attachment = "<span class='img'><img src=" + optionImg + "></span>"
@@ -93,7 +113,7 @@ class BVSelect {
 						var has_attachment = ""
 					}
 				}
-				document.getElementById("ul_" + randomID).insertAdjacentHTML("beforeend", "<li class='li " + is_disabled + " " + is_separator + " " + is_selected + " " + is_class + "'><a href='./' " + is_change_index + ">" + has_attachment + " " + is_color + " <span class='text'>" + optionText + "</span></a></li>")
+				document.getElementById("ul_" + randomID).insertAdjacentHTML("beforeend", "<span class='li " + is_scroll_to_class + " " + is_disabled + " " + is_separator + " " + is_selected + " " + is_class + "'><a href='" + is_scroll_to + "' " + is_change_index + " " + is_change_index2 + " " + is_change_index3 + ">" + has_attachment + " " + is_color + " <span class='text'>" + optionText + "</span></a></span>")
 			}
 			document.querySelectorAll("#ul_" + randomID + " .li").forEach(item => {
 				item.addEventListener("click", e => {
@@ -127,7 +147,7 @@ class BVSelect {
 								}
 								SelectedNames = SelectedNames.substring(2)
 							}
-							document.getElementById("main_" + randomID).innerHTML = SelectedNames + "<i id='arrow_" + randomID + "' class='arrows_bv arrow down'></i>"
+							document.getElementById("main_" + randomID).innerHTML = '<span class="sl_inner">' + SelectedNames + "</span> <i id='arrow_" + randomID + "' class='arrows_bv arrow down'></i>"
 						} else {
 							document.querySelector(this.selector).getElementsByTagName("option")[index + numberless].selected = "selected";
 							Array.from(document.getElementById("ul_" + randomID).querySelectorAll(".li")).forEach(function (el) {
@@ -139,9 +159,9 @@ class BVSelect {
 							if (x.getAttribute("onchange") != null) {
 								document.querySelector(this.selector).onchange()
 							}
-							document.getElementById("main_" + randomID).innerHTML = item.textContent + "<i id='arrow_" + randomID + "' class='arrows_bv arrow down'></i>";
+							document.getElementById("main_" + randomID).innerHTML = '<span class="sl_inner">' + item.textContent + "</span> <i id='arrow_" + randomID + "' class='arrows_bv arrow down'></i>";
 							document.getElementById("main_" + randomID).classList.add("done");
-							document.getElementById("main_" + randomID).setAttribute('data-class',item.getAttribute('class'));
+							document.getElementById("main_" + randomID).setAttribute('data-class', item.getAttribute('class'));
 							document.getElementById("ul_" + randomID).style.display = "none";
 							document.body.classList.remove("stop-scrolling");
 							if (document.body.contains(document.getElementById("deletebg"))) {
@@ -168,7 +188,7 @@ class BVSelect {
 			var select_width = document.getElementById("main_" + randomID).offsetWidth;
 			element_ul.style.width = select_width + "px";
 			if (this.searchbox == true) {
-				document.querySelector("#ul_" + randomID).insertAdjacentHTML("afterbegin", '<li class="nofocus"><div class="innerinput"><input placeholder="' + SearchPlaceholder + '" class="bv_input" id="input_' + randomID + '" type="text"></div></li>')
+				document.querySelector("#ul_" + randomID).insertAdjacentHTML("afterbegin", '<span class="li nofocus"><div class="innerinput"><input placeholder="' + SearchPlaceholder + '" class="bv_input" id="input_' + randomID + '" type="text"></div></span>')
 			}
 			var selected_option = document.querySelector(this.selector);
 			if (!selected_option.attributes.multiple) {
@@ -185,7 +205,7 @@ class BVSelect {
 			} else {
 				first_option_text = MainPlaceholder
 			}
-			document.getElementById("main_" + randomID).innerHTML = first_option_text + "<i id='arrow_" + randomID + "' class='arrows_bv arrow down'></i>";
+			document.getElementById("main_" + randomID).innerHTML = '<span class="sl_inner">' + first_option_text + "</span> <i id='arrow_" + randomID + "' class='arrows_bv arrow down'></i>";
 			document.getElementById("main_" + randomID).addEventListener("click", function (e) {
 				document.getElementById("ul_" + randomID).style.position = "absolute";
 				document.getElementById("ul_" + randomID).style.bottom = "";
@@ -202,7 +222,10 @@ class BVSelect {
 					document.getElementById("ul_" + randomID).style.display = "none";
 					Array.from(document.querySelectorAll(".arrows_bv")).forEach(function (val) {
 						val.parentElement.classList.remove("up");
-						val.parentElement.classList.add("down")
+						val.parentElement.classList.add("down");
+						/*if (element_bv.closest('figure') !== null) {
+							element_bv.closest('figure').classList.remove('select-open');
+						}*/
 					})
 				} else {
 					Array.from(document.querySelectorAll(".bv_ul_inner")).forEach(function (val) {
@@ -212,6 +235,9 @@ class BVSelect {
 					Array.from(document.querySelectorAll(".arrows_bv")).forEach(function (val) {
 						val.parentElement.classList.remove("up");
 						val.parentElement.classList.add("down")
+						/*if (element_bv.closest('figure') !== null) {
+							element_bv.closest('figure').classList.add('select-open');
+						}*/
 					});
 					document.querySelector("#arrow_" + randomID).parentElement.classList.remove("down");
 					document.querySelector("#arrow_" + randomID).parentElement.classList.add("up")
@@ -285,7 +311,7 @@ class BVSelect {
 				input = document.getElementById("input_" + randomID);
 				filter = input.value.toUpperCase();
 				ul = document.getElementById("ul_" + randomID);
-				li = ul.getElementsByTagName("li");
+				li = ul.getElementsByClassName("li");
 				Array.from(document.querySelectorAll(".bv_separator")).forEach(function (val) {
 					val.style.display = "none"
 				});
@@ -355,7 +381,7 @@ class BVSelect {
 	}
 	Change(properties) {
 		if (properties.placeholder) {
-			document.getElementById("main_" + this.randomID).innerHTML = properties.placeholder + "<i id='arrow_" + this.randomID + "' class='arrows_bv arrow down'></i>"
+			document.getElementById("main_" + this.randomID).innerHTML = '<span class="sl_inner">' + properties.placeholder + "</span> <i id='arrow_" + this.randomID + "' class='arrows_bv arrow down'></i>"
 		}
 		if (properties.search_placeholder) {
 			document.getElementById("input_" + this.randomID).placeholder = properties.search_placeholder
@@ -398,7 +424,7 @@ class BVSelect {
 			if (selectorIndex.getAttribute("onchange") != null) {
 				document.querySelector(this.selector).onchange()
 			}
-			document.getElementById("main_" + this.randomID).innerHTML = selectorIndex.options[selectorIndex.selectedIndex].text + "<i id='arrow_" + this.randomID + "' class='arrows_bv arrow down'></i>"
+			document.getElementById("main_" + this.randomID).innerHTML = '<span class="sl_inner">' + selectorIndex.options[selectorIndex.selectedIndex].text + "</span> <i id='arrow_" + this.randomID + "' class='arrows_bv arrow down'></i>"
 		} else if (properties.type == "byValue") {
 			for (var i = 0; i < selectorIndex.length; i++) {
 				if (selectorIndex[i].value == properties.value) {
@@ -406,7 +432,7 @@ class BVSelect {
 					if (selectorIndex.getAttribute("onchange") != null) {
 						document.querySelector(this.selector).onchange()
 					}
-					document.getElementById("main_" + this.randomID).innerHTML = selectorIndex[i].innerText + "<i id='arrow_" + this.randomID + "' class='arrows_bv arrow down'></i>"
+					document.getElementById("main_" + this.randomID).innerHTML = '<span class="sl_inner">' + selectorIndex[i].innerText + "</span> <i id='arrow_" + this.randomID + "' class='arrows_bv arrow down'></i>"
 				}
 			}
 		}

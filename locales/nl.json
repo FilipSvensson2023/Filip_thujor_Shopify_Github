@@ -44,7 +44,6 @@
     "continue_shopping": "Verder winkelen",
     "empty_subtitle": "Klik op verder winkelen en bekijk ons assortiment",
     "empty_title": "We zoeken je bestelling, maar zo te zien is je winkelwagen leeg...",
-    "empty_title_short": "Je winkelwagen is leeg...",
     "free_shipping": "Gratis verzending!",
     "free_shipping_long_html": "Je bestelling wordt <span class='strong'>gratis verzonden<\/span>!",
     "giftcard_or_discount_code": {
@@ -56,14 +55,17 @@
       "product": "Product",
       "products": "Producten",
       "qty": "Aantal",
-      "remove": "Verwijderen"
+      "remove": "Verwijderen",
+      "product_removed": "{{ product_title }} is verwijderd uit je winkelwagen",
+      "product_removed_undo": "Ongedaan maken"
     },
     "title": "Winkelwagen",
-    "to_cart": "Naar de winkelwagen",
+    "to_cart": "Naar winkelwagen",
     "total": "Totaal",
     "total_excluding_tax": "Totaal exclusief BTW",
     "total_including_tax": "Totaal inclusief BTW",
-    "total_products": "Totaal artikelen"
+    "total_products": "Totaal artikelen",
+    "upsell_title": "Dit vind je misschien ook leuk"
   },
   "collection": {
     "all_collections": "Alle categoriën",
@@ -214,6 +216,8 @@
     "orders": {
       "date": "Datum",
       "fulfillment_status": "Verzendstatus",
+      "track_shipment": "Zending volgen",
+      "fulfilled_at_html": "Verzonden op {{ date }}",
       "order_number": "Bestelling",
       "payment_status": "Betaalstatus",
       "seen_number_of_orders_html": "<span class='strong'>{{ number1 }}<\/span> van de <span class='strong'>{{ number2 }}<\/span> bestellingen",
@@ -311,6 +315,16 @@
     "shipping_timer": {
       "shipped_today": "Vandaag verstuurd?",
       "you_have_left_html": "Je hebt nog: {{ time }}"
+    },
+    "countdown": {
+      "days": "Dagen",
+      "day": "Dag",
+      "hours": "Uren",
+      "hour": "Uur",
+      "minutes": "Minuten",
+      "minute": "Minuut",
+      "seconds": "Seconden",
+      "second": "Seconde"
     }
   },
   "gift_cards": {
@@ -329,6 +343,21 @@
       "remaining_html": "{{ balance }} over",
       "shop_link": "Start met shoppen",
       "title": "Jouw giftcard, {{ name }}!"
+    },
+    "recipient": {
+      "form": {
+        "checkbox": "Ik wil dit als cadeau sturen",
+        "email_label": "E-mailadres ontvanger",
+        "email": "E‑mailadres",
+        "name_label": "Naam ontvanger (optioneel)",
+        "name": "Naam",
+        "message_label": "Bericht (optioneel)",
+        "message": "Bericht",
+        "max_characters": "Maximaal {{ max_chars }} tekens",
+        "email_label_optional_for_no_js_behavior": "E-mailadres ontvanger (optioneel)",
+        "send_on": "JJJJ-MM-DD",
+        "send_on_label": "Verzenden op (optioneel)"
+      }
     }
   },
   "header": {
@@ -404,7 +433,9 @@
       "title": "Productformulier",
       "unavailable": "Niet beschikbaar",
       "view": "Opties",
-      "view_options": "Bekijk opties"
+      "view_options": "Bekijk opties",
+      "pre_order": "Pre-order",
+      "pre_order_info": "Pre-order info"
     },
     "including_tax": "Incl. BTW",
     "one_time_purchase": "Eenmalige aankoop",
@@ -450,6 +481,7 @@
     },
     "no_products_found": "Geen producten gevonden",
     "questions_and_advice": "Vragen & advies",
+    "suggestions": "Suggesties",
     "results": "Zoekresultaten",
     "results_plus_term": "Zoekresultaten voor \"{{ term }}\"",
     "search_form": {

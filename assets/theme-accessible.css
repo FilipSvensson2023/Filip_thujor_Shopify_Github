@@ -47,6 +47,9 @@
 	--size_34_f: 36px;
 	--size_36_f: 38px;
 	--size_38_f: 40px;
+
+	--sale_label_fz: var(--size_12_f);
 }
-.t1ac #nav, .t1ac #nav-bar { --size_14: 15px; }
+.t1ac #nav, .t1ac #nav-bar { --main_fz: 15px; }
 .input-amount, .input-amount input, .f8ps .input-amount input, .l4ca.compact .input-amount { width: 64px; }
+.t1ac .icon-text-size:before { content: "\e97e"; }

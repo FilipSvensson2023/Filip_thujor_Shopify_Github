@@ -31,7 +31,7 @@
 {%- endif -%}
 
 {%- if show_header -%}
-<header class="cols{% if link and section.settings.show_link == false %} align-middle{% endif %}">
+<header class="cols{% if link and section.settings.show_link == false %} align-middle{% endif %}{% if section.settings.title == empty %} text-end{% endif %}">
   {%- if section.settings.title != empty -%}
     <{{ title_size }} class="{{ title_classes }}">{{ section.settings.title }}</{{ title_size }}>
   {%- endif -%}
@@ -132,6 +132,12 @@
 {
   "name": "t:sections.events_calendar.name",
   "tag": "article",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
   "settings": [
     {
       "type": "select",

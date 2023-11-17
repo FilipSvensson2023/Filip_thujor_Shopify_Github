@@ -17,7 +17,7 @@
             {{ customer.default_address.first_name }} {{ customer.default_address.last_name }}<br>
             {% if customer.default_address.company != empty %}{{ customer.default_address.company }}<br>{% endif %}
             {{ customer.default_address.street }}<br>
-            {{ customer.default_address.zip }} {{ customer.default_address.city }}<br>
+            {{ customer.default_address.zip }} {{ customer.default_address.city }}{% if customer.default_address.province %}, {{ customer.default_address.province }}{% endif %}<br>
             {{ customer.default_address.country }}<br>
             {%- if customer.default_address.phone != blank -%}<a href="tel:+{{ customer.default_address.phone }}"><i aria-hidden="true" class="icon-phone"></i> {{ customer.default_address.phone }}</a>{%- endif -%}
           </p>
@@ -38,7 +38,7 @@
               {{ address.first_name }} {{ address.last_name }}<br>
               {% if address.company != empty %}{{ address.company }}<br>{% endif %}
               {{ address.street }}<br>
-              {{ address.zip }} {{ address.city }}<br>
+              {{ address.zip }} {{ address.city }}{% if address.province %}, {{ address.province }}{% endif %}<br>
               {{ address.country }}<br>
               {%- if address.phone != blank -%}<a href="tel:+{{ address.phone }}"><i aria-hidden="true" class="icon-phone"></i> {{ address.phone }}</a>{%- endif -%}
             </p>

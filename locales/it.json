@@ -38,7 +38,9 @@
       "product": "Prodotto",
       "products": "Prodottos",
       "qty": "Quantità",
-      "remove": "Rimuovere"
+      "remove": "Rimuovere",
+      "product_removed": "{{ product_title }} è stato rimosso dal carrello",
+      "product_removed_undo": "Annulla"
     },
     "giftcard_or_discount_code": {
       "submit": "Sottoscrivi",
@@ -46,12 +48,12 @@
       "placeholder": "Aggiungete il vostro codice qui"
     },
     "total_products": "Totale prodotti",
+    "upsell_title": "Potrebbe piacerti anche",
     "total_including_tax": "Totale I.V.A. inclusa",
     "total_excluding_tax": "Totale I.V.A. esclusa",
-    "empty_title_short": "Il tuo carrello è vuoto...",
     "empty_title": "Stiamo cercando i vostri prodotti, ma sembra che il vostro carrello sia vuoto...",
     "empty_subtitle": "Cliccate su continua lo shopping e date un'occhiata al nostro catalogo",
-    "to_cart": "Visualizza il mio carrello",
+    "to_cart": "Al carrello",
     "add_note": "Istruzioni speciali per il venditore",
     "add_note_placeholder": "Ha degli appunti da darci?",
     "button_processing": "Elaborazione dei dati...",
@@ -176,6 +178,8 @@
       "date": "Date",
       "payment_status": "Stato del pagamento",
       "fulfillment_status": "Stato di adempimento",
+      "track_shipment": "Tracciare la spedizione",
+      "fulfilled_at_html": "Spedito il {{ date }}",
       "total": "Totale",
       "view_order": "Visualizza l'ordine",
       "seen_number_of_orders_html": "<span class='strong'>{{ number1 }}<\/span> fuori <span class='strong'>{{ number2 }}<\/span> ordini"
@@ -311,7 +315,17 @@
       "shipped_today": "Spedito oggi?",
       "you_have_left_html": "Ordina entro: {{ time }}"
     },
-    "choose_option": "Fai una scelta"
+    "choose_option": "Fai una scelta",
+    "countdown": {
+      "days": "Giorni",
+      "day": "Giorno",
+      "hours": "Ore",
+      "hour": "Ora",
+      "minutes": "Minuti",
+      "minute": "Minuto",
+      "seconds": "Secondi",
+      "second": "Secondo"
+    }
   },
   "gift_cards": {
     "issued": {
@@ -329,6 +343,21 @@
       "copied_code": "Copiato!",
       "print_page": "Stampa",
       "shop_link": "Inizia a fare acquisti"
+    },
+    "recipient": {
+      "form": {
+        "checkbox": "Voglio inviarlo come regalo",
+        "email_label": "Email destinatario",
+        "email": "email",
+        "name_label": "Nome destinatario (facoltativo)",
+        "name": "Nome",
+        "message_label": "Messaggio (facoltativo)",
+        "message": "Messaggio",
+        "max_characters": "Massimo {{ max_chars }} caratteri",
+        "email_label_optional_for_no_js_behavior": "Email destinatario (facoltativa)",
+        "send_on": "AAAA-MM-GG",
+        "send_on_label": "Spedisci il giorno (opzionale)"
+      }
     }
   },
   "header": {
@@ -423,7 +452,9 @@
       "choose_option": "Fare una scelta",
       "purchase_options_title": "Consegnare ogni",
       "purchase_options_subtitle": "È possibile annullare l'abbonamento mensilmente",
-      "one_time_purchase": "Acquisto una tantum"
+      "one_time_purchase": "Acquisto una tantum",
+      "pre_order": "Pre-order",
+      "pre_order_info": "Pre-order info"
     },
     "including_tax": "incl. I.V.A.",
     "excluding_tax": "I.V.A. esclusa",
@@ -449,6 +480,7 @@
     "results": "Risultati della ricerca",
     "results_plus_term": "Risultati della ricerca per \"{{ term }}\"",
     "questions_and_advice": "Pagine e post del blog",
+    "suggestions": "Suggerimenti",
     "amount_of_results": {
       "zero": "Nessun risultato",
       "one": "{{ amount }} risultato",

@@ -37,7 +37,7 @@
     endif
   endcapture
   if section.settings.title_size == 'size-50'
-    assign title_size = 'h2'
+    assign title_size = 'h1'
     assign title_classes = title_classes | append: ' mobile-size-' | append: settings.mobile_font_size | remove: 'px'
   else
     assign title_size = section.settings.title_size
@@ -51,17 +51,17 @@
 {%- endif -%}
 
 {%- if show_header -%}
-  <header class="cols{% if link and section.settings.show_link == false %} align-middle{% endif %} blog__section__heading">
+  <header class="cols{% if link and section.settings.show_link == false %} align-middle{% endif %}{% if section.settings.title == empty %} text-end{% endif %}">
     {%- if section.settings.title != empty -%}
-      <h2 class="{{ title_classes }}">{{ section.settings.title }}</h2>
+      <{{ title_size }} class="{{ title_classes }}">{{ section.settings.title }}</{{ title_size }}>
     {%- endif -%}
     {%- if link and section.settings.text_alignment == 'start' -%}
       {{ link | replace: 'class-x', 'mobile-hide' }}
     {%- endif -%}
   </header>
 {%- endif -%}
-<div class="blogs_wrapper">
-<ul class="l4ne landscape {{ width_class }} blog__section">
+
+<ul class="l4ne landscape {{ width_class }}">
   {%- liquid
     if blogs[section.settings.blog] != empty
       for article in blogs[section.settings.blog].articles limit: section.settings.number_of_items
@@ -73,10 +73,7 @@
       endfor
     endif
   -%}
-
 </ul>
-          <button class="viewallblogs"><a href="https://thujor.se/blogs/nyheter">Se alla bloggar</button></a>
-</div>
 {%- if link and section.settings.text_alignment == 'center' -%}
   {{ link | replace: 'class-x', 'm0 text-center' }}
 {%- elsif link and section.settings.text_alignment == 'start' -%}
@@ -104,6 +101,12 @@
 {
   "name": "t:sections.blog_posts.name",
   "tag": "article",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
   "settings": [
     {
       "type": "blog",
@@ -135,22 +138,22 @@
         }
       ],
       "default": "start"
-    }, 
+    },
     {
       "type": "select",
       "id": "title_size",
       "label": "t:sections.blog_posts.settings.title_size.label",
       "options": [
         {
-          "value": "h4",
+          "value": "h3",
           "label": "t:sections.blog_posts.settings.title_size.options__1.label"
         },
         {
-          "value": "h3",
+          "value": "h2",
           "label": "t:sections.blog_posts.settings.title_size.options__2.label"
         },
         {
-          "value": "h2",
+          "value": "h1",
           "label": "t:sections.blog_posts.settings.title_size.options__3.label"
         },
         {
@@ -158,7 +161,7 @@
           "label": "t:sections.blog_posts.settings.title_size.options__4.label"
         }
       ],
-      "default": "h2"
+      "default": "h1"
     },
     {
       "id": "title",

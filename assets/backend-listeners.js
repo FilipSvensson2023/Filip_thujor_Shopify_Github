@@ -6,7 +6,7 @@ document.addEventListener("shopify:section:load", function (event) {
   lazyloadAgainEvt.details = { section: section };
   window.dispatchEvent(lazyloadAgainEvt);
   window.dispatchEvent(createColsEvt);
-  if (event.detail.sectionId == "announcement-bar") {
+  if (event.srcElement.classList.contains("shopify-section-announcement-bar")) {
     window.dispatchEvent(stickyNavEvt);
   }
   if (event.srcElement.getElementsByClassName("l4us").length) {
@@ -17,17 +17,18 @@ document.addEventListener("shopify:section:load", function (event) {
     window.dispatchEvent(semanticInputEvt);
     ajaxCart.init();
   }
-  if (event.detail.sectionId == "header") {
+  if (event.srcElement.classList.contains("shopify-section-header")) {
     html_tag.classList.remove("t1sr");
-    html_tag.classList.remove("t1sr-mobile");
-    html_tag.classList.remove("t1sr-desktop");
     html_tag.classList.remove("t1sn");
+    html_tag.classList.remove("t1nb");
+    html_tag.classList.remove("t1nn");
+    html_tag.classList.remove("t1mn");
     window.dispatchEvent(navEvt);
     window.dispatchEvent(navtopEvt);
     window.dispatchEvent(searchClassesEvt);
     window.dispatchEvent(searchEvt);
     window.dispatchEvent(stickyNavEvt);
-    window.dispatchEvent(checkLogoHeightEvt);
+    window.dispatchEvent(topEvt);
   }
   if (event.detail.sectionId.endsWith("main-password") || event.detail.sectionId.endsWith("main-giftcard")) {
     window.dispatchEvent(backgroundEvt);
@@ -46,6 +47,13 @@ document.addEventListener("shopify:section:load", function (event) {
     window.dispatchEvent(semanticInputEvt);
     window.dispatchEvent(schemeTooltipEvt);
     window.dispatchEvent(popupsEvt);
+    window.dispatchEvent(listScrollableEvt);
+    window.check_limit_event();
+    ajaxCart.init();
+    quickShop.init();
+  }
+  if (event.srcElement.getElementsByClassName("l4hs").length) {
+    window.dispatchEvent(hotspotsEvt);
     ajaxCart.init();
     quickShop.init();
   }
@@ -74,6 +82,9 @@ document.addEventListener("shopify:section:load", function (event) {
   if (event.srcElement.getElementsByClassName("l4st").length) {
     window.dispatchEvent(listStaticSliderEvt);
   }
+  if (event.srcElement.querySelectorAll("input[type='date']").length) {
+    window.dispatchEvent(inputDateEvt);
+  }
   if (event.srcElement.getElementsByClassName("m6lm").length) {
     window.dispatchEvent(heightLimitEvt);
     linkMore();
@@ -81,7 +92,15 @@ document.addEventListener("shopify:section:load", function (event) {
   if (event.detail.sectionId.endsWith("recently-viewed")) {
     window.dispatchEvent(recentlyViewedProductsEvt);
   }
+  if (event.detail.sectionId.endsWith("sticky-add-to-cart")) {
+    window.dispatchEvent(productVariantsEvt);
+    window.dispatchEvent(productOptionsEvt);
+    window.dispatchEvent(semanticSelectEvt);
+    window.dispatchEvent(stickyAddToCartEvt);
+    ajaxCart.init();
+  }
   if (event.srcElement.getElementsByClassName('m6pr').length) {
+    window.dispatchEvent(stickyAddToCartEvt);
     window.dispatchEvent(ratingsEvt);
     window.dispatchEvent(productVariantsEvt);
     window.dispatchEvent(productOptionsEvt);
@@ -98,6 +117,7 @@ document.addEventListener("shopify:section:load", function (event) {
     window.dispatchEvent(dataChangeEvt);
     window.dispatchEvent(schemeTooltipEvt);
     window.dispatchEvent(popupsEvt);
+    linkMore();
   }
   if (event.detail.sectionId.endsWith("main-collection") || event.detail.sectionId.endsWith("main-search") ) {
     window.dispatchEvent(rangeSliderEvt);
@@ -125,8 +145,15 @@ document.addEventListener("shopify:block:select", function (event) {
   );
   if (section.querySelector(".m6fr") != null) {
     var slideIndex = event.srcElement.dataset.slideIndex;
-    if (slideIndex > 0) {
-      var swiper = section.querySelector(".m6fr .swiper-outer").swiper;
+    var swiper = section.querySelector(".m6fr .swiper-outer").swiper;
+    if (swiper != null) {
+      swiper.slideTo(slideIndex, 500);
+    }
+  }
+  if (section.querySelector(".l4cl.slider") != null) {
+    var slideIndex = event.srcElement.dataset.slideIndex;
+    if (slideIndex) {
+      var swiper = section.querySelector(".l4cl.slider .swiper-outer").swiper;
       if (swiper != null) {
         swiper.slideTo(slideIndex, 500);
       }

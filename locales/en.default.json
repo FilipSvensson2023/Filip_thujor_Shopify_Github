@@ -44,7 +44,6 @@
     "continue_shopping": "Continue shopping",
     "empty_subtitle": "Click on continue shopping and check out our catalog",
     "empty_title": "We are looking for your products, but it looks like your cart is empty...",
-    "empty_title_short": "Your cart is empty...",
     "free_shipping": "Free shipping!",
     "free_shipping_long_html": "Your order will be <span class='strong'>shipped for free<\/span>!",
     "giftcard_or_discount_code": {
@@ -56,14 +55,17 @@
       "product": "Product",
       "products": "Products",
       "qty": "Quantity",
-      "remove": "Remove"
+      "remove": "Remove",
+      "product_removed": "{{ product_title }} has been removed from your cart",
+      "product_removed_undo": "Undo"
     },
     "title": "Cart",
-    "to_cart": "View my cart",
+    "to_cart": "View cart",
     "total": "Total",
     "total_excluding_tax": "Total excluding VAT",
     "total_including_tax": "Total including VAT",
-    "total_products": "Total products"
+    "total_products": "Total products",
+    "upsell_title": "You may also like"
   },
   "collection": {
     "all_collections": "All collections",
@@ -214,6 +216,8 @@
     "orders": {
       "date": "Date",
       "fulfillment_status": "Fulfillment status",
+      "track_shipment": "Track shipment",
+      "fulfilled_at_html": "Shipped on {{ date }}",
       "order_number": "Order",
       "payment_status": "Payment status",
       "seen_number_of_orders_html": "<span class='strong'>{{ number1 }}<\/span> out of <span class='strong'>{{ number2 }}<\/span> orders",
@@ -311,6 +315,16 @@
     "shipping_timer": {
       "shipped_today": "Shipped today?",
       "you_have_left_html": "Order within: {{ time }}"
+    },
+    "countdown": {
+      "days": "Days",
+      "day": "Day",
+      "hours": "Hours",
+      "hour": "Hour",
+      "minutes": "Minutes",
+      "minute": "Minute",
+      "seconds": "Seconds",
+      "second": "Second"
     }
   },
   "gift_cards": {
@@ -329,6 +343,21 @@
       "remaining_html": "{{ balance }} left",
       "shop_link": "Start shopping",
       "title": "Your giftcard, {{ name }}!"
+    },
+    "recipient": {
+      "form": {
+        "checkbox": "I want to send this as a gift",
+        "email_label": "Recipient email",
+        "email_label_optional_for_no_js_behavior": "Recipient email (optional)",
+        "email": "Email",
+        "name_label": "Recipient name (optional)",
+        "name": "Name",
+        "message_label": "Message (optional)",
+        "message": "Message",
+        "max_characters": "{{ max_chars }} characters max",
+        "send_on": "YYYY-MM-DD",
+        "send_on_label": "Send on (optional)"
+      }
     }
   },
   "header": {
@@ -404,7 +433,9 @@
       "title": "Product form",
       "unavailable": "Unavailable",
       "view": "Options",
-      "view_options": "View options"
+      "view_options": "View options",
+      "pre_order": "Pre-order",
+      "pre_order_info": "Pre-order info"
     },
     "including_tax": "Incl. VAT",
     "one_time_purchase": "One-time purchase",
@@ -450,15 +481,16 @@
     },
     "no_products_found": "No products found",
     "questions_and_advice": "Pages & blog posts",
+    "suggestions": "Suggestions",
     "results": "Search results",
     "results_plus_term": "Search results for \"{{ term }}\"",
     "search_form": {
-      "placeholder": "Vad letar du efter? ",
+      "placeholder": "What are you looking for?",
       "search_again": "Search again",
       "submit": "Zoeken"
     },
     "title": "Search",
-    "view_all_results": "Visa alla resultat",
+    "view_all_results": "View all results",
     "seen_number_of_results_html": "You have seen <span class='strong'>{{ number1 }}<\/span> out of <span class='strong'>{{ number2 }}<\/span> results",
     "show_more_results": "Show more results",
     "show_previous_results": "Show previous results"

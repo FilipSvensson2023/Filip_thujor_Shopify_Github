@@ -179,14 +179,14 @@
                 <h4 data-filter-toggle="{{ filter.label | handleize }}"><span class="desktop-only">{{ 'collection.filters.price.title' | t }}</span><span class="desktop-hide">{{ filter.label }}</span></h4>
                 <p class="input-range">
                   <span>
-                    <label for="{{ filter.min_value.param_name }}">{{ 'collection.filters.price.range_from' | t }}</label>
+                    <label for="min">{{ 'collection.filters.price.range_from' | t }}</label>
                     <span class="input-prefix">
                       <span>{{ cart.currency.symbol }}</span>
                       <input type="number" id="min" name="{{ filter.min_value.param_name }}" value="{% if filter.min_value.value -%}{{ filter.min_value.value | ceil | divided_by: 100 }}{% else %}0{% endif %}" min="{{ filter.range_min | ceil | divided_by: 100 }}">
                     </span>
                   </span>
                   <span>
-                    <label for="{{ filter.max_value.param_name }}">{{ 'collection.filters.price.range_to' | t }}</label>
+                    <label for="max">{{ 'collection.filters.price.range_to' | t }}</label>
                     <span class="input-prefix">
                       <span>{{ cart.currency.symbol }}</span>
                       <input type="number" id="max" name="{{ filter.max_value.param_name }}" value="{% if filter.max_value.value -%}{{ filter.max_value.value | ceil | divided_by: 100 }}{% else %}{{ filter.range_max | ceil | divided_by: 100 }}{% endif %}" max="{{ filter.range_max | ceil | divided_by: 100 }}">
@@ -207,6 +207,7 @@
       {%- if show_amount_of_products -%}
         <h2>{{ amount_of_products_translation | t: count: amount_of_products, amount: amount_of_products }}</h2>
       {%- endif -%}
+      <hr>
       {%- if show_filters -%}<p class="link-btn desktop-hide"><a href="#filter"><i aria-hidden="true" class="icon-filter"></i> {{ 'collection.filters.filter' | t }}</a></p>{%- endif -%}
       <ul class="l4vw" aria-controls="collection">
         <li {% if collection_view == 'grid' %}class="active"{% endif %}><a href="./" aria-label="Grid display"><i aria-hidden="true" class="icon-view-grid"></i> <span class="hidden">{{ 'collection.sort_by.grid_view' | t }}</span></a></li>

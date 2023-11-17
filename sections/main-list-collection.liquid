@@ -37,7 +37,7 @@
 -%}
 {%- paginate collections by section.settings.pagination_qty -%}
   <header class="cols">
-    <h1>{{ 'collection.all_collections' | t }}</h1>
+    <h2>{{ 'collection.all_collections' | t }}</h2>
   </header>
   <ul class="l4cl {% if settings.enable_quick_buy %}with-quick-buy{% endif %} mobile-wide category {{ image_ratio }} {{ width_class }}">
     {%- for collection in collections -%}
@@ -85,9 +85,9 @@
     paginate: paginate,
     mobile_center: true
   %}
-{% assign sp_paginate_by = paginate.page_size %}{%- endpaginate -%}
+{%- endpaginate -%}
 
-{% if sp_paginate_by %}{% render 'spurit_po2_collection_template_snippet', paginate_by: sp_paginate_by %}{% endif %}{% schema %}
+{% schema %}
 {
   "name": "t:main.list_collection.name",
   "tag": "article",

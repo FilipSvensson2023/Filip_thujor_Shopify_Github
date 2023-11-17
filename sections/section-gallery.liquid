@@ -43,7 +43,7 @@
 -%}
 
 <article>
-  <ul class="l4ft image-gallery 
+  <ul class="l4ft
     {% if section.settings.width == 'wide' %}fullwidth{% endif %}
     {% if section.settings.show_content_on_hover %}hover-out{% endif %}
     {% if section.settings.image_zoom %}zoom{% endif %}
@@ -76,69 +76,89 @@
 
         if block.settings.title_size == 'size-50'
           assign title_classes = block.settings.title_size
-          assign title_size = 'h2'
+          assign title_size = 'h1'
         else
           assign title_classes = false
           assign title_size = block.settings.title_size
         endif
       -%}
-      <li class="palette-{{ block.settings.color_palette }}
-        block-{{ block.id }}
+      <li class="block-{{ block.id }}
         {{ block.settings.text_position }}
         {{ width_class }}
         {% if section.settings.height != 'size-s' %}{{ section.settings.height }}{% endif %}
         {{ section.settings.mobile_height }}-mobile
         {% if different_width_class %}{{ different_width_class }}{% endif %}
-        module-color-palette
         {% if block.settings.title_size == 'size-50' %}size-18 mobile-size-14{% endif %}
         {% unless section.settings.image_move %}dont-move{% endunless %}
         "
         {{ block.shopify_attributes }}
       >
-        <figure>
-          <span class="img-overlay" style="opacity:{{ block.settings.overlay_opacity | divided_by: 100.0 }}"></span>
-          {%- if block.settings.video -%}
-            {{ block.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false }}
-          {%- elsif block.settings.image -%}
-            <picture>
-                <img
-                  src="{{ 'placeholder-pixel.png' | asset_img_url }}"
-                  data-src="{{ block.settings.image | image_url: width: 620 }}"
-                  data-srcset="{% render 'image-srcset', image: block.settings.image %}"
-                  sizes="
-                   {% if section.settings.width == 'boxed' or settings.body_width == 'boxed' %}
-                    (min-width: 1300px) {% if img_width == 100 %}1280px{% else %}calc(1280px * 0.{{ img_width }}){%- endif -%},
-                   {% endif %}
-                    (min-width: 1000px) {% if img_width == 100 %}100vw{% else %}calc(100vw * 0.{{ img_width }}){%- endif -%},
-                    {% if section.settings.layout_mobile == 'compact' %}315px{% else %}100vw{% endif %}
-                  "
-                  width="620"
-                  height="700"
-                  alt="{{ block.settings.image.alt | default: block.settings.title | escape }}"
-                  style="object-position: {{ block.settings.image.presentation.focal_point }}"
-                >
-            </picture>
-          {% else %}
-            <picture>
-              {{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
-            </picture>
-          {% endif %}
-        </figure>
-        <div>
-          {%- if block.settings.title -%}<h2 class="{% if title_classes %}{{ title_classes }}{% endif %} {{ block.settings.title_size_mobile }}">{{ block.settings.title }}</h2>>{%- endif -%}
-          {%- if block.settings.text -%}{{ block.settings.text }}{%- endif -%}
-          {%- if block.settings.link_text != empty and block.settings.link_url != blank -%}
-            <p class="link{% unless block.settings.show_link %}-btn{% endunless %} button-palette-{{ block.settings.button_color_palette }}">
-              <a href="{{ block.settings.link_url }}"{% if block.settings.show_link %} class="strong"{% endif %}>
-                {% if block.settings.show_link %}<span>{% endif %}{{ block.settings.link_text }}{% if block.settings.show_link %}</span>&nbsp;<i aria-hidden="true" class="icon-chevron-right"></i>{% endif %}
-              </a>
-            </p>
-          {%- endif %}
-          {%- unless block.settings.video -%}
-            {%- if settings.banners_clickable and block.settings.link_url != blank -%}
-              <a class="link-overlay" aria-label="{{ block.settings.link_url }}" href="{{ block.settings.link_url }}"></a>
-            {%- endif -%}
-          {%- endunless -%}
+        <div class="palette-{{ block.settings.color_palette }}
+             module-color-palette
+             main"
+        >
+          <figure>
+            <span class="img-overlay" style="opacity:{{ block.settings.overlay_opacity | divided_by: 100.0 }}"></span>
+            {%- if block.settings.video -%}
+              {{ block.settings.video | video_tag: autoplay: true, loop: true, muted: true, controls: false }}
+            {%- elsif block.settings.image -%}
+              <picture>
+                  {% if block.settings.image_mobile %}
+                    <img
+                        src="{{ 'placeholder-pixel.png' | asset_img_url }}"
+                        data-src="{{ block.settings.image_mobile | image_url: width: 620 }}"
+                        data-srcset="{% render 'image-srcset', image: block.settings.image_mobile %}"
+                        sizes="
+                          (min-width: 768px) 0,
+                          {% if section.settings.layout_mobile == 'compact' %}315px{% else %}100vw{% endif %}
+                        "
+                        width="620"
+                        height="700"
+                        alt="{{ block.settings.image_mobile.alt | default: block.settings.title | escape }}"
+                        style="object-position: {{ block.settings.image_mobile.presentation.focal_point }}"
+                        class="mobile-only"
+                    >
+                  {% endif %}
+                  <img
+                    src="{{ 'placeholder-pixel.png' | asset_img_url }}"
+                    data-src="{{ block.settings.image | image_url: width: 620 }}"
+                    data-srcset="{% render 'image-srcset', image: block.settings.image %}"
+                    sizes="
+                     {% if section.settings.width == 'boxed' or settings.body_width == 'boxed' %}
+                      (min-width: 1300px) {% if img_width == 100 %}1280px{% else %}calc(1280px * 0.{{ img_width }}){%- endif -%},
+                     {% endif %}
+                      (min-width: 1000px) {% if img_width == 100 %}100vw{% else %}calc(100vw * 0.{{ img_width }}){%- endif -%},
+                      {% if block.settings.image_mobile %}0{% else %}{% if section.settings.layout_mobile == 'compact' %}315px{% else %}100vw{% endif %}{% endif %}
+                    "
+                    width="620"
+                    height="700"
+                    alt="{{ block.settings.image.alt | default: block.settings.title | escape }}"
+                    style="object-position: {{ block.settings.image.presentation.focal_point }}"
+                     {% if block.settings.image_mobile %}class="mobile-hide"{% endif %}
+                  >
+              </picture>
+            {% else %}
+              <picture>
+                {{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+              </picture>
+            {% endif %}
+          </figure>
+          <div>
+            {%- if block.settings.title -%}<{{ title_size }} class="{% if title_classes %}{{ title_classes }}{% endif %} {{ block.settings.title_size_mobile }}">{{ block.settings.title }}</{{ title_size }}>{%- endif -%}
+            {%- if block.settings.text -%}{{ block.settings.text }}{%- endif -%}
+            {%- if block.settings.link_text != empty and block.settings.link_url != blank -%}
+              <p class="link{% unless block.settings.show_link %}-btn{% endunless %} button-palette-{{ block.settings.button_color_palette }}">
+                <a href="{{ block.settings.link_url }}"{% if block.settings.show_link %} class="strong"{% endif %}>
+                  {% if block.settings.show_link %}<span>{% endif %}{{ block.settings.link_text }}{% if block.settings.show_link %}</span>&nbsp;<i aria-hidden="true" class="icon-chevron-right"></i>{% endif %}
+                </a>
+              </p>
+            {%- endif %}
+            {%- unless block.settings.video -%}
+              {%- if settings.banners_clickable and block.settings.link_url != blank -%}
+                <a class="link-overlay" href="{{ block.settings.link_url }}"></a>
+              {%- endif -%}
+            {%- endunless -%}
+          </div>
         </div>
       </li>
     {%- endfor -%}
@@ -164,6 +184,12 @@
 {
   "name": "t:sections.gallery.name",
   "max_blocks": 8,
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
   "settings": [
     {
       "type": "select",
@@ -514,15 +540,15 @@
           "label": "t:sections.gallery.blocks.image.settings.title_size.label",
           "options": [
             {
-              "value": "h4",
+              "value": "h3",
               "label": "t:sections.gallery.blocks.image.settings.title_size.options__1.label"
             },
             {
-              "value": "h3",
+              "value": "h2",
               "label": "t:sections.gallery.blocks.image.settings.title_size.options__2.label"
             },
             {
-              "value": "h2",
+              "value": "h1",
               "label": "t:sections.gallery.blocks.image.settings.title_size.options__3.label"
             },
             {
@@ -530,7 +556,7 @@
               "label": "t:sections.gallery.blocks.image.settings.title_size.options__4.label"
             }
           ],
-          "default": "h2"
+          "default": "h1"
         },
         {
           "id": "title",
@@ -564,6 +590,11 @@
         {
           "type": "header",
           "content": "t:sections.gallery.blocks.image.settings.mobile.header"
+        },
+        {
+          "id": "image_mobile",
+          "type": "image_picker",
+          "label": "t:sections.gallery.blocks.image.settings.mobile.image_mobile.label"
         },
         {
           "type": "select",

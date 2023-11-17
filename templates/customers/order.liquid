@@ -1,15 +1,4 @@
 {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
-{%- liquid
-  assign product_image_ratio = settings.product_image_ratio
-  case product_image_ratio
-    when '310x430'
-      assign image_ratio =  "portrait"
-    when '430x310'
-      assign image_ratio =  "landscape"
-    else
-      assign image_ratio =  "square"
-  endcase
--%}
 {%- if section.settings.show_breadcrumbs -%}
   {%- render 'breadcrumbs' -%}
 {%- endif -%}
@@ -29,7 +18,7 @@
   <article class="w60 t65">
     <ul class="l4ca summary">
       {%- for line_item in order.line_items -%}
-        <li class="{{ image_ratio }}">
+        <li>
           {% if line_item.image %}
             <figure>
               <picture>
@@ -77,13 +66,16 @@
                 <li>{{ line_item.selling_plan_allocation.selling_plan.name }}</li>
               {%- endif -%}
               {%- for property in line_item.properties -%}
-                <li>{{ property.first }}: {{ property.last }}</li>
+                {%- if property.first.first == '_' or property.last == blank -%}{%- continue -%}{%- endif -%}
+                <li>
+                  {{ property.first }}:&nbsp;{% if property.last contains '/uploads/' %}<a href="{{ property.last }}">{{ property.last | split: '/' | last }}</a>{% else %}{{ property.last }}{% endif %}
+                </li>
               {%- endfor -%}
             </ul>
+            <p class="price">
+              {{ line_item.final_price | money }}
+            </p>
           </section>
-          <p class="price">
-            {{ line_item.final_price | money }}
-          </p>
         </li>
       {%- endfor -%}
     </ul>
@@ -167,5 +159,21 @@
         {{ order.billing_address | format_address }}
       {%- endif -%}
     </div>
+    {%- assign fulfillments = order.line_items | map: "fulfillment" | where: "tracking_company" | uniq %}
+    {%- if fulfillments.size > 0 -%}
+      <h2 class="size-18">{{ 'customer.orders.track_shipment' | t }}</h2>
+      <div class="m6bx">
+        {%- for fulfillment in fulfillments -%}
+          {%- assign created_at = fulfillment.created_at | time_tag: format: 'date' -%}
+          <p class="m0">{{ 'customer.orders.fulfilled_at_html' | t: date: created_at }}</p>
+          <p>
+            {%- if fulfillment.tracking_url -%}<a href="{{ fulfillment.tracking_url }}">{%- endif -%}
+              {{ fulfillment.tracking_company }}
+              {%- if fulfillment.tracking_number -%} #{{ fulfillment.tracking_number }}{%- endif -%}
+            {%- if fulfillment.tracking_url -%}</a>{%- endif -%}
+          </p>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
   </article>
 </div>

@@ -8,7 +8,7 @@
 {{ body_font_bold | font_face: font_display: 'swap' }}
 {{ body_font_italic | font_face: font_display: 'swap' }}
 {{ body_font_bold_italic | font_face: font_display: 'swap' }}
-@font-face { font-family: 'i'; src: url({{ 'icomoon.woff2' | asset_url }}) format('woff2'), url({{ 'icomoon.woff' | asset_url }}) format('woff'); font-display: swap; }
+@font-face { font-family: 'i'; src: url({{ 'xtra.woff2' | asset_url }}) format('woff2'), url({{ 'xtra.woff' | asset_url }}) format('woff'); font-display: swap; }
 
 :root {
   --secondary_text:     var(--white);
@@ -42,8 +42,7 @@
   --custom_input_fg:    var(--dark);
 
   --alert_error:        {{ settings.negative_vibes }};
-	// --alert_error_bg:     {{ settings.negative_vibes | color_lighten: 50 }};
-	--alert_valid:        {{ settings.positive_vibes }};
+  --alert_valid:        {{ settings.positive_vibes }};
   --lime:               {{ settings.positive_vibes }};
   --gallery:            {{ settings.palette_light }};
   --sand:               {{ settings.palette_light }};
@@ -71,6 +70,7 @@
 	--main_ff_h:          {{ settings.heading_font.family | remove: '"' }}, {{ settings.heading_font.fallback_families }};
   --main_fw:            {{ settings.body_font.weight }};
   --main_fw_strong:     {{ settings.body_font.weight | plus: 300 | at_most: 900 }};
+  --main_fw_bold:       var(--main_fw_strong);
   --main_fw_h:          {{ settings.heading_font.weight }};
   --main_fw_h_strong:   {{ settings.heading_font.weight | plus: 300 | at_most: 900 }};
   --main_fs:            {{ settings.body_font.style }};
@@ -79,14 +79,44 @@
   --mob_h2:             {{ settings.mobile_font_size }};
   --mob_h3:             {{ settings.mobile_font_size }};
 
+  {% if settings.button_height == 'size-m' %}
+    --btn_ph: calc(18px * 1.25);
+    --btn_pv: calc(14px * 1.2);
+  {% elsif settings.button_height == 'size-l' %}
+    --btn_ph: calc(18px * 1.5);
+    --btn_pv: calc(14px * 1.35);
+  {% endif %}
+
+  {% if settings.button_rounded == 'square' %}
+    --btn_br: 0;
+    --b2i: var(--btn_br);
+  {% elsif settings.button_rounded == 'slightly-rounded' %}
+    --btn_br: 4px;
+    --b2i: var(--btn_br);
+  {% elsif settings.button_rounded == 'rounded' %}
+    {% if settings.button_height == 'size-s' %}
+      --btn_br: 22px;
+    {% elsif settings.button_height == 'size-m' %}
+      --btn_br: 25px;
+    {% elsif settings.button_height == 'size-l' %}
+      --btn_br: 28px;
+    {% endif %}
+  {% endif %}
+
   {% unless settings.everything_rounded %}
     --b2r: 0;
   {% endunless %}
 
   {% if settings.body_width == 'wide' %}
-    --glw: 100%;
+    --glw: 10000px;
   {% endif %}
+  --ratio: {% if settings.product_image_ratio == '430x310' %}0.75{% elsif settings.product_image_ratio == '310x310' %}1{% else %}1.25{% endif %};
 }
+{% if settings.body_width == 'wide' %}
+  body.template-product {
+    --glw: 1600px;
+  }
+{% endif %}
 .t1ac {
 	--secondary_bg_btn:      {{ settings.regular_button_color | color_darken: 20 }};
 	--secondary_bg_btn_dark: {{ settings.regular_button_color | color_darken: 30 }};
@@ -257,13 +287,12 @@
   --secondary_bg_btn:       var(--dark_bg);
 	--secondary_bg_btn_dark:  var(--dark_bg_dark);
 }
-[class*="button-palette-"] {
+:not(button)[class*="button-palette-"] {
   color: var(--secondary_bg);
   {% if settings.button_style == 'inv' %}
     --secondary_btn_text: var(--secondary_bg);
     --secondary_bg_dark: var(--secondary_btn_text);
   {% endif %}
-
 }
 [class^="palette-"], [data-active-content*="palette-"] {
   --secondary_bg_btn_fade:  var(--secondary_bg_btn_dark);
@@ -274,6 +303,12 @@
 #root [class*="button-palette-"] button[disabled]:before, #root [class*="button-palette-"] button.disabled:before {
   --secondary_bg_fade:  var(--secondary_bg_btn_dark);
 }
+.preorder-button {
+  --secondary_btn_text:     {{ settings.preorder_button_text_color }};
+  --secondary_bg_btn:       {{ settings.preorder_button_color }};
+  --secondary_bg_btn_dark:  {{ settings.preorder_button_color | color_darken: 10 }};
+  --secondary_bg_btn_fade:  {{ settings.preorder_button_color | color_lighten: 10 }};
+}
 
 {% comment %}.module-color-palette[class^='palette-'] .placeholder-svg { position: absolute; top: 0; right: 0; bottom: 0; left: 0; }{% endcomment %}
 .module-color-palette[class^="palette-"] .img-overlay, #background.module-color-palette[class^="palette-"] .img-overlay { background: var(--primary_bg); }
@@ -281,7 +316,7 @@
 .module-color-palette[class^="palette-"] { color: var(--primary_text); }
 .module-color-palette[class^="palette-"] .swiper-button-next, .module-color-palette[class^="palette-"] .swiper-button-prev { color: var(--primary_text); }
 .module-color-palette[class^='palette-']:before { background: var(--primary_bg); }
-[class^="palette-"] button, [class^="palette-"] input[type="button"], [class^="palette-"] input[type="reset"], [class^="palette-"] input[type="submit"], [class^="palette-"] .link-btn a { color: var(--secondary_btn_text)!important; }
+[class^="palette-"] button:not(.loading), [class^="palette-"] input[type="button"], [class^="palette-"] input[type="reset"], [class^="palette-"] input[type="submit"], [class^="palette-"] .link-btn a:not(.loading) { color: var(--secondary_btn_text)!important; }
 {% unless settings.button_style == 'inv' %}
   [data-whatin=mouse] .module-color-palette[class^="palette-"] button:hover,
   [data-whatin=mouse] .module-color-palette[class^="palette-"] .link-btn a:hover { color: var(--secondary_btn_text); }
@@ -299,6 +334,8 @@
 .m6wd[class^="palette-"] .r6rt .rating > * .fill { background: none; }
 .m6wd[class^="palette-"] .l4ts .r6rt .rating > * .fill { color: var(--accent); }
 .l4ft.hover-out li[class^="palette-"]:before { background: none; }
+.l4al li[class^="palette-"]:before { background: var(--primary_bg); }
+.l4al li[class^="palette-"]:not(.palette-white):before { border-width: 0; }
 
 /* Other*/
 {%- assign text_color_handle = 'palette_' | append: settings.text_color -%}
@@ -308,42 +345,27 @@ label span.text-end.hidden, #root span.f8pr-pickup.hidden { display: none; }
 .image-compare figure { width: 100%; }
 @media only screen and (max-width: 47.5em) {
   .accordion-a.compact + .accordion-a { margin-top: -10px; }
+  .shopify-section-header { --input_h: 44px; }
 }
 @media only screen and (max-width: 62.5em) {
   #root .l4ft.mobile-compact li:not(:first-child) {
     border-left-width: var(--dist_a);
   }
 }
+@media only screen and (min-width: 47.5em) {
+  .shopify-section-footer > div > .follow-on-shop { margin-left: 30px; }
+}
 [data-whatin=mouse] .l4cl .li:hover figure picture ~ picture { display: block; } /* was only defined for li, not for .li */
 .l4ft figure video { transition-property: all; transition-duration: .4s; transition-timing-function: cubic-bezier(.4,0,.2,1); transition-delay: 0s; } /* video in promo gallery, hover scale transition was not animated */
 #nav-bar.text-justify > ul, #nav.text-justify > ul { -webkit-flex-grow: 3; -ms-flex-grow: 3; flex-grow: 3; -webkit-justify-content: space-between; justify-content: space-between; } /* 1/2 text-justify for the navbar */
 #nav-bar.text-justify > ul > li.show-all, #nav.text-justify > ul > li.show-all { position: absolute; left: var(--lar0); right: var(--l0ra); top: 0; } /* 2/2 text-justify for the navbar */
-html #nav.fixed > ul, html #nav-bar.fixed > ul { max-width: var(--ghw); } /* fixed navbar should get the same width as the header */
-.m6pr { max-width: 1600px; margin-inline: auto; }
-
-.check.box, .check.color { margin-right: -8px; margin-bottom: 18px; color: var(--custom_input_fg); }
-.check.box li, .check.color li { margin-right: 8px; margin-bottom: 8px; }
-.check.color { margin-bottom: 22px; }
-.check.color li { margin-bottom: 4px; }
-#root .check.color label { display: block; overflow: hidden; width: 38px; height: 38px; padding: 0; border-radius: 25px; border: 1px solid rgba(0,0,0,0); /*var(--custom_input_bd)*/; cursor: pointer; }
-#root .check.color input:checked ~ label { border-color: var(--secondary_bg); }
-#root .check.color label i { display: block; overflow: hidden; position: absolute; left: 4px; right: 4px; top: 4px; bottom: 4px; width: 28px; height: 28px; margin: 0; padding: 0; box-shadow: inset 0 1px 2px rgba(0,0,0,.2); border-radius: 99px; font-size: 30px; line-height: 30px; text-align: left; text-indent: -3000em; direction: ltr; }
-#root .check.color label i:before { display: none; }
-#root .check.color input[disabled] ~ label, #root .check.color input.disabled ~ label { border-color: var(--custom_input_bd); cursor: default; }
-#root .check.color input.disabled ~ label:after { cursor: default; }
-#root .check.color input[disabled] ~ label:after, #root .check.color input.disabled ~ label:after { content: ""; display: block; position: absolute; left: -10px; top: 50%; right: -10px; width: auto; height: 1px; margin-top: -0.5px; border-top: 1px solid var(--custom_input_bd); background: none; }
-#root .check.color input[disabled] ~ label:after, #root .check.color input.disabled ~ label:after { -webkit-transform: rotate(-45deg); transform: rotate(-45deg); }
-#root .check.color input[disabled][checked] ~ label, #root .check.color input[disabled][checked] ~ label:after { border-color: var(--alert_error); }
-.check.color label:before, .check.color label:after, .check.color label * { display: none; }
+.form-m-14 > p { margin-bottom: 14px; }
+#root .datepicker-input { background-size: auto max(18px, calc(var(--input_h) - var(--main_fz) * 4)); }
+#root .l4ca.compact.in-panel section > section { width: 100%; }
 
 /* Buttons */
 {% if settings.button_font == 'title' %}
-.link-btn a, button, .l4cn li, .spr-button { font-family: var(--main_ff_h); }
-{% endif %}
-{% if settings.button_height == 'size-m' %}
-.link-btn a, button, .l4cl.mobile-compact .link-btn a { padding: 17px 23px; }
-{% elsif settings.button_height == 'size-l' %}
-.link-btn a, button, .l4cl.mobile-compact .link-btn a { padding: 19px 28px; }
+.link-btn a, button, .l4cn.box li, .spr-button { font-family: var(--main_ff_h); }
 {% endif %}
 {% if settings.button_style == 'plain' %}
 .link-btn a, button, .link-btn a:before, button:before { box-shadow: none; }
@@ -356,20 +378,7 @@ html #nav.fixed > ul, html #nav-bar.fixed > ul { max-width: var(--ghw); } /* fix
 html[data-whatin="mouse"] .link-btn a:hover, html[data-whatin="mouse"] button:not(.shopify-payment-button__button):hover { color: var(--secondary_bg_btn_dark); }
 html[data-whatin="mouse"] .link-btn a.overlay-tertiary:hover, html[data-whatin="mouse"] button.overlay-tertiary:hover { color: var(--tertiary_bg_dark); }
 html[data-whatin="mouse"] .link-btn a.overlay-quaternary:hover, html[data-whatin="mouse"] button.overlay-quaternary:hover { color: var(--quaternary_bg_dark); }
-#shopify-section-header > .link-btn a, #header > .link-btn a, #header-inner > .link-btn a { color: var(--custom_top_main_link_bg); }
-#shopify-section-footer .link-btn a, #shopify-section-footer button { color: var(--custom_footer_link_bg); }
+.shopify-section-header > .link-btn a, #header > .link-btn a, #header-inner > .link-btn a { color: var(--custom_top_main_link_bg); }
+.shopify-section-footer .link-btn a, .shopify-section-footer button { color: var(--custom_footer_link_bg); }
 #root form.f8pr.processing .submit [type="submit"]:after { border-color: var(--secondary_bg_btn); }
-{% endif %}
-{% if settings.button_rounded == 'square' %}
-.link-btn a, button, .link-btn a:before, button:before, #root #nav .l4cn li { border-radius: 0; }
-{% elsif settings.button_rounded == 'slightly-rounded' %}
-.link-btn a, button, .link-btn a:before, button:before, #root #nav .l4cn li { border-radius: 4px; }
-{% elsif settings.button_rounded == 'rounded' %}
-{% if settings.button_height == 'size-s' %}
-.link-btn a, button, .link-btn a:before, button:before, #root #nav .l4cn li, #root .dynamic-checkout__content li div:before, #root .dynamic-checkout__content li div:after, #root .dynamic-checkout__content li div, .shopify-payment-button div[role="button"]:after, .shopify-payment-button div[role="button"], .shopify-payment-button button { border-radius: 14px; }
-{% elsif settings.button_height == 'size-m' %}
-.link-btn a, button, .link-btn a:before, button:before, #root #nav .l4cn li, #root .dynamic-checkout__content li div:before, #root .dynamic-checkout__content li div:after, #root .dynamic-checkout__content li div, .shopify-payment-button div[role="button"]:after, .shopify-payment-button div[role="button"], .shopify-payment-button button { border-radius: 25px; }
-{% elsif settings.button_height == 'size-l' %}
-.link-btn a, button, .link-btn a:before, button:before, #root #nav .l4cn li, #root .dynamic-checkout__content li div:before, #root .dynamic-checkout__content li div:after, #root .dynamic-checkout__content li div, .shopify-payment-button div[role="button"]:after, .shopify-payment-button div[role="button"], .shopify-payment-button button { border-radius: 28px; }
-{% endif %}
 {% endif %}

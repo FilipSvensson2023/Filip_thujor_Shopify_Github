@@ -11,8 +11,8 @@
       "settings": {
         "image_ratio": "square",
         "fill_images": true,
-        "pagination_qty": 48,
-        "number_of_items": 8
+        "pagination_qty": 12,
+        "number_of_items": 4
       }
     }
   },

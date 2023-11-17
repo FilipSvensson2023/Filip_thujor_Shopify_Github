@@ -131,10 +131,10 @@
       show_amount: true
     -%}
     </nav>
-  {% assign sp_paginate_by = paginate.page_size %}{%- endpaginate -%}
+  {%- endpaginate -%}
 {%- endif -%}
 
-{% if sp_paginate_by %}{% render 'spurit_po2_collection_template_snippet', paginate_by: sp_paginate_by %}{% endif %}{% schema %}
+{% schema %}
 {
   "name": "t:main.account_dashboard.name",
   "settings": [

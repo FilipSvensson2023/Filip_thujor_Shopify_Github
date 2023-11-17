@@ -148,7 +148,7 @@
             paginate: paginate,
             show_amount: true
           -%}
-        {% assign sp_paginate_by = paginate.page_size %}{%- endpaginate -%}
+        {%- endpaginate -%}
       {%- endif %}
       {%- if blog.comments_enabled? -%}
         {%- liquid
@@ -205,7 +205,7 @@
 {%- endfor -%}
 </div>
 
-{% if sp_paginate_by %}{% render 'spurit_po2_collection_template_snippet', paginate_by: sp_paginate_by %}{% endif %}{% schema %}
+{% schema %}
 {
   "name": "t:main.article.name",
   "settings": [

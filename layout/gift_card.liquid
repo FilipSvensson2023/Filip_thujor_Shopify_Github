@@ -16,13 +16,15 @@
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
 		{% unless settings.heading_font.system? and settings.body_font.system? %}<link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>{%- endunless -%}
 		<link rel="preload" as="style" href="{{ 'screen.css' | asset_url }}">
+		<link rel="preload" as="style" href="{{ 'theme-xtra.css' | asset_url }}">
 		<link rel="preload" as="style" href="{{ 'screen-settings.css' | asset_url }}">
 		{% if rtl_languages contains localization.language.iso_code %}<link rel="preload" as="style" href="{{ 'rtl.css' | asset_url }}">{% endif %}
 		{% unless settings.heading_font.system? %}<link rel="preload" as="font" href="{{ settings.heading_font | font_url }}" type="font/woff2" crossorigin>{% endunless %}
     {% unless settings.body_font.system? %}<link rel="preload" as="font" href="{{ settings.body_font | font_url }}" type="font/woff2" crossorigin>{% endunless %}
-		<link rel="preload" as="font" href="{{ 'icomoon.woff2' | asset_url }}" crossorigin>
+		<link rel="preload" as="font" href="{{ 'xtra.woff2' | asset_url }}" crossorigin>
 		<link media="screen" rel="stylesheet" href="{{ 'screen.css' | asset_url }}" id="core-css">
 		<link media="screen" rel="stylesheet" href="{{ 'screen-settings.css' | asset_url }}" id="custom-css">
+		<link media="screen" rel="stylesheet" href="{{ 'theme-xtra.css' | asset_url }}" id="xtra-css">
 		{% if rtl_languages contains localization.language.iso_code %}<link media="screen" rel="stylesheet" href="{{ 'rtl.css' | asset_url }}">{% endif %}
 		<noscript><link rel="stylesheet" href="{{ 'async-menu.css' | asset_url }}"></noscript>
 		<link media="screen" rel="stylesheet" href="{{ 'page-misc.css' | asset_url }}" id="misc-css">
@@ -59,11 +61,14 @@
 			};
 			window.general = {
 				template: '{{ template.name }}',
-				enable_accessibility_default: {{ settings.enable_accessibility_default }}
+				enable_accessibility_default: {{ settings.enable_accessibility_default }},
+				show_accessibility: {{ settings.show_accessibility }},
+				cookiebanner_testmode: {{ settings.cookiebanner_testmode }},
+				age_verify_popup_testmode: {{ settings.age_verify_popup_testmode }},
+				newsletter_popup_testmode: {{ settings.newsletter_popup_testmode }}
 			};
 			window.translations = {
-				readmore_text: {{ "general.read_more.read_more" | t | json }},
-				unavailable_text: {{ "product.form.unavailable" | t | json }}
+				readmore_text: {{ "general.read_more.read_more" | t | json }}
 			};
 		</script>
 		{%- if rtl_languages contains localization.language.iso_code -%}<link media="screen" rel="stylesheet" href="{{ 'rtl.css' | asset_url }}">{%- endif -%}

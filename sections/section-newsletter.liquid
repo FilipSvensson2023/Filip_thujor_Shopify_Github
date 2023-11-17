@@ -37,16 +37,15 @@
     </script>
   {%- endif -%}
   <fieldset>
-      <legend>{{ 'newsletter.title_html' | t }}</legend>
-    <div class="newsletter_wrapper">
+    <legend>{{ 'newsletter.title_html' | t }}</legend>
     <header class="{% if section.settings.title_size == 'size-50' %}size-18 mobile-size-14 {% endif %}">
       <{{ title_size }}{% if title_classes %} class="{{ title_classes }}"{% endif %}>{{ section.settings.title }}</{{ title_size }}>
       {%- if section.settings.text != empty -%}{{ section.settings.text }}{%- endif -%}
     </header>
-    <div class="newsletter_home">
-      <p class="news_con">
+    <div>
+      <p>
         <label for="email-{{ section.id }}" class="hidden">{{ 'newsletter.form.email_placeholder' | t }}</label>
-        <input type="email" name="contact[email]" id="email-{{ section.id }}" class="{{ settings.button_height }}" aria-label="{{ 'newsletter.form.email_placeholder' | t }}" placeholder="{{ 'newsletter.form.email_placeholder' | t }}" required>
+        <input type="email" name="contact[email]" id="email-{{ section.id }}" aria-label="{{ 'newsletter.form.email_placeholder' | t }}" placeholder="{{ 'newsletter.form.email_placeholder' | t }}" required>
       </p>
       {%- if section.settings.enable_newsletter_terms_checkbox and section.settings.newsletter_terms_text != empty -%}
         <p class="check size-12">
@@ -54,8 +53,8 @@
           <label for="newsletter_check-{{ section.id }}">{{ section.settings.newsletter_terms_text | remove: '<p>' | remove: '</p>' }}</label>
         </p>
       {%- endif -%}
-      <p class="submit"><button type="submit">{{ section.settings.link_text }}&nbsp;<i aria-hidden="true" class="icon-chevron-right"></i></button></p>
     </div>
+    <p class="submit"><button type="submit">{{ section.settings.link_text }}&nbsp;<i aria-hidden="true" class="icon-chevron-right"></i></button></p>
     {%- if section.settings.image %}
       <figure class="background plain">
         <span class="img-overlay" style="opacity:{{ section.settings.overlay_opacity | divided_by: 100.0 }}"></span>
@@ -78,7 +77,6 @@
         </picture>
       </figure>
     {%- endif -%}
-      </div>
   </fieldset>
 {%- endform -%}
 
@@ -92,6 +90,11 @@
 {% schema %}
 {
   "name": "t:sections.newsletter.name",
+  "disabled_on": {
+    "groups": [
+      "header"
+    ]
+  },
   "settings": [
     {
       "id": "image",

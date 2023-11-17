@@ -1,10 +1,11 @@
 /*.is-invalid { }*/
-.invalid-feedback { display: none; margin-top: 6px; color: var(--alert_error); font-size: var(--size_12_f); }
+.invalid-feedback { display: none; margin-top: 6px; color: var(--alert_error); font-size: calc(var(--main_fz) * 0.8571428571); }
 .is-invalid input, .is-invalid select, .is-invalid textarea, .is-invalid .check label:before, .is-invalid.check label:before, #search .is-invalid input, .is-invalid .bv_atual { border-color: var(--alert_error); background-color: var(--alert_error_bg); }
 .is-invalid .bv_atual:before { color: var(--alert_error); }
 .is-invalid input.empty, .is-invalid textarea.empty, #search .is-invalid input.empty { border-color: var(--gallery); background-color: var(--white); }
 .check.inline > .invalid-feedback { width: 100%; }
 .is-invalid input ~ .size-12, .is-invalid select ~ .size-12, .is-invalid textarea ~ .size-12, .is-invalid .bv_atual ~ .size-12, .is-invalid .select-wrapper ~ .size-12 { margin-top: 0; }
+#root is-invalid input[type="date"], #root is-invalid .datepicker-input { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xml:space='preserve' style='enable-background:new 0 0 14 16' viewBox='0 0 14 16' fill='%23eb5757'%3E%3Cpath d='M12.3 2H11V.8c0-.5-.3-.8-.7-.8s-.8.3-.8.8V2h-5V.8c0-.5-.3-.8-.7-.8S3 .3 3 .8V2H1.8C.8 2 0 2.8 0 3.8v10.5c0 1 .8 1.8 1.8 1.8h10.5c1 0 1.8-.8 1.8-1.8V3.8c-.1-1-.9-1.8-1.8-1.8zm.2 12.3c0 .1-.1.3-.3.3H1.8c-.1 0-.3-.1-.3-.3V7.5h11v6.8zm0-8.3h-11V3.8c0-.1.1-.3.3-.3h10.5c.1 0 .3.1.3.3V6z'/%3E%3C/svg%3E"); background-position: calc(100% - var(--main_fz)) center; background-size: auto max(18px, calc(var(--input_h) - var(--main_fz) * 2)); line-height: normal; }
 /*.is-valid { }*/
 .is-valid input, .is-valid select { padding-right: 45px; background-position: calc(100% - 15px) center; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10.9 9'%3E%3Cpath d='M4.6 8.9c-.1.1-.2.1-.3 0l-4.2-4c-.1-.1-.1-.2 0-.3l1.3-1.4c.1-.2.3-.2.4-.1l2.3 2.2c.1.1.3.1.4 0L9 .1c0-.1.2-.1.3 0l1.5 1.3c.1.1.1.3 0 .4L4.6 8.9z' fill='%2395bf47'/%3E%3C/svg%3e"); background-size: auto 9px; }
 .is-valid .has-show ~ input { background-position: -3000em -3000em; }
@@ -20,10 +21,11 @@
 form.processing .submit { }
 #root form.processing:not([data-hold]) .submit [type="button"], #root form.processing:not([data-hold]) .submit [type="submit"], #root form.processing:not([data-hold]) .submit [type="button"] *, #root form.processing:not([data-hold]) .submit [type="submit"] *, #search.processing button:before { color: rgba(0,0,0,0); }
 #root form.processing .submit [type="button"]:after, #root form.processing .submit [type="submit"]:after, #search.processing button:after/*, #root button[disabled][class*="shopify-payment-button"]:after*/ { content: ""; display: block; position: absolute; left: 50%; top: 50%; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 20px; border: 2px solid var(--secondary_btn_text); border-left-color: rgba(0,0,0,0) !important; }
+#root form.processing .submit .inv[type="button"]:after, #root form.processing .submit .inv[type="submit"]:after, #search.processing button.inv:after/*, #root button[disabled][class*="shopify-payment-button"]:after*/ { border-color: var(--secondary_bg_btn); }
 #root form.processing .submit [type="button"]:after, #root form.processing .submit [type="submit"]:after, #search.processing button:after { -webkit-transition: none; transition: none; }
 /*#root button[disabled][class*="shopify-payment-button"] { color: rgba(0,0,0,0); }
 button[disabled][class*="shopify-payment-button"]:before { border: 0 solid var(--secondary_bg_btn); background: var(--secondary_bg_btn); }	*/
-/*#root :before, #root button.disabled[class*="shopify-payment-button"]:before, #root #shopify-section-footer button[disabled][class*="shopify-payment-button"]:before, #root #shopify-section-footer button.disabled[class*="shopify-payment-button"]:before { box-shadow: none; background: var(--alto); color: var(--white); }*/
+/*#root :before, #root button.disabled[class*="shopify-payment-button"]:before, #root .shopify-section-footer button[disabled][class*="shopify-payment-button"]:before, #root .shopify-section-footer button.disabled[class*="shopify-payment-button"]:before { box-shadow: none; background: var(--alto); color: var(--white); }*/
 /*#root form.processing .submit [type="button"].inv:after, #root form.processing .submit [type="submit"].inv:after, #search.processing button.inv:after { border-color: var(--secondary_bg_btn); }
 #root form.processing .submit .overlay-tertiary[type="button"]:after, #root form.processing .submit .overlay-tertiary[type="submit"]:after, #search.processing button.overlay-tertiary:after { border-color: var(--tertiary_text); }
 #root form.processing .submit .overlay-tertiary[type="button"].inv:after, #root form.processing .submit .overlay-tertiary[type="submit"].inv:after, #search.processing button.overlay-tertiary.inv:after { border-color: var(--tertiary_bg); }
